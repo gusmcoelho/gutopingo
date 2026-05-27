@@ -24,7 +24,9 @@ export function createStripeClient(env: StripeEnv): Stripe {
   return new Stripe(connectionApiKey, {
     apiVersion: '2026-03-25.dahlia',
     httpClient: Stripe.createFetchHttpClient(async (url: string | URL, init?: any) => {
-      const gatewayUrl = url.toString().replace('https://api.stripe.com', GATEWAY_STRIPE_BASE);
+      // Forçamos o tipo para satisfazer o TypeScript do SDK do Stripe
+      const input = url as string | URL;
+      const gatewayUrl = input.toString().replace('https://api.stripe.com', GATEWAY_STRIPE_BASE);
       return fetch(gatewayUrl, {
         ...init,
         headers: {
@@ -33,7 +35,7 @@ export function createStripeClient(env: StripeEnv): Stripe {
           'Lovable-API-Key': lovableApiKey,
         },
       });
-    }),
+    }) as any, // Cast para evitar erros de tipagem complexos no Worker
   });
 }
 
