@@ -731,7 +731,7 @@ export default function GutoPingoPage() {
         </div>
         <p style={{ fontSize: 11, color: "#4c1d95", letterSpacing: "0.1em" }}>© 2025 GUTOPINGO.COM • TODOS OS DIREITOS RESERVADOS</p>
         <div style={{ display: "flex", justifyContent: "center", gap: 24, marginTop: 16 }}>
-          {["TERMOS", "PRIVACIDADE", "DISCORD"].map((link) => (
+          {["TERMOS", "PRIVACIDADE"].map((link) => (
             <a key={link} href="#" style={{ fontSize: 10, color: "#6d28d9", textDecoration: "none", letterSpacing: "0.15em" }}>{link}</a>
           ))}
         </div>
