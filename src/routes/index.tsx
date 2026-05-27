@@ -277,10 +277,9 @@ function Index() {
       {/* Hero */}
       <section className="container mx-auto px-4 py-20 md:py-32 flex flex-col items-center text-center">
         <div className="inline-flex items-center gap-2 border-2 border-primary bg-primary/10 px-4 py-1.5 mb-10 font-pixel text-[10px] text-primary animate-bounce">
-        {/* No replacements needed, the icons are already imported in the header, and I used standard ones already. The issue might be that I used them wrong. */}
-        {/* Let's verify imports in line 4-25. */}
-
+          <Zap className="w-3 h-3" /> NOVO: MÉTODO ATUALIZADO 2024
         </div>
+
 
         <div className="mt-16 flex items-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
            <span className="font-pixel text-[10px]">PIX AUTOMÁTICO</span>
