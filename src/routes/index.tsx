@@ -1,11 +1,26 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Check, Zap, Shield, Coins, Sparkles, Download, ExternalLink, MessageSquare, Gamepad2, MousePointer2 } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { Check, Zap, Shield, Coins, Sparkles, Download, ExternalLink, MessageSquare, Gamepad2, MousePointer2, User } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
 function Index() {
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
   return (
     <div className="min-h-screen text-foreground scanlines relative overflow-hidden bg-[#1a0f2e]">
       {/* Background Decor */}
@@ -13,6 +28,7 @@ function Index() {
         <div className="absolute top-20 left-10 w-32 h-32 bg-primary/30 blur-[100px] animate-pulse" />
         <div className="absolute bottom-40 right-10 w-64 h-64 bg-accent/20 blur-[120px] animate-pulse delay-700" />
       </div>
+
 
       {/* Nav */}
       <nav className="sticky top-0 z-50 border-b-4 border-primary bg-background/90 backdrop-blur-md">
@@ -29,9 +45,25 @@ function Index() {
             <a href="#pricing" className="hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary">PRICING</a>
             <a href="#faq" className="hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary">FAQ</a>
           </div>
-          <button className="pixel-btn bg-primary text-primary-foreground px-6 py-2 font-pixel text-[10px] hidden sm:block">
-            LOGIN
-          </button>
+          <div className="flex items-center gap-4">
+            {user ? (
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 border-2 border-primary flex items-center justify-center">
+                  <User className="w-4 h-4 text-primary" />
+                </div>
+                <button 
+                  onClick={() => supabase.auth.signOut()}
+                  className="font-pixel text-[8px] text-muted-foreground hover:text-primary transition-colors"
+                >
+                  LOGOUT
+                </button>
+              </div>
+            ) : (
+              <Link to="/auth" className="pixel-btn bg-primary text-primary-foreground px-4 py-2 font-pixel text-[10px]">
+                LOGIN
+              </Link>
+            )}
+          </div>
         </div>
       </nav>
 
