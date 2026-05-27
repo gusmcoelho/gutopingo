@@ -90,8 +90,8 @@ function Index() {
         </h1>
 
         <p className="font-retro text-2xl md:text-4xl max-w-3xl mx-auto mb-12 text-muted-foreground leading-relaxed">
-          Domine o Lovable sem se preocupar com limites. <br className="hidden md:block" />
-          Nossas <span className="text-primary font-bold">KEYS</span> são o seu passaporte para o desenvolvimento ilimitado.
+          O Guto Pingo é uma extensão que abre um painel exclusivo dentro do Lovable. <br className="hidden md:block" />
+          Digite seus prompts por ele e crie sem gastar nenhum crédito da sua conta.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-6 justify-center w-full max-w-lg">
