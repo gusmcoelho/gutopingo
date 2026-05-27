@@ -17,7 +17,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       
       // In a server function, we can't use window.location.origin
       // Lovable automatically provides process.env.LOVABLE_APP_URL in many cases
-      const baseUrl = process.env.LOVABLE_APP_URL || process.env.APP_URL || 'http://localhost:5173';
+      const baseUrl = process.env.LOVABLE_APP_URL || process.env.APP_URL || 'https://zdxxhjjnkyboegerdoxl.lovable.app';
 
       const session = await stripe.checkout.sessions.create({
         line_items: [{ price: priceId, quantity: 1 }],
