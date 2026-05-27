@@ -79,6 +79,19 @@ const MOCK_KEYS: LicenseKey[] = [
 
 const PLANS: Plan[] = [
   {
+    id: "test",
+    priceId: "price_test",
+    name: "Guto Pingo - 5 Minutos (Teste)",
+    price: "R$ 5.00",
+    priceNote: "acesso imediato",
+    duration: "5 Minutos",
+    icon: <Timer size={20} />,
+    featured: true,
+    badge: "⭐ PRINCIPAL",
+    color: "#7c3aed",
+    features: ["Acesso de 5 minutos", "Software as a service", "Business use"],
+  },
+  {
     id: "1day",
     priceId: "price_1day",
     name: "Guto Pingo - 1 Dia",
@@ -119,7 +132,6 @@ const PLANS: Plan[] = [
     priceNote: "PROMOÇÃO",
     duration: "Para sempre",
     icon: <Infinity size={20} />,
-    featured: true,
     badge: "🔥 PROMO LIMITADA",
     color: "#7c3aed",
     features: [
