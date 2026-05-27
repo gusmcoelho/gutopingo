@@ -1485,5 +1485,5 @@ export default function GutoPingoPage() {
 }
 
 export const Route = createFileRoute("/")({
-  component: App,
+  component: GutoPingoPage,
 });
