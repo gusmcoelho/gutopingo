@@ -153,6 +153,7 @@ const PLANS: Plan[] = [
   },
 ];
 
+
 export const Route = createFileRoute("/")({
   component: Index,
 });
