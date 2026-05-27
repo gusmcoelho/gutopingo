@@ -1,10 +1,157 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Check, Zap, Shield, Coins, Sparkles, Download, ExternalLink, MessageSquare, Gamepad2, MousePointer2, User, Key, Clock, Copy } from "lucide-react";
+import {
+  Zap,
+  Infinity,
+  Copy,
+  Check,
+  Star,
+  Shield,
+  Rocket,
+  Clock,
+  Globe,
+  Lock,
+  ChevronDown,
+  Terminal,
+  Cpu,
+  Layers,
+  Award,
+  Gift,
+  Timer,
+  Key,
+  LogOut,
+  User,
+} from "lucide-react";
 import { createCheckoutSession } from "@/lib/payments.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
+
+// ─── Types ───────────────────────────────────────────────────────────────────
+
+interface LicenseKey {
+  id: string;
+  key: string;
+  plan: string;
+  expiresAt: string | null;
+  isLifetime: boolean;
+}
+
+interface UserType {
+  name: string;
+  email: string;
+  avatar?: string;
+}
+
+interface Plan {
+  id: string;
+  name: string;
+  price: string;
+  priceNote: string;
+  duration: string;
+  icon: React.ReactNode;
+  featured?: boolean;
+  badge?: string;
+  color: string;
+  priceId: string;
+  features: string[];
+}
+
+// ─── Mock Data ────────────────────────────────────────────────────────────────
+
+const MOCK_USER: UserType = {
+  name: "GutoPinguim",
+  email: "guto@example.com",
+};
+
+const MOCK_KEYS: LicenseKey[] = [
+  {
+    id: "1",
+    key: "GUTO-XXXX-YYYY-ZZZZ-AAAA",
+    plan: "Vitalício",
+    expiresAt: null,
+    isLifetime: true,
+  },
+  {
+    id: "2",
+    key: "PING-30DY-BBBB-CCCC-DDDD",
+    plan: "30 Dias",
+    expiresAt: "2025-06-30",
+    isLifetime: false,
+  },
+];
+
+const PLANS: Plan[] = [
+  {
+    id: "5min",
+    priceId: "price_5min",
+    name: "Teste Rápido",
+    price: "R$ 5",
+    priceNote: "pagamento único",
+    duration: "5 Minutos",
+    icon: <Timer size={20} />,
+    color: "#7c3aed",
+    features: ["Prompts ilimitados", "Acesso completo", "Sem mensalidade"],
+  },
+  {
+    id: "1day",
+    priceId: "price_1day",
+    name: "Diário",
+    price: "R$ 20",
+    priceNote: "por dia",
+    duration: "1 Dia",
+    icon: <Clock size={20} />,
+    color: "#6d28d9",
+    features: ["Prompts ilimitados", "Acesso premium", "Suporte básico"],
+  },
+  {
+    id: "1week",
+    priceId: "price_1week",
+    name: "Semanal",
+    price: "R$ 45",
+    priceNote: "por semana",
+    duration: "1 Semana",
+    icon: <Zap size={20} />,
+    color: "#5b21b6",
+    features: ["Prompts ilimitados", "Acesso premium", "Suporte prioritário"],
+  },
+  {
+    id: "30days",
+    priceId: "price_30days",
+    name: "Mensal",
+    price: "R$ 100",
+    priceNote: "por mês",
+    duration: "30 Dias",
+    icon: <Globe size={20} />,
+    color: "#4c1d95",
+    features: [
+      "Prompts ilimitados",
+      "Acesso premium",
+      "Suporte VIP",
+      "Discord exclusivo",
+    ],
+  },
+  {
+    id: "lifetime",
+    priceId: "price_lifetime",
+    name: "Vitalício",
+    price: "R$ 169,99",
+    priceNote: "único",
+    duration: "Para sempre",
+    icon: <Infinity size={20} />,
+    featured: true,
+    badge: "🔥 PROMOÇÃO LIMITADA",
+    color: "#7c3aed",
+    features: [
+      "Prompts ilimitados",
+      "Acesso vitalício",
+      "Suporte VIP lifetime",
+      "Discord exclusivo",
+      "Atualizações grátis",
+      "Prioridade máxima",
+    ],
+  },
+];
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -276,50 +423,17 @@ function Index() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-              {[
-                { 
-                  tier: "TESTE", 
-                  price: "R$ 5", 
-                  priceId: "guto_pingo_5min_v4",
-                  features: ["5 Minutos de uso", "Entrega instantânea", "Uso ilimitado no tempo"] 
-                },
-                { 
-                  tier: "DIÁRIO", 
-                  price: "R$ 20", 
-                  priceId: "guto_pingo_1dia_v4",
-                  features: ["1 Dia de acesso", "Suporte 24h", "Tudo liberado"] 
-                },
-                { 
-                  tier: "SEMANAL", 
-                  price: "R$ 45", 
-                  priceId: "guto_pingo_1semana_v4",
-                  features: ["1 Semana de acesso", "Updates garantidos", "Suporte VIP"] 
-                },
-                { 
-                  tier: "MENSAL", 
-                  price: "R$ 100", 
-                  priceId: "guto_pingo_30dias_v4",
-                  features: ["30 Dias de acesso", "Melhor custo-benefício", "Acesso prioritário"] 
-                },
-                { 
-                  tier: "VITALÍCIO", 
-                  price: "R$ 169,99", 
-                  oldPrice: "R$ 350",
-                  priceId: "guto_pingo_vitalicio_promo",
-                  promo: true,
-                  features: ["Acesso Vitalício", "Tag VIP Permanente", "Tudo liberado para sempre"] 
-                },
-              ].map((p, i) => (
-                <div key={i} className={`pixel-card flex flex-col p-8 ${p.promo ? "border-accent shadow-[0_0_30px_rgba(233,69,96,0.3)] bg-black/60 scale-105 z-10" : "bg-black/40"}`}>
-                  {p.promo && (
+              {PLANS.map((p) => (
+                <div key={p.id} className={`pixel-card flex flex-col p-8 ${p.featured ? "border-accent shadow-[0_0_30px_rgba(233,69,96,0.3)] bg-black/60 scale-105 z-10" : "bg-black/40"}`}>
+                  {p.featured && (
                     <div className="bg-accent text-white font-pixel text-[8px] py-1 px-4 self-center -mt-11 mb-6 border-2 border-white animate-pulse">
-                      PROMOÇÃO LIMITADA
+                      {p.badge}
                     </div>
                   )}
                   <div className="text-center mb-8">
-                    <span className="font-pixel text-[10px] text-muted-foreground block mb-2">{p.tier}</span>
-                    {p.oldPrice && (
-                      <span className="font-pixel text-[8px] text-muted-foreground line-through block mb-1">{p.oldPrice}</span>
+                    <span className="font-pixel text-[10px] text-muted-foreground block mb-2">{p.name}</span>
+                    {p.priceNote && (
+                      <span className="font-pixel text-[8px] text-muted-foreground line-through block mb-1">{p.priceNote}</span>
                     )}
                     <span className="font-pixel text-2xl text-primary block">{p.price}</span>
                   </div>
@@ -334,7 +448,7 @@ function Index() {
                   <button 
                     disabled={isBuying === p.priceId}
                     onClick={() => handleBuy(p.priceId)}
-                    className={`w-full pixel-btn py-4 font-pixel text-[10px] ${p.promo ? "bg-accent text-white" : "bg-primary text-white"} disabled:opacity-50`}
+                    className={`w-full pixel-btn py-4 font-pixel text-[10px] ${p.featured ? "bg-accent text-white" : "bg-primary text-white"} disabled:opacity-50`}
                   >
                     {isBuying === p.priceId ? "PROCESSANDO..." : "COMPRAR AGORA"}
                   </button>
