@@ -12,7 +12,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
     
     try {
       // Determinamos o ambiente (usamos sandbox por padrão)
-      const env = 'sandbox';
+      const env = process.env.NODE_ENV === 'production' ? 'live' : 'sandbox';
       const stripe = createStripeClient(env);
       
       // In a server function, we can't use window.location.origin
