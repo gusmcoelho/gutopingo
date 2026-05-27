@@ -97,14 +97,15 @@ const PLANS: Plan[] = [
   {
     id: "1day",
     priceId: "price_1day",
-    name: "Diário",
-    price: "R$ 20",
-    priceNote: "por dia",
+    name: "Guto Pingo - 1 Dia",
+    price: "R$ 20,00",
+    priceNote: "SaaS - Business Use",
     duration: "1 Dia",
     icon: <Clock size={20} />,
     color: "#6d28d9",
-    features: ["Prompts ilimitados", "Acesso premium", "Suporte básico"],
+    features: ["Acesso de 1 dia", "Tudo liberado", "Suporte básico"],
   },
+
   {
     id: "1week",
     priceId: "price_1week",
