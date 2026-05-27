@@ -21,12 +21,14 @@ function Index() {
 
     return () => subscription.unsubscribe();
   }, []);
-
+  return (
+    <div className="min-h-screen text-foreground scanlines relative overflow-hidden bg-[#1a0f2e]">
       {/* Background Decor */}
       <div className="fixed inset-0 -z-10 opacity-20 pointer-events-none">
         <div className="absolute top-20 left-10 w-32 h-32 bg-primary/30 blur-[100px] animate-pulse" />
         <div className="absolute bottom-40 right-10 w-64 h-64 bg-accent/20 blur-[120px] animate-pulse delay-700" />
       </div>
+
 
       {/* Nav */}
       <nav className="sticky top-0 z-50 border-b-4 border-primary bg-background/90 backdrop-blur-md">
