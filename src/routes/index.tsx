@@ -493,11 +493,15 @@ export default function GutoPingoPage() {
     }
 
     try {
+      console.log("CLIENT DEBUG: handleBuy called for priceId:", priceId);
       setLoadingCheckout(priceId);
       const result = await createCheckoutSession({ data: { priceId } });
+      console.log("CLIENT DEBUG: createCheckoutSession result:", result);
       if (result && 'checkoutUrl' in result && result.checkoutUrl) {
         window.location.href = result.checkoutUrl;
       } else if (result && 'error' in result) {
+        console.error("CLIENT DEBUG: error in result:", result.error);
+        alert(`Erro no Checkout: ${result.error}`);
         alert(`Erro: ${result.error}`);
       }
     } catch (err) {
