@@ -23,19 +23,23 @@ export function createStripeClient(env: StripeEnv): Stripe {
 
   return new Stripe(connectionApiKey, {
     apiVersion: '2026-03-25.dahlia',
-    httpClient: Stripe.createFetchHttpClient(async (url: string | URL, init?: any) => {
-      // Forçamos o tipo para satisfazer o TypeScript do SDK do Stripe
-      const input = url as string | URL;
-      const gatewayUrl = input.toString().replace('https://api.stripe.com', GATEWAY_STRIPE_BASE);
+    httpClient: Stripe.createFetchHttpClient((input: string | Request | URL, init?: RequestInit) => {
+      const urlString = input instanceof Request ? input.url : input.toString();
+      const gatewayUrl = urlString.replace('https://api.stripe.com', GATEWAY_STRIPE_BASE);
+      
+      const headers = new Headers(init?.headers);
+      if (input instanceof Request) {
+        input.headers.forEach((v, k) => headers.set(k, v));
+      }
+      headers.set('X-Connection-Api-Key', connectionApiKey);
+      headers.set('Lovable-API-Key', lovableApiKey);
+
       return fetch(gatewayUrl, {
-        ...init,
-        headers: {
-          ...Object.fromEntries(new Headers(init?.headers).entries()),
-          'X-Connection-Api-Key': connectionApiKey,
-          'Lovable-API-Key': lovableApiKey,
-        },
+        method: init?.method || (input instanceof Request ? input.method : 'GET'),
+        body: init?.body || (input instanceof Request ? input.body : undefined),
+        headers: Object.fromEntries(headers.entries()),
       });
-    }) as any, // Cast para evitar erros de tipagem complexos no Worker
+    }),
   });
 }
 
