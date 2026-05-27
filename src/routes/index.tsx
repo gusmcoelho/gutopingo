@@ -206,11 +206,12 @@ function Index() {
                       </li>
                     ))}
                   </ul>
-                  <button className={`w-full pixel-btn py-4 font-pixel text-[10px] ${p.popular ? "bg-accent text-white" : "bg-primary text-white"}`}>
+                  <button className="w-full pixel-btn py-4 font-pixel text-[10px] bg-primary text-white">
                     SELECIONAR
                   </button>
                 </div>
               ))}
+            </div>
             <div className="grid md:grid-cols-3 gap-8 items-stretch mt-12">
               {[
                 { tier: "DAILY", price: "R$ 35", features: ["1 Dia de acesso", "Suporte 24h", "Uso ilimitado"] },
