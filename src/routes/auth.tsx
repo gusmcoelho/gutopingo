@@ -1,15 +1,22 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { Zap, Mail, Lock, AlertCircle, ArrowLeft, Loader2 } from "lucide-react";
+import { z } from "zod";
+
+const authSearchSchema = z.object({
+  register: z.boolean().optional(),
+});
 
 export const Route = createFileRoute("/auth")({
   component: AuthPage,
+  validateSearch: (search) => authSearchSchema.parse(search),
 });
 
 function AuthPage() {
-  const [isLogin, setIsLogin] = useState(true);
+  const search = useSearch({ from: "/auth" });
+  const [isLogin, setIsLogin] = useState(!search.register);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
