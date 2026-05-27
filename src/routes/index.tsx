@@ -546,9 +546,14 @@ export default function GutoPingoPage() {
               </button>
             </>
           ) : (
-            <button onClick={handleLogin} style={{ padding: "8px 20px", background: "transparent", color: "#a855f7", border: "2px solid #7c3aed", cursor: "pointer", fontSize: 12, fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em" }}>
-              ENTRAR
-            </button>
+            <div style={{ display: "flex", gap: 10 }}>
+              <button onClick={handleLogin} style={{ padding: "8px 20px", background: "transparent", color: "#a855f7", border: "2px solid #7c3aed", cursor: "pointer", fontSize: 12, fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em" }}>
+                ENTRAR
+              </button>
+              <button onClick={() => navigate({ to: "/auth", search: { register: true } })} style={{ padding: "8px 20px", background: "#7c3aed", color: "#fff", border: "2px solid #a855f7", cursor: "pointer", fontSize: 12, fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em" }}>
+                CADASTRAR
+              </button>
+            </div>
           )}
         </div>
       </nav>
