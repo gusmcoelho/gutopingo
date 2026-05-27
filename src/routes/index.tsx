@@ -138,23 +138,24 @@ const PLANS: Plan[] = [
   {
     id: "lifetime",
     priceId: "price_lifetime",
-    name: "Vitalício",
+    name: "Guto Pingo - Vitalício (PROMO)",
     price: "R$ 169,99",
-    priceNote: "único",
+    priceNote: "SaaS - Business Use",
     duration: "Para sempre",
     icon: <Infinity size={20} />,
     featured: true,
     badge: "🔥 PROMOÇÃO LIMITADA",
     color: "#7c3aed",
     features: [
-      "Prompts ilimitados",
       "Acesso vitalício",
+      "Pagamento único",
       "Suporte VIP lifetime",
       "Discord exclusivo",
       "Atualizações grátis",
       "Prioridade máxima",
     ],
   },
+
 ];
 
 
