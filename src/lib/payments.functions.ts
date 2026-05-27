@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { createStripeClient, getStripeErrorMessage } from "@/lib/stripe.server";
 
 export const createCheckoutSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -9,28 +10,28 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
     const { userId } = context;
     const { priceId } = data;
     
-    // Fallback URL se APP_URL não estiver definida
-    const baseUrl = process.env.APP_URL || 'https://gutopingo.lovable.app';
+    try {
+      // Determinamos o ambiente (usamos sandbox em preview/dev por padrão)
+      const env = process.env.NODE_ENV === 'production' ? 'live' : 'sandbox';
+      const stripe = createStripeClient(env);
+      
+      const baseUrl = process.env.APP_URL || 'https://gutopingo.lovable.app';
 
-    // Lovable Connector Gateway API
-    const response = await fetch(`https://api.lovable.app/v1/projects/6fab1e5e-c23a-43d5-987d-a0340f9a0883/payments/checkout`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.LOVABLE_API_KEY}`,
-      },
-      body: JSON.stringify({
-        priceId,
-        userId,
-        successUrl: `${baseUrl}/?success=true`,
-        cancelUrl: `${baseUrl}/?canceled=true`,
-      }),
-    });
+      const session = await stripe.checkout.sessions.create({
+        line_items: [{ price: priceId, quantity: 1 }],
+        mode: "payment",
+        success_url: `${baseUrl}/?success=true`,
+        cancel_url: `${baseUrl}/?canceled=true`,
+        client_reference_id: userId,
+        metadata: {
+          userId,
+          priceId
+        }
+      });
 
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`Erro ao criar checkout: ${error}`);
+      return { checkoutUrl: session.url };
+    } catch (error) {
+      console.error("Stripe Checkout Error:", error);
+      return { error: getStripeErrorMessage(error) };
     }
-
-    return response.json(); // Retorna { checkoutUrl: string }
   });
