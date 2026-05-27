@@ -930,7 +930,7 @@ function Index() {
             </a>
           </div>
         </div>
-      </footer
+      </footer>
     </div>
   );
 }
