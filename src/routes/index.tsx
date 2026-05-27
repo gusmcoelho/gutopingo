@@ -1,3 +1,4 @@
+import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import {
   Zap,
@@ -1482,3 +1483,7 @@ export default function GutoPingoPage() {
     </div>
   );
 }
+
+export const Route = createFileRoute("/")({
+  component: App,
+});
