@@ -29,10 +29,11 @@ import { createCheckoutSession } from "@/lib/payments.functions";
 interface LicenseKey {
   id: string;
   key: string;
-  plan: string;
-  expiresAt: string | null;
-  isLifetime: boolean;
+  duration: string;
+  expires_at: string | null;
+  created_at: string;
 }
+
 
 interface UserType {
   id: string;
@@ -291,6 +292,8 @@ function CopyButton({ text }: { text: string }) {
 }
 
 function KeyCard({ licKey }: { licKey: LicenseKey }) {
+  const isLifetime = licKey.duration.toLowerCase() === "vitalício";
+
   return (
     <div
       style={{
@@ -313,13 +316,14 @@ function KeyCard({ licKey }: { licKey: LicenseKey }) {
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
             <Key size={14} color="#a855f7" />
             <span style={{ fontFamily: "'Courier New', monospace", fontSize: 11, color: "#a855f7", letterSpacing: "0.15em", textTransform: "uppercase" }}>
-              {licKey.plan}
+              {licKey.duration}
             </span>
-            {licKey.isLifetime && (
+            {isLifetime && (
               <span style={{ background: "#7c3aed", color: "#e9d5ff", fontSize: 10, padding: "2px 8px", fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em", border: "1px solid #a855f7" }}>
                 ∞ LIFETIME
               </span>
             )}
+
           </div>
           <div style={{ fontFamily: "'Courier New', monospace", fontSize: 13, color: "#e9d5ff", letterSpacing: "0.12em", fontWeight: 700 }}>
             {licKey.key}
@@ -330,7 +334,8 @@ function KeyCard({ licKey }: { licKey: LicenseKey }) {
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "#a78bfa", fontFamily: "'Courier New', monospace" }}>
         <Clock size={11} />
-        {licKey.isLifetime ? "Nunca expira" : `Expira em: ${licKey.expiresAt}`}
+        {isLifetime ? "Nunca expira" : `Expira em: ${new Date(licKey.expires_at || "").toLocaleDateString()}`}
+
       </div>
     </div>
   );
