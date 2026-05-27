@@ -64,7 +64,7 @@ interface Plan {
 const PLANS: Plan[] = [
   {
     id: "test",
-    priceId: "price_test_v3",
+    priceId: "price_test_final",
     name: "Guto Pingo - 5 Minutos (Teste)",
     price: "R$ 5.00",
     priceNote: "acesso imediato",
@@ -77,7 +77,7 @@ const PLANS: Plan[] = [
   },
   {
     id: "1day",
-    priceId: "price_1day_v3",
+    priceId: "price_1day_final",
     name: "Guto Pingo - 1 Dia",
     price: "R$ 20.00",
     priceNote: "acesso imediato",
@@ -88,7 +88,7 @@ const PLANS: Plan[] = [
   },
   {
     id: "1week",
-    priceId: "price_1week_v3",
+    priceId: "price_1week_final",
     name: "Guto Pingo - 1 Semana",
     price: "R$ 45.00",
     priceNote: "acesso imediato",
@@ -99,7 +99,7 @@ const PLANS: Plan[] = [
   },
   {
     id: "30days",
-    priceId: "price_30days_v3",
+    priceId: "price_30days_final",
     name: "Guto Pingo - 30 Dias",
     price: "R$ 100.00",
     priceNote: "acesso imediato",
@@ -110,7 +110,7 @@ const PLANS: Plan[] = [
   },
   {
     id: "lifetime",
-    priceId: "price_lifetime_v3",
+    priceId: "price_lifetime_final",
     name: "Guto Pingo - Vitalício",
     price: "R$ 169.99",
     priceNote: "PROMOÇÃO",
