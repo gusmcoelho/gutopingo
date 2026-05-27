@@ -64,7 +64,7 @@ interface Plan {
 const PLANS: Plan[] = [
   {
     id: "test",
-    priceId: "price_test",
+    priceId: "price_1RpB9HIXgVz892FzYx9p9p9p",
     name: "Guto Pingo - 5 Minutos (Teste)",
     price: "R$ 5.00",
     priceNote: "acesso imediato",
@@ -493,11 +493,15 @@ export default function GutoPingoPage() {
     }
 
     try {
+      console.log("CLIENT DEBUG: handleBuy called for priceId:", priceId);
       setLoadingCheckout(priceId);
       const result = await createCheckoutSession({ data: { priceId } });
+      console.log("CLIENT DEBUG: createCheckoutSession result:", result);
       if (result && 'checkoutUrl' in result && result.checkoutUrl) {
         window.location.href = result.checkoutUrl;
       } else if (result && 'error' in result) {
+        console.error("CLIENT DEBUG: error in result:", result.error);
+        alert(`Erro no Checkout: ${result.error}`);
         alert(`Erro: ${result.error}`);
       }
     } catch (err) {
