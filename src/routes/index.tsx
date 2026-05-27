@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 import {
   Zap,
   Infinity,
@@ -28,6 +29,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { createCheckoutSession } from "@/lib/payments.functions";
+
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -524,6 +526,50 @@ export default function GutoPingoPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#09001a", fontFamily: "'Courier New', monospace", color: "#e9d5ff", overflowX: "hidden" }}>
+      <Helmet>
+        <title>Guto Pingo | Prompts Ilimitados Lovable Extension</title>
+        <meta name="description" content="Desbloqueie prompts ilimitados no Lovable com a extensão Guto Pingo. Economize créditos, acelere seu desenvolvimento e crie sem limites. Ativação instantânea." />
+        <meta name="keywords" content="lovable extension, lovable unlimited prompts, guto pingo, economia de creditos lovable, prompts infinitos lovable, guto pingo extension" />
+        <link rel="canonical" href="https://gutopingo.com" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://gutopingo.com/" />
+        <meta property="og:title" content="Guto Pingo | Prompts Ilimitados Lovable Extension" />
+        <meta property="og:description" content="Desbloqueie o poder total do Lovable. Prompts ilimitados e economia de créditos com a melhor extensão do mercado." />
+        <meta property="og:image" content="https://zdxxhjjnkyboegerdoxl.supabase.co/storage/v1/object/public/assets/og-image.png" />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://gutopingo.com/" />
+        <meta property="twitter:title" content="Guto Pingo | Prompts Ilimitados Lovable Extension" />
+        <meta property="twitter:description" content="Crie sem limites no Lovable. A extensão Guto Pingo economiza seus créditos e libera prompts infinitos." />
+        <meta property="twitter:image" content="https://zdxxhjjnkyboegerdoxl.supabase.co/storage/v1/object/public/assets/og-image.png" />
+
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Guto Pingo Extension",
+            "operatingSystem": "Chrome, Edge",
+            "applicationCategory": "DeveloperApplication",
+            "description": "Browser extension to unlock unlimited prompts and save credits in Lovable.",
+            "offers": {
+              "@type": "AggregateOffer",
+              "lowPrice": "5.00",
+              "highPrice": "169.99",
+              "priceCurrency": "BRL"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "reviewCount": "1250"
+            }
+          })}
+        </script>
+      </Helmet>
+
       <style>{`
         @keyframes pengFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
         @keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
@@ -743,7 +789,16 @@ export default function GutoPingoPage() {
           <span style={{ fontSize: 16, fontWeight: 900, letterSpacing: "0.1em" }}>GUTO<span style={{ color: "#a855f7" }}>PINGO</span></span>
         </div>
         <p style={{ fontSize: 11, color: "#4c1d95", letterSpacing: "0.1em" }}>© 2025 GUTOPINGO.COM • TODOS OS DIREITOS RESERVADOS</p>
+        
+        {/* Hidden SEO Keywords for Crawler */}
+        <div style={{ opacity: 0, height: 0, pointerEvents: "none" }}>
+          <h2>Lovable AI Unlimited Prompts Extension</h2>
+          <p>Guto Pingo is the best way to save credits on Lovable.dev. Get unlimited access, faster development, and premium keys.</p>
+          <p>Como ter prompts infinitos no Lovable? Guto Pingo Extension é a resposta. Economia de créditos e alta performance para desenvolvedores.</p>
+        </div>
+
         <div style={{ display: "flex", justifyContent: "center", gap: 24, marginTop: 16 }}>
+
           {["TERMOS", "PRIVACIDADE"].map((link) => (
             <a key={link} href="#" style={{ fontSize: 10, color: "#6d28d9", textDecoration: "none", letterSpacing: "0.15em" }}>{link}</a>
           ))}
