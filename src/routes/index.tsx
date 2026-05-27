@@ -276,41 +276,9 @@ function Index() {
       {/* Hero */}
       <section className="container mx-auto px-4 py-20 md:py-32 flex flex-col items-center text-center">
         <div className="inline-flex items-center gap-2 border-2 border-primary bg-primary/10 px-4 py-1.5 mb-10 font-pixel text-[10px] text-primary animate-bounce">
-          <Sparkles className="w-3 h-3" /> NOVO: MÉTODO ATUALIZADO 2024
-        </div>
+        {/* No replacements needed, the icons are already imported in the header, and I used standard ones already. The issue might be that I used them wrong. */}
+        {/* Let's verify imports in line 4-25. */}
 
-        <div className="relative mb-12">
-          <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
-          <div className="float glow relative z-10 p-4 border-4 border-primary bg-card/80">
-            <div className="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center bg-muted/50 overflow-hidden relative">
-              <Gamepad2 className="w-24 h-24 text-primary/40 absolute animate-pulse" />
-              <img src="https://lovable-uploads.s3.us-west-2.amazonaws.com/13593003-8839-4467-84ec-607212456041.png" alt="Penguin Pixel Art" className="w-full h-full object-cover" />
-            </div>
-          </div>
-          <div className="absolute -bottom-6 -right-6 w-16 h-16 border-4 border-accent bg-accent/20 backdrop-blur animate-spin-slow" />
-        </div>
-
-        <h1 className="font-pixel text-3xl md:text-6xl mb-8 leading-tight text-primary" style={{ textShadow: "4px 4px 0px rgba(0,0,0,0.5), 8px 8px 0px oklch(0.3 0.2 320)" }}>
-          GUTO PINGO<br />CRÉDITOS<br />ILIMITADOS
-        </h1>
-
-        <p className="font-retro text-2xl md:text-4xl max-w-3xl mx-auto mb-12 text-muted-foreground leading-relaxed">
-          O Guto Pingo é uma extensão que abre um painel exclusivo dentro do Lovable. <br className="hidden md:block" />
-          Digite seus prompts por ele e crie sem gastar nenhum crédito da sua conta.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-6 justify-center w-full max-w-lg">
-          <a href="#pricing" className="pixel-btn bg-primary text-primary-foreground px-10 py-5 font-pixel text-sm flex items-center justify-center gap-3 group">
-            <Zap className="w-5 h-5 group-hover:scale-125 transition-transform" /> 
-            COMPRAR MINHA KEY
-          </a>
-          <button 
-            onClick={() => handleBuy('guto_pingo_5min_v4')}
-            className="pixel-btn bg-white text-black px-10 py-5 font-pixel text-sm flex items-center justify-center gap-3"
-          >
-            <MousePointer2 className="w-5 h-5" /> 
-            TESTE GRÁTIS
-          </button>
         </div>
 
         <div className="mt-16 flex items-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
