@@ -11,7 +11,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
     const { priceId } = data;
     
     try {
-      // Force live mode to use your existing Stripe products
+      // Force live mode and double check key configuration
       const env = 'live';
       const stripe = createStripeClient(env);
       
