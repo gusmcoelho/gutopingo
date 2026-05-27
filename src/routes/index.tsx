@@ -195,7 +195,7 @@ function Index() {
               { q: "TEM REEMBOLSO?", a: "Sim, oferecemos 7 dias de garantia incondicional se a ferramenta não funcionar como prometido." },
             ].map((item, i) => (
               <div key={i} className="pixel-card p-8 bg-black/30 border-primary/30">
-                <h3 className="font-pixel text-[10px] text-accent mb-4">TERMINAL > {item.q}</h3>
+                <h3 className="font-pixel text-[10px] text-accent mb-4">TERMINAL &gt; {item.q}</h3>
                 <p className="font-retro text-2xl text-muted-foreground leading-relaxed">{item.a}</p>
               </div>
             ))}
