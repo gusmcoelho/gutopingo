@@ -271,16 +271,6 @@ function Index() {
           </div>
         </div>
       </footer>
-
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-          animation: spin-slow 12s linear infinite;
-        }
-      `}} />
     </div>
   );
 }
