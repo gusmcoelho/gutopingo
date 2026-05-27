@@ -121,19 +121,20 @@ const PLANS: Plan[] = [
   {
     id: "30days",
     priceId: "price_30days",
-    name: "Mensal",
-    price: "R$ 100",
-    priceNote: "por mês",
+    name: "Guto Pingo - 30 Dias",
+    price: "R$ 100,00",
+    priceNote: "SaaS - Business Use",
     duration: "30 Dias",
     icon: <Globe size={20} />,
     color: "#4c1d95",
     features: [
-      "Prompts ilimitados",
-      "Acesso premium",
+      "Acesso de 30 dias",
+      "Ideal para profissionais",
       "Suporte VIP",
       "Discord exclusivo",
     ],
   },
+
   {
     id: "lifetime",
     priceId: "price_lifetime",
