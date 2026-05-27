@@ -501,9 +501,6 @@ export default function GutoPingoPage() {
         alert(`Erro no Checkout: ${result.error}`);
       }
     } catch (err) {
-        alert(`Erro: ${result.error}`);
-      }
-    } catch (err) {
       console.error("Checkout error:", err);
       alert("Erro ao iniciar o checkout. Tente novamente.");
     } finally {
