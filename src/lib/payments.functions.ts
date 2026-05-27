@@ -8,6 +8,9 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { userId } = context;
     const { priceId } = data;
+    
+    // Fallback URL se APP_URL não estiver definida
+    const baseUrl = process.env.APP_URL || 'https://gutopingo.lovable.app';
 
     // Lovable Connector Gateway API
     const response = await fetch(`https://api.lovable.app/v1/projects/6fab1e5e-c23a-43d5-987d-a0340f9a0883/payments/checkout`, {
@@ -19,8 +22,8 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       body: JSON.stringify({
         priceId,
         userId,
-        successUrl: `${process.env.APP_URL || 'https://gutopingo.lovable.app'}/?success=true`,
-        cancelUrl: `${process.env.APP_URL || 'https://gutopingo.lovable.app'}/?canceled=true`,
+        successUrl: `${baseUrl}/?success=true`,
+        cancelUrl: `${baseUrl}/?canceled=true`,
       }),
     });
 
