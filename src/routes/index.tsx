@@ -1,10 +1,158 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Check, Zap, Shield, Coins, Sparkles, Download, ExternalLink, MessageSquare, Gamepad2, MousePointer2, User, Key, Clock, Copy } from "lucide-react";
+import {
+  Zap,
+  Infinity,
+  Copy,
+  Check,
+  Star,
+  Shield,
+  Rocket,
+  Clock,
+  Globe,
+  Lock,
+  ChevronDown,
+  Terminal,
+  Cpu,
+  Layers,
+  Award,
+  Gift,
+  Timer,
+  Key,
+  LogOut,
+  User,
+} from "lucide-react";
 import { createCheckoutSession } from "@/lib/payments.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
+
+// ─── Types ───────────────────────────────────────────────────────────────────
+
+interface LicenseKey {
+  id: string;
+  key: string;
+  plan: string;
+  expiresAt: string | null;
+  isLifetime: boolean;
+}
+
+interface UserType {
+  name: string;
+  email: string;
+  avatar?: string;
+}
+
+interface Plan {
+  id: string;
+  name: string;
+  price: string;
+  priceNote: string;
+  duration: string;
+  icon: React.ReactNode;
+  featured?: boolean;
+  badge?: string;
+  color: string;
+  priceId: string;
+  features: string[];
+}
+
+// ─── Mock Data ────────────────────────────────────────────────────────────────
+
+const MOCK_USER: UserType = {
+  name: "GutoPinguim",
+  email: "guto@example.com",
+};
+
+const MOCK_KEYS: LicenseKey[] = [
+  {
+    id: "1",
+    key: "GUTO-XXXX-YYYY-ZZZZ-AAAA",
+    plan: "Vitalício",
+    expiresAt: null,
+    isLifetime: true,
+  },
+  {
+    id: "2",
+    key: "PING-30DY-BBBB-CCCC-DDDD",
+    plan: "30 Dias",
+    expiresAt: "2025-06-30",
+    isLifetime: false,
+  },
+];
+
+const PLANS: Plan[] = [
+  {
+    id: "5min",
+    priceId: "price_5min",
+    name: "Teste Rápido",
+    price: "R$ 5",
+    priceNote: "pagamento único",
+    duration: "5 Minutos",
+    icon: <Timer size={20} />,
+    color: "#7c3aed",
+    features: ["Prompts ilimitados", "Acesso completo", "Sem mensalidade"],
+  },
+  {
+    id: "1day",
+    priceId: "price_1day",
+    name: "Diário",
+    price: "R$ 20",
+    priceNote: "por dia",
+    duration: "1 Dia",
+    icon: <Clock size={20} />,
+    color: "#6d28d9",
+    features: ["Prompts ilimitados", "Acesso premium", "Suporte básico"],
+  },
+  {
+    id: "1week",
+    priceId: "price_1week",
+    name: "Semanal",
+    price: "R$ 45",
+    priceNote: "por semana",
+    duration: "1 Semana",
+    icon: <Zap size={20} />,
+    color: "#5b21b6",
+    features: ["Prompts ilimitados", "Acesso premium", "Suporte prioritário"],
+  },
+  {
+    id: "30days",
+    priceId: "price_30days",
+    name: "Mensal",
+    price: "R$ 100",
+    priceNote: "por mês",
+    duration: "30 Dias",
+    icon: <Globe size={20} />,
+    color: "#4c1d95",
+    features: [
+      "Prompts ilimitados",
+      "Acesso premium",
+      "Suporte VIP",
+      "Discord exclusivo",
+    ],
+  },
+  {
+    id: "lifetime",
+    priceId: "price_lifetime",
+    name: "Vitalício",
+    price: "R$ 169,99",
+    priceNote: "único",
+    duration: "Para sempre",
+    icon: <Infinity size={20} />,
+    featured: true,
+    badge: "🔥 PROMOÇÃO LIMITADA",
+    color: "#7c3aed",
+    features: [
+      "Prompts ilimitados",
+      "Acesso vitalício",
+      "Suporte VIP lifetime",
+      "Discord exclusivo",
+      "Atualizações grátis",
+      "Prioridade máxima",
+    ],
+  },
+];
+
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -129,21 +277,22 @@ function Index() {
       {/* Hero */}
       <section className="container mx-auto px-4 py-20 md:py-32 flex flex-col items-center text-center">
         <div className="inline-flex items-center gap-2 border-2 border-primary bg-primary/10 px-4 py-1.5 mb-10 font-pixel text-[10px] text-primary animate-bounce">
-          <Sparkles className="w-3 h-3" /> NOVO: MÉTODO ATUALIZADO 2024
+          <Zap className="w-3 h-3" /> NOVO: MÉTODO ATUALIZADO 2024
         </div>
+
 
         <div className="relative mb-12">
           <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
           <div className="float glow relative z-10 p-4 border-4 border-primary bg-card/80">
             <div className="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center bg-muted/50 overflow-hidden relative">
-              <Gamepad2 className="w-24 h-24 text-primary/40 absolute animate-pulse" />
+              <Zap className="w-24 h-24 text-primary/40 absolute animate-pulse" />
               <img src="https://lovable-uploads.s3.us-west-2.amazonaws.com/13593003-8839-4467-84ec-607212456041.png" alt="Penguin Pixel Art" className="w-full h-full object-cover" />
             </div>
           </div>
           <div className="absolute -bottom-6 -right-6 w-16 h-16 border-4 border-accent bg-accent/20 backdrop-blur animate-spin-slow" />
         </div>
-
         <h1 className="font-pixel text-3xl md:text-6xl mb-8 leading-tight text-primary" style={{ textShadow: "4px 4px 0px rgba(0,0,0,0.5), 8px 8px 0px oklch(0.3 0.2 320)" }}>
+
           GUTO PINGO<br />CRÉDITOS<br />ILIMITADOS
         </h1>
 
@@ -158,19 +307,15 @@ function Index() {
             COMPRAR MINHA KEY
           </a>
           <button 
-            onClick={() => handleBuy('guto_pingo_5min_v4')}
+            onClick={() => handleBuy('price_5min')}
             className="pixel-btn bg-white text-black px-10 py-5 font-pixel text-sm flex items-center justify-center gap-3"
           >
-            <MousePointer2 className="w-5 h-5" /> 
+            <Copy className="w-5 h-5" /> 
             TESTE GRÁTIS
           </button>
         </div>
 
-        <div className="mt-16 flex items-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-           <span className="font-pixel text-[10px]">PIX AUTOMÁTICO</span>
-           <span className="font-pixel text-[10px]">ENTREGA IMEDIATA</span>
-           <span className="font-pixel text-[10px]">SUPORTE 24H</span>
-        </div>
+
       </section>
       
       {/* User Dashboard / Keys Section */}
@@ -276,50 +421,17 @@ function Index() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-              {[
-                { 
-                  tier: "TESTE", 
-                  price: "R$ 5", 
-                  priceId: "guto_pingo_5min_v4",
-                  features: ["5 Minutos de uso", "Entrega instantânea", "Uso ilimitado no tempo"] 
-                },
-                { 
-                  tier: "DIÁRIO", 
-                  price: "R$ 20", 
-                  priceId: "guto_pingo_1dia_v4",
-                  features: ["1 Dia de acesso", "Suporte 24h", "Tudo liberado"] 
-                },
-                { 
-                  tier: "SEMANAL", 
-                  price: "R$ 45", 
-                  priceId: "guto_pingo_1semana_v4",
-                  features: ["1 Semana de acesso", "Updates garantidos", "Suporte VIP"] 
-                },
-                { 
-                  tier: "MENSAL", 
-                  price: "R$ 100", 
-                  priceId: "guto_pingo_30dias_v4",
-                  features: ["30 Dias de acesso", "Melhor custo-benefício", "Acesso prioritário"] 
-                },
-                { 
-                  tier: "VITALÍCIO", 
-                  price: "R$ 169,99", 
-                  oldPrice: "R$ 350",
-                  priceId: "guto_pingo_vitalicio_promo",
-                  promo: true,
-                  features: ["Acesso Vitalício", "Tag VIP Permanente", "Tudo liberado para sempre"] 
-                },
-              ].map((p, i) => (
-                <div key={i} className={`pixel-card flex flex-col p-8 ${p.promo ? "border-accent shadow-[0_0_30px_rgba(233,69,96,0.3)] bg-black/60 scale-105 z-10" : "bg-black/40"}`}>
-                  {p.promo && (
+              {PLANS.map((p) => (
+                <div key={p.id} className={`pixel-card flex flex-col p-8 ${p.featured ? "border-accent shadow-[0_0_30px_rgba(233,69,96,0.3)] bg-black/60 scale-105 z-10" : "bg-black/40"}`}>
+                  {p.featured && (
                     <div className="bg-accent text-white font-pixel text-[8px] py-1 px-4 self-center -mt-11 mb-6 border-2 border-white animate-pulse">
-                      PROMOÇÃO LIMITADA
+                      {p.badge}
                     </div>
                   )}
                   <div className="text-center mb-8">
-                    <span className="font-pixel text-[10px] text-muted-foreground block mb-2">{p.tier}</span>
-                    {p.oldPrice && (
-                      <span className="font-pixel text-[8px] text-muted-foreground line-through block mb-1">{p.oldPrice}</span>
+                    <span className="font-pixel text-[10px] text-muted-foreground block mb-2">{p.name}</span>
+                    {p.priceNote && (
+                      <span className="font-pixel text-[8px] text-muted-foreground line-through block mb-1">{p.priceNote}</span>
                     )}
                     <span className="font-pixel text-2xl text-primary block">{p.price}</span>
                   </div>
@@ -334,7 +446,7 @@ function Index() {
                   <button 
                     disabled={isBuying === p.priceId}
                     onClick={() => handleBuy(p.priceId)}
-                    className={`w-full pixel-btn py-4 font-pixel text-[10px] ${p.promo ? "bg-accent text-white" : "bg-primary text-white"} disabled:opacity-50`}
+                    className={`w-full pixel-btn py-4 font-pixel text-[10px] ${p.featured ? "bg-accent text-white" : "bg-primary text-white"} disabled:opacity-50`}
                   >
                     {isBuying === p.priceId ? "PROCESSANDO..." : "COMPRAR AGORA"}
                   </button>
