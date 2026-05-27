@@ -170,17 +170,51 @@ function Index() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
               {[
-                { tier: "TESTE", price: "R$ 5", features: ["5 Minutos de teste", "Uso ilimitado no tempo", "Entrega instantânea"] },
-                { tier: "ANÚNCIO 1", price: "R$ 2", features: ["15 Minutos de uso", "Acesso total", "Suporte básico"] },
-                { tier: "ANÚNCIO 2", price: "R$ 10", features: ["1 Hora de uso", "Sem limites de prompts", "Suporte prioritário"] },
-                { tier: "ANÚNCIO 3", price: "R$ 35", features: ["1 Dia de acesso", "Suporte 24h", "Uso ilimitado"] },
-                { tier: "ANÚNCIO 4", price: "R$ 150", features: ["30 Dias de acesso", "Updates garantidos", "Melhor custo-benefício"] },
-                { tier: "ANÚNCIO 5", price: "R$ 350", features: ["Acesso Vitalício", "Tudo liberado", "Tag VIP Permanente"] },
+                { 
+                  tier: "TESTE", 
+                  price: "R$ 5", 
+                  priceId: "guto_pingo_5min_v4",
+                  features: ["5 Minutos de uso", "Entrega instantânea", "Uso ilimitado no tempo"] 
+                },
+                { 
+                  tier: "DIÁRIO", 
+                  price: "R$ 20", 
+                  priceId: "guto_pingo_1dia_v4",
+                  features: ["1 Dia de acesso", "Suporte 24h", "Tudo liberado"] 
+                },
+                { 
+                  tier: "SEMANAL", 
+                  price: "R$ 45", 
+                  priceId: "guto_pingo_1semana_v4",
+                  features: ["1 Semana de acesso", "Updates garantidos", "Suporte VIP"] 
+                },
+                { 
+                  tier: "MENSAL", 
+                  price: "R$ 100", 
+                  priceId: "guto_pingo_30dias_v4",
+                  features: ["30 Dias de acesso", "Melhor custo-benefício", "Acesso prioritário"] 
+                },
+                { 
+                  tier: "VITALÍCIO", 
+                  price: "R$ 169,99", 
+                  oldPrice: "R$ 350",
+                  priceId: "guto_pingo_vitalicio_promo",
+                  promo: true,
+                  features: ["Acesso Vitalício", "Tag VIP Permanente", "Tudo liberado para sempre"] 
+                },
               ].map((p, i) => (
-                <div key={i} className="pixel-card flex flex-col p-8 bg-black/40">
+                <div key={i} className={`pixel-card flex flex-col p-8 ${p.promo ? "border-accent shadow-[0_0_30px_rgba(233,69,96,0.3)] bg-black/60 scale-105 z-10" : "bg-black/40"}`}>
+                  {p.promo && (
+                    <div className="bg-accent text-white font-pixel text-[8px] py-1 px-4 self-center -mt-11 mb-6 border-2 border-white animate-pulse">
+                      PROMOÇÃO LIMITADA
+                    </div>
+                  )}
                   <div className="text-center mb-8">
                     <span className="font-pixel text-[10px] text-muted-foreground block mb-2">{p.tier}</span>
-                    <span className="font-pixel text-3xl text-primary block">{p.price}</span>
+                    {p.oldPrice && (
+                      <span className="font-pixel text-[8px] text-muted-foreground line-through block mb-1">{p.oldPrice}</span>
+                    )}
+                    <span className="font-pixel text-2xl text-primary block">{p.price}</span>
                   </div>
                   <ul className="space-y-4 mb-10 flex-grow">
                     {p.features.map((f, j) => (
@@ -190,7 +224,18 @@ function Index() {
                       </li>
                     ))}
                   </ul>
-                  <button className="w-full pixel-btn py-4 font-pixel text-[10px] bg-primary text-white">
+                  <button 
+                    onClick={() => {
+                      // @ts-ignore
+                      if (window.openCheckout) {
+                        // @ts-ignore
+                        window.openCheckout({ priceId: p.priceId });
+                      } else {
+                        console.error("Checkout not implemented yet");
+                      }
+                    }}
+                    className={`w-full pixel-btn py-4 font-pixel text-[10px] ${p.promo ? "bg-accent text-white" : "bg-primary text-white"}`}
+                  >
                     COMPRAR AGORA
                   </button>
                 </div>
