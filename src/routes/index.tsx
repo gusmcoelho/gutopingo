@@ -311,8 +311,9 @@ function Index() {
             className="pixel-btn bg-white text-black px-10 py-5 font-pixel text-sm flex items-center justify-center gap-3"
           >
             <Copy className="w-5 h-5" /> 
-            TESTE GRÁTIS
+            TESTAR AGORA (R$5)
           </button>
+
         </div>
 
 
