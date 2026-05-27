@@ -71,8 +71,8 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
     handlers: {
       POST: async ({ request }) => {
         const rawEnv = new URL(request.url).searchParams.get('env');
-        if (rawEnv !== 'sandbox' && rawEnv !== 'live') {
-          return new Response('Invalid env', { status: 400 });
+        if (rawEnv !== 'live') {
+          return new Response('Only live webhook events are accepted', { status: 400 });
         }
         const env: StripeEnv = rawEnv;
 
