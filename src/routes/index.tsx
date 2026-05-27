@@ -86,12 +86,12 @@ function Index() {
         </div>
 
         <h1 className="font-pixel text-3xl md:text-6xl mb-8 leading-tight text-primary" style={{ textShadow: "4px 4px 0px rgba(0,0,0,0.5), 8px 8px 0px oklch(0.3 0.2 320)" }}>
-          CRÉDITOS<br />INFINITOS<br />NO LOVABLE
+          GUTO PINGO<br />CRÉDITOS<br />ILIMITADOS
         </h1>
 
         <p className="font-retro text-2xl md:text-4xl max-w-3xl mx-auto mb-12 text-muted-foreground leading-relaxed">
-          Domine o Lovable sem se preocupar com limites. <br className="hidden md:block" />
-          Nossas <span className="text-primary font-bold">KEYS</span> são o seu passaporte para o desenvolvimento ilimitado.
+          O Guto Pingo é uma extensão que abre um painel exclusivo dentro do Lovable. <br className="hidden md:block" />
+          Digite seus prompts por ele e crie sem gastar nenhum crédito da sua conta.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-6 justify-center w-full max-w-lg">
@@ -123,40 +123,28 @@ function Index() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
             {[
               { 
-                icon: Coins, 
-                title: "BYPASS DE CRÉDITOS", 
-                desc: "Esqueça os limites. Nossa tecnologia permite que você continue criando sem gastar seus créditos preciosos.",
-                color: "text-yellow-400"
+                title: "PAINEL EXCLUSIVO", 
+                desc: "Uma interface que aparece diretamente no site do Lovable para você digitar seus comandos.",
               },
               { 
-                icon: Zap, 
-                title: "TURBO ENGINE", 
-                desc: "Otimização de rede que acelera as respostas do Lovable em até 40%. Menos espera, mais código.",
-                color: "text-cyan-400"
+                title: "ZERO CRÉDITOS", 
+                desc: "O Guto Pingo intercepta os prompts e envia para o sistema sem consumir seu saldo de créditos.",
               },
               { 
-                icon: Shield, 
-                title: "GHOST MODE", 
-                desc: "Navegação privada e segura. Sua atividade e tokens permanecem 100% no seu dispositivo.",
-                color: "text-green-400"
+                title: "INSTALAÇÃO SIMPLES", 
+                desc: "Extensão leve para navegadores Chromium (Chrome, Edge, Brave). Ativação em segundos.",
               },
               { 
-                icon: MessageSquare, 
                 title: "SUPORTE 24/7", 
-                desc: "Comunidade ativa e suporte técnico via Discord para qualquer dúvida técnica ou sugestão.",
-                color: "text-purple-400"
+                desc: "Comunidade ativa e suporte técnico via Discord para qualquer dúvida sobre a ferramenta.",
               },
               { 
-                icon: Download, 
-                title: "AUTO-EXPORT", 
-                desc: "Exporte seus projetos com um clique, já estruturados e prontos para o deploy em seu próprio servidor.",
-                color: "text-orange-400"
+                title: "MÉTODO SEGURO", 
+                desc: "Desenvolvido para mimetizar o comportamento humano, garantindo segurança total da sua conta.",
               },
               { 
-                icon: ExternalLink, 
-                title: "MULTI-BROWSER", 
-                desc: "Compatível com Chrome, Edge, Brave e qualquer navegador que suporte extensões Chromium.",
-                color: "text-blue-400"
+                title: "ATUALIZAÇÕES", 
+                desc: "Sempre atualizado com as últimas versões do Lovable para garantir o funcionamento constante.",
               },
             ].map((f, i) => (
               <div key={i} className="pixel-card p-8 group hover:-translate-y-2 transition-transform duration-300">
