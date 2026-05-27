@@ -35,15 +35,16 @@ function Index() {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3 group cursor-pointer">
             <div className="w-10 h-10 bg-primary border-2 border-white flex items-center justify-center relative overflow-hidden">
-               <span className="font-pixel text-white text-lg">G</span>
+               <span className="font-pixel text-white text-lg">L</span>
                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <span className="font-pixel text-xl text-primary tracking-tighter">GUTO<span className="text-accent">.</span>IO</span>
+            <span className="font-pixel text-xl text-primary tracking-tighter uppercase">Lovable<span className="text-accent">.</span>Keys</span>
+
           </div>
-          <div className="hidden md:flex gap-8 items-center font-retro text-2xl">
-            <a href="#features" className="hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary">FEATURES</a>
-            <a href="#pricing" className="hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary">PRICING</a>
-            <a href="#faq" className="hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary">FAQ</a>
+          <div className="hidden md:flex gap-8 items-center font-retro text-2xl uppercase">
+            <a href="#features" className="hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary">Vantagens</a>
+            <a href="#pricing" className="hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary">Preços</a>
+            <a href="#faq" className="hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary">Dúvidas</a>
           </div>
           <div className="flex items-center gap-4">
             {user ? (
@@ -70,7 +71,7 @@ function Index() {
       {/* Hero */}
       <section className="container mx-auto px-4 py-20 md:py-32 flex flex-col items-center text-center">
         <div className="inline-flex items-center gap-2 border-2 border-primary bg-primary/10 px-4 py-1.5 mb-10 font-pixel text-[10px] text-primary animate-bounce">
-          <Sparkles className="w-3 h-3" /> NOVO: SUPORTE A CLAUDE 3.5 SONNET
+          <Sparkles className="w-3 h-3" /> NOVO: MÉTODO ATUALIZADO 2024
         </div>
 
         <div className="relative mb-12">
@@ -79,7 +80,7 @@ function Index() {
             <div className="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center bg-muted/50 overflow-hidden relative">
               <Gamepad2 className="w-24 h-24 text-primary/40 absolute animate-pulse" />
               <div className="font-pixel text-primary text-xs text-center p-4">
-                IMAGEM DO PENGUIN<br/>PIXEL ART ROXO<br/>AQUI
+                LOVABLE KEYS<br/>CRÉDITOS INFINITOS
               </div>
             </div>
           </div>
@@ -87,29 +88,29 @@ function Index() {
         </div>
 
         <h1 className="font-pixel text-3xl md:text-6xl mb-8 leading-tight text-primary" style={{ textShadow: "4px 4px 0px rgba(0,0,0,0.5), 8px 8px 0px oklch(0.3 0.2 320)" }}>
-          INFINITE<br />PIXEL POWER<br />NO LIMITS
+          CRÉDITOS<br />INFINITOS<br />NO LOVABLE
         </h1>
 
         <p className="font-retro text-2xl md:text-4xl max-w-3xl mx-auto mb-12 text-muted-foreground leading-relaxed">
-          Domine o Lovable sem se preocupar com créditos. <br className="hidden md:block" />
-          A extensão <span className="text-primary font-bold">GUTO</span> é o seu cheat code para desenvolvimento ilimitado.
+          Domine o Lovable sem se preocupar com limites. <br className="hidden md:block" />
+          Nossas <span className="text-primary font-bold">KEYS</span> são o seu passaporte para o desenvolvimento ilimitado.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-6 justify-center w-full max-w-lg">
           <a href="#pricing" className="pixel-btn bg-primary text-primary-foreground px-10 py-5 font-pixel text-sm flex items-center justify-center gap-3 group">
             <Zap className="w-5 h-5 group-hover:scale-125 transition-transform" /> 
-            PEGAR MINHA KEY
+            COMPRAR MINHA KEY
           </a>
-          <a href="#features" className="pixel-btn bg-white text-black px-10 py-5 font-pixel text-sm flex items-center justify-center gap-3">
+          <a href="#pricing" className="pixel-btn bg-white text-black px-10 py-5 font-pixel text-sm flex items-center justify-center gap-3">
             <MousePointer2 className="w-5 h-5" /> 
-            VER DEMO
+            TESTE GRÁTIS
           </a>
         </div>
 
         <div className="mt-16 flex items-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-           <span className="font-pixel text-[10px]">BACKED BY PIXELS</span>
-           <span className="font-pixel text-[10px]">8-BIT SECURE</span>
-           <span className="font-pixel text-[10px]">COMMUNITY FIRST</span>
+           <span className="font-pixel text-[10px]">PIX AUTOMÁTICO</span>
+           <span className="font-pixel text-[10px]">ENTREGA IMEDIATA</span>
+           <span className="font-pixel text-[10px]">SUPORTE 24H</span>
         </div>
       </section>
 
@@ -117,7 +118,7 @@ function Index() {
       <section id="features" className="py-24 bg-black/20 border-y-4 border-primary/20">
         <div className="container mx-auto px-4">
           <div className="mb-20 text-center">
-            <h2 className="font-pixel text-2xl md:text-4xl text-primary mb-6">RECURSOS LENDÁRIOS</h2>
+            <h2 className="font-pixel text-2xl md:text-4xl text-primary mb-6">POR QUE NOS ESCOLHER?</h2>
             <div className="h-1 w-24 bg-accent mx-auto" />
           </div>
           
@@ -177,20 +178,20 @@ function Index() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="font-pixel text-2xl md:text-4xl text-primary mb-6">PLANO DE BATALHA</h2>
-              <p className="font-retro text-2xl text-muted-foreground">Investimento único para poder infinito.</p>
+              <h2 className="font-pixel text-2xl md:text-4xl text-primary mb-6">ESCOLHA SEU PLANO</h2>
+              <p className="font-retro text-2xl text-muted-foreground">Acesso imediato para começar a criar hoje.</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8 items-stretch">
               {[
-                { tier: "BASIC", price: "R$ 49", features: ["1 Mês de acesso", "Updates semanais", "Suporte via Discord"] },
-                { tier: "ADVANCED", price: "R$ 99", popular: true, features: ["3 Meses de acesso", "Suporte VIP", "Acesso ao Beta", "Script customizados"] },
-                { tier: "LIFETIME", price: "R$ 349", features: ["Acesso Vitalício", "Tudo do Advanced", "Tag de Fundador", "Consultoria 1v1"] },
+                { tier: "TESTE", price: "R$ 5", features: ["5 Minutos de teste", "Uso ilimitado no tempo", "Entrega instantânea"] },
+                { tier: "START", price: "R$ 2", features: ["15 Minutos de uso", "Acesso total", "Suporte básico"] },
+                { tier: "POWER", price: "R$ 10", features: ["1 Hora de uso", "Sem limites de prompts", "Suporte prioritário"] },
               ].map((p, i) => (
-                <div key={i} className={`pixel-card flex flex-col p-8 ${p.popular ? "border-accent shadow-[0_0_30px_rgba(233,69,96,0.3)] bg-black/60 scale-105 z-10" : "bg-black/40"}`}>
-                  {p.popular && (
+                <div key={i} className={`pixel-card flex flex-col p-8 ${i === 1 ? "border-accent shadow-[0_0_30px_rgba(233,69,96,0.3)] bg-black/60 scale-105 z-10" : "bg-black/40"}`}>
+                  {i === 1 && (
                     <div className="bg-accent text-white font-pixel text-[8px] py-1 px-4 self-center -mt-11 mb-6 border-2 border-white">
-                      RECOMENDADO
+                      MAIS POPULAR
                     </div>
                   )}
                   <div className="text-center mb-8">
@@ -210,6 +211,30 @@ function Index() {
                   </button>
                 </div>
               ))}
+            <div className="grid md:grid-cols-3 gap-8 items-stretch mt-12">
+              {[
+                { tier: "DAILY", price: "R$ 35", features: ["1 Dia de acesso", "Suporte 24h", "Uso ilimitado"] },
+                { tier: "MONTHLY", price: "R$ 150", features: ["30 Dias de acesso", "Updates garantidos", "Melhor custo-benefício"] },
+                { tier: "LIFETIME", price: "R$ 350", features: ["Acesso Vitalício", "Tudo liberado", "Tag VIP Permanente"] },
+              ].map((p, i) => (
+                <div key={i} className="pixel-card flex flex-col p-8 bg-black/40">
+                  <div className="text-center mb-8">
+                    <span className="font-pixel text-[10px] text-muted-foreground block mb-2">{p.tier}</span>
+                    <span className="font-pixel text-3xl text-primary block">{p.price}</span>
+                  </div>
+                  <ul className="space-y-4 mb-10 flex-grow">
+                    {p.features.map((f, j) => (
+                      <li key={j} className="flex items-start gap-3 font-retro text-xl text-muted-foreground">
+                        <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <button className="w-full pixel-btn py-4 font-pixel text-[10px] bg-primary text-white">
+                    COMPRAR AGORA
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -218,13 +243,13 @@ function Index() {
       {/* FAQ */}
       <section id="faq" className="py-24 bg-black/10 border-t-4 border-primary/20">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="font-pixel text-2xl md:text-4xl text-center mb-20 text-primary">TERMINAL DE DÚVIDAS</h2>
+          <h2 className="font-pixel text-2xl md:text-4xl text-center mb-20 text-primary">PERGUNTAS FREQUENTES</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {[
-              { q: "É BANÍVEL?", a: "Nossa extensão utiliza métodos que mimetizam o comportamento humano. Até hoje, zero casos de banimento." },
-              { q: "COMO INSTALAR?", a: "Após a compra, você recebe um link para baixar o arquivo .zip e um tutorial em vídeo de 2 minutos." },
-              { q: "PRECISO DE API KEY?", a: "Não! O GUTO funciona diretamente na interface do Lovable, sem necessidade de chaves externas." },
-              { q: "TEM REEMBOLSO?", a: "Sim, oferecemos 7 dias de garantia incondicional se a ferramenta não funcionar como prometido." },
+              { q: "COMO FUNCIONA?", a: "Você compra uma key, ativa e pronto! Seus prompts no Lovable não gastam mais seus créditos." },
+              { q: "O TESTE É GRÁTIS?", a: "Temos o plano de 5 reais para teste de 5 minutos, ideal para você ver que realmente funciona." },
+              { q: "ENTREGA É RÁPIDA?", a: "Sim! Pagamento via PIX libera sua KEY instantaneamente no seu e-mail." },
+              { q: "TEM SUPORTE?", a: "Sim, temos um canal exclusivo para clientes no Discord para ajudar com qualquer configuração." },
             ].map((item, i) => (
               <div key={i} className="pixel-card p-8 bg-black/30 border-primary/30">
                 <h3 className="font-pixel text-[10px] text-accent mb-4">TERMINAL &gt; {item.q}</h3>
@@ -239,9 +264,9 @@ function Index() {
       <section className="py-24 text-center">
         <div className="container mx-auto px-4">
           <div className="pixel-card max-w-5xl mx-auto p-12 bg-gradient-to-br from-primary/20 to-accent/20">
-            <h2 className="font-pixel text-2xl md:text-5xl text-white mb-10">PRONTO PARA O PRÓXIMO NÍVEL?</h2>
+            <h2 className="font-pixel text-2xl md:text-5xl text-white mb-10">VIVA O PODER INFINITO</h2>
             <button className="pixel-btn bg-white text-black px-12 py-6 font-pixel text-sm hover:bg-primary hover:text-white transition-colors">
-              INICIAR JORNADA AGORA
+              PEGAR MINHA KEY AGORA
             </button>
           </div>
         </div>
@@ -253,11 +278,11 @@ function Index() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-primary border-2 border-white flex items-center justify-center">
-                 <span className="font-pixel text-white text-xl">G</span>
+                 <span className="font-pixel text-white text-xl">L</span>
               </div>
               <div>
-                <span className="font-pixel text-lg text-primary block">GUTO</span>
-                <span className="font-retro text-xl text-muted-foreground">PIXEL POWER SINCE 2024</span>
+                <span className="font-pixel text-lg text-primary block">Lovable Keys</span>
+                <span className="font-retro text-xl text-muted-foreground">CRÉDITOS INFINITOS</span>
               </div>
             </div>
             <div className="flex gap-8 font-retro text-2xl">
@@ -267,7 +292,7 @@ function Index() {
             </div>
           </div>
           <div className="text-center font-retro text-xl text-muted-foreground/60 border-t border-white/10 pt-8">
-            © 2026 GUTO EXTENSION · TODOS OS DIREITOS RESERVADOS · MADE WITH PIXELS
+            © 2026 Lovable Keys · TODOS OS DIREITOS RESERVADOS
           </div>
         </div>
       </footer>
