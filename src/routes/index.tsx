@@ -182,41 +182,14 @@ function Index() {
               <p className="font-retro text-2xl text-muted-foreground">Acesso imediato para começar a criar hoje.</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 items-stretch">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
               {[
                 { tier: "TESTE", price: "R$ 5", features: ["5 Minutos de teste", "Uso ilimitado no tempo", "Entrega instantânea"] },
-                { tier: "START", price: "R$ 2", features: ["15 Minutos de uso", "Acesso total", "Suporte básico"] },
-                { tier: "POWER", price: "R$ 10", features: ["1 Hora de uso", "Sem limites de prompts", "Suporte prioritário"] },
-              ].map((p, i) => (
-                <div key={i} className={`pixel-card flex flex-col p-8 ${i === 1 ? "border-accent shadow-[0_0_30px_rgba(233,69,96,0.3)] bg-black/60 scale-105 z-10" : "bg-black/40"}`}>
-                  {i === 1 && (
-                    <div className="bg-accent text-white font-pixel text-[8px] py-1 px-4 self-center -mt-11 mb-6 border-2 border-white">
-                      MAIS POPULAR
-                    </div>
-                  )}
-                  <div className="text-center mb-8">
-                    <span className="font-pixel text-[10px] text-muted-foreground block mb-2">{p.tier}</span>
-                    <span className="font-pixel text-3xl text-primary block">{p.price}</span>
-                  </div>
-                  <ul className="space-y-4 mb-10 flex-grow">
-                    {p.features.map((f, j) => (
-                      <li key={j} className="flex items-start gap-3 font-retro text-xl text-muted-foreground">
-                        <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button className="w-full pixel-btn py-4 font-pixel text-[10px] bg-primary text-white">
-                    SELECIONAR
-                  </button>
-                </div>
-              ))}
-            </div>
-            <div className="grid md:grid-cols-3 gap-8 items-stretch mt-12">
-              {[
-                { tier: "DAILY", price: "R$ 35", features: ["1 Dia de acesso", "Suporte 24h", "Uso ilimitado"] },
-                { tier: "MONTHLY", price: "R$ 150", features: ["30 Dias de acesso", "Updates garantidos", "Melhor custo-benefício"] },
-                { tier: "LIFETIME", price: "R$ 350", features: ["Acesso Vitalício", "Tudo liberado", "Tag VIP Permanente"] },
+                { tier: "ANÚNCIO 1", price: "R$ 2", features: ["15 Minutos de uso", "Acesso total", "Suporte básico"] },
+                { tier: "ANÚNCIO 2", price: "R$ 10", features: ["1 Hora de uso", "Sem limites de prompts", "Suporte prioritário"] },
+                { tier: "ANÚNCIO 3", price: "R$ 35", features: ["1 Dia de acesso", "Suporte 24h", "Uso ilimitado"] },
+                { tier: "ANÚNCIO 4", price: "R$ 150", features: ["30 Dias de acesso", "Updates garantidos", "Melhor custo-benefício"] },
+                { tier: "ANÚNCIO 5", price: "R$ 350", features: ["Acesso Vitalício", "Tudo liberado", "Tag VIP Permanente"] },
               ].map((p, i) => (
                 <div key={i} className="pixel-card flex flex-col p-8 bg-black/40">
                   <div className="text-center mb-8">
