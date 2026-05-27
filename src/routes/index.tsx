@@ -85,72 +85,77 @@ const PLANS: Plan[] = [
   {
     id: "5min",
     priceId: "price_5min",
-    name: "Teste Rápido",
-    price: "R$ 5",
+    name: "Guto Pingo - 5 Minutos (Teste)",
+    price: "R$ 5,00",
     priceNote: "pagamento único",
     duration: "5 Minutos",
     icon: <Timer size={20} />,
     color: "#7c3aed",
-    features: ["Prompts ilimitados", "Acesso completo", "Sem mensalidade"],
+    features: ["Acesso de 5 minutos", "Teste a ferramenta", "SaaS - Business Use"],
   },
+
   {
     id: "1day",
     priceId: "price_1day",
-    name: "Diário",
-    price: "R$ 20",
-    priceNote: "por dia",
+    name: "Guto Pingo - 1 Dia",
+    price: "R$ 20,00",
+    priceNote: "SaaS - Business Use",
     duration: "1 Dia",
     icon: <Clock size={20} />,
     color: "#6d28d9",
-    features: ["Prompts ilimitados", "Acesso premium", "Suporte básico"],
+    features: ["Acesso de 1 dia", "Tudo liberado", "Suporte básico"],
   },
+
   {
     id: "1week",
     priceId: "price_1week",
-    name: "Semanal",
-    price: "R$ 45",
-    priceNote: "por semana",
+    name: "Guto Pingo - 1 Semana",
+    price: "R$ 45,00",
+    priceNote: "SaaS - Business Use",
     duration: "1 Semana",
     icon: <Zap size={20} />,
     color: "#5b21b6",
-    features: ["Prompts ilimitados", "Acesso premium", "Suporte prioritário"],
+    features: ["Acesso de 1 semana", "Melhor custo x benefício", "Suporte prioritário"],
   },
+
   {
     id: "30days",
     priceId: "price_30days",
-    name: "Mensal",
-    price: "R$ 100",
-    priceNote: "por mês",
+    name: "Guto Pingo - 30 Dias",
+    price: "R$ 100,00",
+    priceNote: "SaaS - Business Use",
     duration: "30 Dias",
     icon: <Globe size={20} />,
     color: "#4c1d95",
     features: [
-      "Prompts ilimitados",
-      "Acesso premium",
+      "Acesso de 30 dias",
+      "Ideal para profissionais",
       "Suporte VIP",
       "Discord exclusivo",
     ],
   },
+
   {
     id: "lifetime",
     priceId: "price_lifetime",
-    name: "Vitalício",
+    name: "Guto Pingo - Vitalício (PROMO)",
     price: "R$ 169,99",
-    priceNote: "único",
+    priceNote: "SaaS - Business Use",
     duration: "Para sempre",
     icon: <Infinity size={20} />,
     featured: true,
     badge: "🔥 PROMOÇÃO LIMITADA",
     color: "#7c3aed",
     features: [
-      "Prompts ilimitados",
       "Acesso vitalício",
+      "Pagamento único",
       "Suporte VIP lifetime",
       "Discord exclusivo",
       "Atualizações grátis",
       "Prioridade máxima",
     ],
   },
+
 ];
 
 
@@ -311,8 +316,9 @@ function Index() {
             className="pixel-btn bg-white text-black px-10 py-5 font-pixel text-sm flex items-center justify-center gap-3"
           >
             <Copy className="w-5 h-5" /> 
-            TESTE GRÁTIS
+            TESTAR AGORA (R$5)
           </button>
+
         </div>
 
 
@@ -430,11 +436,9 @@ function Index() {
                   )}
                   <div className="text-center mb-8">
                     <span className="font-pixel text-[10px] text-muted-foreground block mb-2">{p.name}</span>
-                    {p.priceNote && (
-                      <span className="font-pixel text-[8px] text-muted-foreground line-through block mb-1">{p.priceNote}</span>
-                    )}
                     <span className="font-pixel text-2xl text-primary block">{p.price}</span>
                   </div>
+
                   <ul className="space-y-4 mb-10 flex-grow">
                     {p.features.map((f, j) => (
                       <li key={j} className="flex items-start gap-3 font-retro text-xl text-muted-foreground">
