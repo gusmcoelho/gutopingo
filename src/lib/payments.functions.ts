@@ -11,8 +11,9 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
     const { priceId } = data;
     
     try {
-      // Force live mode and double check key configuration
+      console.log("DEBUG: createCheckoutSession called for priceId:", priceId);
       const env = 'live';
+      console.log("DEBUG: Using Stripe env:", env);
       const stripe = createStripeClient(env);
       
       // In a server function, we can't use window.location.origin
