@@ -495,8 +495,10 @@ export default function GutoPingoPage() {
     try {
       setLoadingCheckout(priceId);
       const result = await createCheckoutSession({ data: { priceId } });
-      if (result.checkoutUrl) {
+      if (result && 'checkoutUrl' in result && result.checkoutUrl) {
         window.location.href = result.checkoutUrl;
+      } else if (result && 'error' in result) {
+        alert(`Erro: ${result.error}`);
       }
     } catch (err) {
       console.error("Checkout error:", err);

@@ -15,7 +15,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       const env = process.env.NODE_ENV === 'production' ? 'live' : 'sandbox';
       const stripe = createStripeClient(env);
       
-      const baseUrl = process.env.APP_URL || 'https://gutopingo.lovable.app';
+      const baseUrl = process.env.APP_URL || window.location.origin;
 
       const session = await stripe.checkout.sessions.create({
         line_items: [{ price: priceId, quantity: 1 }],
@@ -28,6 +28,10 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
           priceId
         }
       });
+
+      if (!session.url) {
+        throw new Error("Stripe session URL is missing");
+      }
 
       return { checkoutUrl: session.url };
     } catch (error) {
