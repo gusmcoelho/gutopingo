@@ -35,10 +35,10 @@ function Index() {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3 group cursor-pointer">
             <div className="w-10 h-10 bg-primary border-2 border-white flex items-center justify-center relative overflow-hidden">
-               <span className="font-pixel text-white text-lg">L</span>
+               <span className="font-pixel text-white text-lg">G</span>
                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <span className="font-pixel text-xl text-primary tracking-tighter uppercase">Lovable<span className="text-accent">.</span>Keys</span>
+            <span className="font-pixel text-xl text-primary tracking-tighter uppercase">GUTO<span className="text-accent">.</span>PINGO</span>
 
           </div>
           <div className="hidden md:flex gap-8 items-center font-retro text-2xl uppercase">
@@ -79,9 +79,7 @@ function Index() {
           <div className="float glow relative z-10 p-4 border-4 border-primary bg-card/80">
             <div className="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center bg-muted/50 overflow-hidden relative">
               <Gamepad2 className="w-24 h-24 text-primary/40 absolute animate-pulse" />
-              <div className="font-pixel text-primary text-xs text-center p-4">
-                LOVABLE KEYS<br/>CRÉDITOS INFINITOS
-              </div>
+              <img src="https://lovable-uploads.s3.us-west-2.amazonaws.com/13593003-8839-4467-84ec-607212456041.png" alt="Penguin Pixel Art" className="w-full h-full object-cover" />
             </div>
           </div>
           <div className="absolute -bottom-6 -right-6 w-16 h-16 border-4 border-accent bg-accent/20 backdrop-blur animate-spin-slow" />
@@ -162,8 +160,8 @@ function Index() {
               },
             ].map((f, i) => (
               <div key={i} className="pixel-card p-8 group hover:-translate-y-2 transition-transform duration-300">
-                <div className={`w-14 h-14 mb-6 border-2 border-white flex items-center justify-center bg-black/40 group-hover:rotate-12 transition-transform`}>
-                  <f.icon className={`w-8 h-8 ${f.color}`} />
+                <div className={`w-14 h-14 mb-6 border-2 border-white flex items-center justify-center bg-black/40 group-hover:rotate-12 transition-transform overflow-hidden`}>
+                  <img src="https://lovable-uploads.s3.us-west-2.amazonaws.com/13593003-8839-4467-84ec-607212456041.png" alt="Penguin Icon" className="w-full h-full object-cover" />
                 </div>
                 <h3 className="font-pixel text-xs mb-4 text-white group-hover:text-primary transition-colors">{f.title}</h3>
                 <p className="font-retro text-2xl text-muted-foreground leading-snug">{f.desc}</p>
@@ -251,11 +249,11 @@ function Index() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-primary border-2 border-white flex items-center justify-center">
-                 <span className="font-pixel text-white text-xl">L</span>
+              <div className="w-12 h-12 bg-primary border-2 border-white flex items-center justify-center overflow-hidden">
+                 <img src="https://lovable-uploads.s3.us-west-2.amazonaws.com/13593003-8839-4467-84ec-607212456041.png" alt="Guto Pingo Logo" className="w-full h-full object-cover" />
               </div>
               <div>
-                <span className="font-pixel text-lg text-primary block">Lovable Keys</span>
+                <span className="font-pixel text-lg text-primary block">GUTO PINGO</span>
                 <span className="font-retro text-xl text-muted-foreground">CRÉDITOS INFINITOS</span>
               </div>
             </div>
@@ -266,7 +264,7 @@ function Index() {
             </div>
           </div>
           <div className="text-center font-retro text-xl text-muted-foreground/60 border-t border-white/10 pt-8">
-            © 2026 Lovable Keys · TODOS OS DIREITOS RESERVADOS
+            © 2026 Guto Pingo · TODOS OS DIREITOS RESERVADOS
           </div>
         </div>
       </footer>
