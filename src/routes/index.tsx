@@ -109,14 +109,15 @@ const PLANS: Plan[] = [
   {
     id: "1week",
     priceId: "price_1week",
-    name: "Semanal",
-    price: "R$ 45",
-    priceNote: "por semana",
+    name: "Guto Pingo - 1 Semana",
+    price: "R$ 45,00",
+    priceNote: "SaaS - Business Use",
     duration: "1 Semana",
     icon: <Zap size={20} />,
     color: "#5b21b6",
-    features: ["Prompts ilimitados", "Acesso premium", "Suporte prioritário"],
+    features: ["Acesso de 1 semana", "Melhor custo x benefício", "Suporte prioritário"],
   },
+
   {
     id: "30days",
     priceId: "price_30days",
