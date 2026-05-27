@@ -1,7 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Check, Zap, Shield, Coins, Sparkles, Download, ExternalLink, MessageSquare, Gamepad2, MousePointer2, User } from "lucide-react";
+import { Check, Zap, Shield, Coins, Sparkles, Download, ExternalLink, MessageSquare, Gamepad2, MousePointer2, User, Key, Clock, Copy } from "lucide-react";
+import { createCheckoutSession } from "@/lib/payments.functions";
+import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -9,18 +12,67 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [user, setUser] = useState<any>(null);
+  const [licenseKeys, setLicenseKeys] = useState<any[]>([]);
+  const [loadingKeys, setLoadingKeys] = useState(false);
+  const [isBuying, setIsBuying] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const search = useSearch({ from: "/" }) as any;
+  const startCheckout = useServerFn(createCheckoutSession);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
+      if (session?.user) fetchUserKeys(session.user.id);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      if (session?.user) fetchUserKeys(session.user.id);
+      else setLicenseKeys([]);
     });
 
+    if (search.success) {
+      toast.success("Pagamento realizado com sucesso! Sua key aparecerá abaixo.");
+    }
+
     return () => subscription.unsubscribe();
-  }, []);
+  }, [search.success]);
+
+  const fetchUserKeys = async (userId: string) => {
+    setLoadingKeys(true);
+    const { data, error } = await supabase
+      .from("license_keys")
+      .select("*")
+      .order("created_at", { ascending: false });
+    
+    if (!error) setLicenseKeys(data || []);
+    setLoadingKeys(false);
+  };
+
+  const handleBuy = async (priceId: string) => {
+    if (!user) {
+      navigate({ to: "/auth" });
+      return;
+    }
+
+    setIsBuying(priceId);
+    try {
+      const result = await startCheckout({ data: { priceId } });
+      if (result.checkoutUrl) {
+        window.location.href = result.checkoutUrl;
+      }
+    } catch (err: any) {
+      toast.error("Erro ao iniciar pagamento.");
+      console.error(err);
+    } finally {
+      setIsBuying(null);
+    }
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copiado!");
+  };
   return (
     <div className="min-h-screen text-foreground scanlines relative overflow-hidden bg-[#1a0f2e]">
       {/* Background Decor */}
@@ -99,10 +151,13 @@ function Index() {
             <Zap className="w-5 h-5 group-hover:scale-125 transition-transform" /> 
             COMPRAR MINHA KEY
           </a>
-          <a href="#pricing" className="pixel-btn bg-white text-black px-10 py-5 font-pixel text-sm flex items-center justify-center gap-3">
+          <button 
+            onClick={() => handleBuy('guto_pingo_5min_v4')}
+            className="pixel-btn bg-white text-black px-10 py-5 font-pixel text-sm flex items-center justify-center gap-3"
+          >
             <MousePointer2 className="w-5 h-5" /> 
             TESTE GRÁTIS
-          </a>
+          </button>
         </div>
 
         <div className="mt-16 flex items-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
@@ -111,6 +166,52 @@ function Index() {
            <span className="font-pixel text-[10px]">SUPORTE 24H</span>
         </div>
       </section>
+      
+      {/* User Dashboard / Keys Section */}
+      {user && (
+        <section id="dashboard" className="py-12 bg-primary/5 border-y-2 border-primary/10">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="font-pixel text-lg text-primary mb-8 flex items-center gap-3">
+                <Key className="w-6 h-6" /> SUAS KEYS ATIVAS
+              </h2>
+              
+              <div className="grid gap-4">
+                {licenseKeys.length > 0 ? (
+                  licenseKeys.map((k) => (
+                    <div key={k.id} className="pixel-card bg-black/40 p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 bg-primary/20 flex items-center justify-center border-2 border-primary">
+                          <Clock className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="font-pixel text-[10px] text-muted-foreground uppercase">{k.duration === 'lifetime' ? 'VITALÍCIO' : `DURAÇÃO: ${k.duration}`}</p>
+                          <p className="font-retro text-2xl text-white font-mono tracking-wider">{k.key}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {k.expires_at && (
+                          <span className="font-retro text-lg text-accent">Expira em: {new Date(k.expires_at).toLocaleDateString()}</span>
+                        )}
+                        <button 
+                          onClick={() => copyToClipboard(k.key)}
+                          className="pixel-btn bg-white text-black p-3 hover:bg-primary hover:text-white transition-colors"
+                        >
+                          <Copy className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="pixel-card bg-black/20 border-dashed border-primary/30 p-12 text-center">
+                    <p className="font-retro text-2xl text-muted-foreground">Você ainda não possui keys. Compre uma abaixo!</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Features Grid */}
       <section id="features" className="py-24 bg-black/20 border-y-4 border-primary/20">
@@ -225,18 +326,11 @@ function Index() {
                     ))}
                   </ul>
                   <button 
-                    onClick={() => {
-                      // @ts-ignore
-                      if (window.openCheckout) {
-                        // @ts-ignore
-                        window.openCheckout({ priceId: p.priceId });
-                      } else {
-                        console.error("Checkout not implemented yet");
-                      }
-                    }}
-                    className={`w-full pixel-btn py-4 font-pixel text-[10px] ${p.promo ? "bg-accent text-white" : "bg-primary text-white"}`}
+                    disabled={isBuying === p.priceId}
+                    onClick={() => handleBuy(p.priceId)}
+                    className={`w-full pixel-btn py-4 font-pixel text-[10px] ${p.promo ? "bg-accent text-white" : "bg-primary text-white"} disabled:opacity-50`}
                   >
-                    COMPRAR AGORA
+                    {isBuying === p.priceId ? "PROCESSANDO..." : "COMPRAR AGORA"}
                   </button>
                 </div>
               ))}
