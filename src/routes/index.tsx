@@ -281,11 +281,17 @@ function Index() {
         </div>
 
 
-        <div className="mt-16 flex items-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-           <span className="font-pixel text-[10px]">PIX AUTOMÁTICO</span>
-           <span className="font-pixel text-[10px]">ENTREGA IMEDIATA</span>
-           <span className="font-pixel text-[10px]">SUPORTE 24H</span>
+        <div className="relative mb-12">
+          <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
+          <div className="float glow relative z-10 p-4 border-4 border-primary bg-card/80">
+            <div className="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center bg-muted/50 overflow-hidden relative">
+              <Zap className="w-24 h-24 text-primary/40 absolute animate-pulse" />
+              <img src="https://lovable-uploads.s3.us-west-2.amazonaws.com/13593003-8839-4467-84ec-607212456041.png" alt="Penguin Pixel Art" className="w-full h-full object-cover" />
+            </div>
+          </div>
+          <div className="absolute -bottom-6 -right-6 w-16 h-16 border-4 border-accent bg-accent/20 backdrop-blur animate-spin-slow" />
         </div>
+
       </section>
       
       {/* User Dashboard / Keys Section */}
