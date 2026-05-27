@@ -85,14 +85,15 @@ const PLANS: Plan[] = [
   {
     id: "5min",
     priceId: "price_5min",
-    name: "Teste Rápido",
-    price: "R$ 5",
+    name: "Guto Pingo - 5 Minutos (Teste)",
+    price: "R$ 5,00",
     priceNote: "pagamento único",
     duration: "5 Minutos",
     icon: <Timer size={20} />,
     color: "#7c3aed",
-    features: ["Prompts ilimitados", "Acesso completo", "Sem mensalidade"],
+    features: ["Acesso de 5 minutos", "Teste a ferramenta", "SaaS - Business Use"],
   },
+
   {
     id: "1day",
     priceId: "price_1day",
