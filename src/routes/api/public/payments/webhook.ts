@@ -61,7 +61,7 @@ async function handleWebhook(req: Request, env: StripeEnv) {
     if (error) {
       console.error('Erro ao inserir license_key:', error);
     } else {
-      console.log(`Key gerada para usuário ${userId}: ${licenseKey}`);
+      console.log(`License key successfully generated for user ${userId}`);
     }
   }
 }
