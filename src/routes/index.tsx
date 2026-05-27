@@ -32,7 +32,13 @@ function Index() {
     });
 
     if (search.success) {
-      toast.success("Pagamento realizado com sucesso! Sua key aparecerá abaixo.");
+      toast.success("Pagamento realizado com sucesso! Sua key aparecerá abaixo em instantes.");
+      // Tenta buscar as chaves após um pequeno delay para o webhook processar
+      setTimeout(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+          if (session?.user) fetchUserKeys(session.user.id);
+        });
+      }, 3000);
     }
 
     return () => subscription.unsubscribe();
