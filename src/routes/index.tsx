@@ -436,11 +436,9 @@ function Index() {
                   )}
                   <div className="text-center mb-8">
                     <span className="font-pixel text-[10px] text-muted-foreground block mb-2">{p.name}</span>
-                    {p.priceNote && (
-                      <span className="font-pixel text-[8px] text-muted-foreground line-through block mb-1">{p.priceNote}</span>
-                    )}
                     <span className="font-pixel text-2xl text-primary block">{p.price}</span>
                   </div>
+
                   <ul className="space-y-4 mb-10 flex-grow">
                     {p.features.map((f, j) => (
                       <li key={j} className="flex items-start gap-3 font-retro text-xl text-muted-foreground">
