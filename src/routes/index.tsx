@@ -290,7 +290,29 @@ function Index() {
             </div>
           </div>
           <div className="absolute -bottom-6 -right-6 w-16 h-16 border-4 border-accent bg-accent/20 backdrop-blur animate-spin-slow" />
+        <h1 className="font-pixel text-3xl md:text-6xl mb-8 leading-tight text-primary" style={{ textShadow: "4px 4px 0px rgba(0,0,0,0.5), 8px 8px 0px oklch(0.3 0.2 320)" }}>
+          GUTO PINGO<br />CRÉDITOS<br />ILIMITADOS
+        </h1>
+
+        <p className="font-retro text-2xl md:text-4xl max-w-3xl mx-auto mb-12 text-muted-foreground leading-relaxed">
+          O Guto Pingo é uma extensão que abre um painel exclusivo dentro do Lovable. <br className="hidden md:block" />
+          Digite seus prompts por ele e crie sem gastar nenhum crédito da sua conta.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-6 justify-center w-full max-w-lg">
+          <a href="#pricing" className="pixel-btn bg-primary text-primary-foreground px-10 py-5 font-pixel text-sm flex items-center justify-center gap-3 group">
+            <Zap className="w-5 h-5 group-hover:scale-125 transition-transform" /> 
+            COMPRAR MINHA KEY
+          </a>
+          <button 
+            onClick={() => handleBuy('price_5min')}
+            className="pixel-btn bg-white text-black px-10 py-5 font-pixel text-sm flex items-center justify-center gap-3"
+          >
+            <Copy className="w-5 h-5" /> 
+            TESTE GRÁTIS
+          </button>
         </div>
+
 
       </section>
       
