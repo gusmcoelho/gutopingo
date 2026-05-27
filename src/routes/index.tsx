@@ -78,65 +78,53 @@ const MOCK_KEYS: LicenseKey[] = [
 
 const PLANS: Plan[] = [
   {
-    id: "5min",
-    priceId: "price_5min",
-    name: "Teste Rápido",
-    price: "R$ 0",
-    priceNote: "grátis",
-    duration: "5 Minutos",
-    icon: <Timer size={20} />,
-    color: "#7c3aed",
-    features: ["Prompts ilimitados", "Acesso completo", "Sem cartão"],
-  },
-  {
     id: "1day",
     priceId: "price_1day",
-    name: "Diário",
-    price: "R$ 4,90",
-    priceNote: "por dia",
+    name: "Guto Pingo - 1 Dia",
+    price: "R$ 20.00",
+    priceNote: "acesso imediato",
     duration: "1 Dia",
     icon: <Clock size={20} />,
     color: "#6d28d9",
-    features: ["Prompts ilimitados", "Acesso premium", "Suporte básico"],
+    features: ["Acesso de 1 dia", "Software as a service", "Business use"],
   },
   {
     id: "1week",
     priceId: "price_1week",
-    name: "Semanal",
-    price: "R$ 19,90",
-    priceNote: "por semana",
+    name: "Guto Pingo - 1 Semana",
+    price: "R$ 45.00",
+    priceNote: "acesso imediato",
     duration: "1 Semana",
     icon: <Zap size={20} />,
     color: "#5b21b6",
-    features: ["Prompts ilimitados", "Acesso premium", "Suporte prioritário"],
+    features: ["Acesso de 1 semana", "Software as a service", "Business use"],
   },
   {
     id: "30days",
     priceId: "price_30days",
-    name: "Mensal",
-    price: "R$ 49,90",
-    priceNote: "por mês",
+    name: "Guto Pingo - 30 Dias",
+    price: "R$ 100.00",
+    priceNote: "acesso imediato",
     duration: "30 Dias",
     icon: <Globe size={20} />,
     color: "#4c1d95",
-    features: ["Prompts ilimitados", "Acesso premium", "Suporte VIP", "Discord exclusivo"],
+    features: ["Acesso de 30 dias", "Software as a service", "Business use"],
   },
   {
     id: "lifetime",
     priceId: "price_lifetime",
-    name: "Vitalício",
-    price: "R$ 197",
-    priceNote: "único",
+    name: "Guto Pingo - Vitalício",
+    price: "R$ 169.99",
+    priceNote: "PROMOÇÃO",
     duration: "Para sempre",
     icon: <Infinity size={20} />,
     featured: true,
-    badge: "🔥 MELHOR OFERTA",
+    badge: "🔥 PROMO LIMITADA",
     color: "#7c3aed",
     features: [
-      "Prompts ilimitados",
       "Acesso vitalício",
-      "Suporte VIP lifetime",
-      "Discord exclusivo",
+      "Software as a service",
+      "Business use",
       "Atualizações grátis",
       "Prioridade máxima",
     ],
@@ -1041,7 +1029,9 @@ export default function GutoPingoPage() {
               <Key size={16} /> COMPRAR KEY
             </a>
             <a
-              href="#pricing"
+              href="https://wa.me/seunumerowhatsapp"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 padding: "16px 36px",
                 background: "transparent",
@@ -1057,7 +1047,7 @@ export default function GutoPingoPage() {
                 gap: 8,
               }}
             >
-              <Gift size={16} /> TESTE GRÁTIS
+              <Lock size={16} /> SUPORTE
             </a>
           </div>
 
@@ -1307,9 +1297,9 @@ export default function GutoPingoPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
               gap: 20,
-              alignItems: "center",
+              alignItems: "stretch",
             }}
           >
             {PLANS.map((plan) => (
