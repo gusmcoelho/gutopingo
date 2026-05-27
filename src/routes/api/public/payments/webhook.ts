@@ -2,11 +2,12 @@ import { createFileRoute } from '@tanstack/react-router';
 import { createClient } from '@supabase/supabase-js';
 import { type StripeEnv, verifyWebhook } from '@/lib/stripe.server';
 import crypto from 'crypto';
+import { Database } from '@/integrations/supabase/types';
 
-let _supabase: ReturnType<typeof createClient> | null = null;
+let _supabase: ReturnType<typeof createClient<Database>> | null = null;
 function getSupabase() {
   if (!_supabase) {
-    _supabase = createClient(
+    _supabase = createClient<Database>(
       process.env.SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     );
@@ -27,14 +28,12 @@ async function handleWebhook(req: Request, env: StripeEnv) {
       return;
     }
 
-    // Mapeamento de Price IDs reais configurados anteriormente
     const durationMap: Record<string, string> = {
       'price_test': '5min',
       'price_1day': '1d',
       'price_1week': '7d',
       'price_30days': '30d',
       'price_lifetime': 'lifetime',
-      // Fallbacks para os IDs que estavam no webhook antigo
       'guto_pingo_5min_v4': '5min',
       'guto_pingo_1dia_v4': '1d',
       'guto_pingo_1semana_v4': '7d',
