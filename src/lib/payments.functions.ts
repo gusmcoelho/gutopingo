@@ -3,9 +3,25 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { createStripeClient, getStripeErrorMessage } from "@/lib/stripe.server";
 
+const ALLOWED_PRICE_IDS = new Set([
+  "price_1TbXLaDgmvJ4Q2O6idYoTXFJ",
+  "price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v",
+  "price_1TbXLZDgmvJ4Q2O66me1RzwB",
+  "price_1TbXLYDgmvJ4Q2O6YrA9zxs3",
+  "price_1TbXLYDgmvJ4Q2O61rlPDyRk",
+]);
+
 export const createCheckoutSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data) => z.object({ priceId: z.string() }).parse(data))
+  .inputValidator((data) =>
+    z
+      .object({
+        priceId: z
+          .string()
+          .refine((id) => ALLOWED_PRICE_IDS.has(id), { message: "Invalid price ID" }),
+      })
+      .parse(data),
+  )
   .handler(async ({ data, context }) => {
     const { userId } = context;
     const { priceId } = data;
