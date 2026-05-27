@@ -290,7 +290,9 @@ function Index() {
             </div>
           </div>
           <div className="absolute -bottom-6 -right-6 w-16 h-16 border-4 border-accent bg-accent/20 backdrop-blur animate-spin-slow" />
+        </div>
         <h1 className="font-pixel text-3xl md:text-6xl mb-8 leading-tight text-primary" style={{ textShadow: "4px 4px 0px rgba(0,0,0,0.5), 8px 8px 0px oklch(0.3 0.2 320)" }}>
+
           GUTO PINGO<br />CRÉDITOS<br />ILIMITADOS
         </h1>
 
