@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import {
   Zap,
@@ -20,6 +20,11 @@ import {
   LogOut,
   User,
   Loader2,
+  FileDown,
+  Monitor,
+  Settings,
+  Puzzle,
+  RefreshCw,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { createCheckoutSession } from "@/lib/payments.functions";
@@ -616,14 +621,64 @@ export default function GutoPingoPage() {
           </div>
 
           {licenseKeys.length > 0 ? (
-            <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+            <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", marginBottom: 64 }}>
               {licenseKeys.map((k) => <KeyCard key={k.id} licKey={k} />)}
             </div>
           ) : (
-            <div style={{ textAlign: "center", padding: "40px", background: "rgba(124,58,237,0.05)", border: "2px dashed #4c1d95", color: "#7c3aed" }}>
+            <div style={{ textAlign: "center", padding: "40px", background: "rgba(124,58,237,0.05)", border: "2px dashed #4c1d95", color: "#7c3aed", marginBottom: 64 }}>
               Você ainda não possui nenhuma key ativa. Escolha um plano abaixo!
             </div>
           )}
+
+          {/* Tutorial Section */}
+          <div style={{ background: "rgba(30,10,60,0.6)", border: "2px solid #4c1d95", padding: "40px", position: "relative" }}>
+            <div style={{ position: "absolute", top: -14, left: 24, background: "#7c3aed", color: "#fff", fontSize: 10, padding: "4px 12px", fontFamily: "'Courier New', monospace", fontWeight: 900, letterSpacing: "0.1em", border: "2px solid #a855f7" }}>
+              GUIA DE INSTALAÇÃO
+            </div>
+            
+            <h3 style={{ fontSize: 20, fontWeight: 900, color: "#e9d5ff", marginBottom: 24, display: "flex", alignItems: "center", gap: 12 }}>
+              <Settings className="text-primary" /> INSTALAR GUTO
+            </h3>
+
+            <div style={{ display: "grid", gap: 24 }}>
+              {[
+                { icon: <FileDown size={18} />, text: "Extraia o arquivo GUTO.zip → vai aparecer a pasta dist" },
+                { icon: <Monitor size={18} />, text: "Abra o Chrome e digite: chrome://extensions/" },
+                { icon: <Settings size={18} />, text: "Ative Modo do desenvolvedor (canto superior direito)" },
+                { icon: <Puzzle size={18} />, text: "Clique em Carregar sem compactação → selecione a pasta dist" },
+                { icon: <Check size={18} />, text: "Clique no 🧩, abra o GUTO, cole sua chave e clique em Validar" },
+              ].map((step, i) => (
+                <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                  <div style={{ width: 28, height: 28, background: "#7c3aed", border: "2px solid #a855f7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 12, fontWeight: 900 }}>
+                    {i + 1}
+                  </div>
+                  <div style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 14, color: "#c4b5fd", lineHeight: 1.5 }}>
+                    <span style={{ color: "#a855f7" }}>{step.icon}</span>
+                    {step.text}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ marginTop: 32, paddingTop: 32, borderTop: "1px solid #2e1065" }}>
+              <h4 style={{ fontSize: 14, fontWeight: 900, color: "#f59e0b", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
+                <Zap size={16} /> IMPORTANTE:
+              </h4>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 12 }}>
+                {[
+                  "Sempre use o chat pela extensão GUTO, não pelo chat normal do Lovable",
+                  "Se a extensão não funcionar, vá na aba do seu projeto no Lovable e aperte F5",
+                  "Depois tente enviar novamente pela extensão",
+                  "Sempre deixe a aba do projeto aberta enquanto usa a extensão 🚀",
+                ].map((item, i) => (
+                  <li key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#a78bfa" }}>
+                    <div style={{ width: 4, height: 4, background: "#f59e0b", marginTop: 8, flexShrink: 0 }} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </section>
       )}
 
