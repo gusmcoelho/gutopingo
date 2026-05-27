@@ -64,7 +64,7 @@ interface Plan {
 const PLANS: Plan[] = [
   {
     id: "test",
-    priceId: "price_1RpB9HIXgVz892FzYx9p9p9p",
+    priceId: "price_1TbXLaDgmvJ4Q2O6idYoTXFJ",
     name: "Guto Pingo - 5 Minutos (Teste)",
     price: "R$ 5.00",
     priceNote: "acesso imediato",
@@ -77,7 +77,7 @@ const PLANS: Plan[] = [
   },
   {
     id: "1day",
-    priceId: "price_1day",
+    priceId: "price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v",
     name: "Guto Pingo - 1 Dia",
     price: "R$ 20.00",
     priceNote: "acesso imediato",
@@ -88,7 +88,7 @@ const PLANS: Plan[] = [
   },
   {
     id: "1week",
-    priceId: "price_1week",
+    priceId: "price_1TbXLZDgmvJ4Q2O66me1RzwB",
     name: "Guto Pingo - 1 Semana",
     price: "R$ 45.00",
     priceNote: "acesso imediato",
@@ -99,7 +99,7 @@ const PLANS: Plan[] = [
   },
   {
     id: "30days",
-    priceId: "price_30days",
+    priceId: "price_1TbXLYDgmvJ4Q2O6YrA9zxs3",
     name: "Guto Pingo - 30 Dias",
     price: "R$ 100.00",
     priceNote: "acesso imediato",
@@ -110,7 +110,7 @@ const PLANS: Plan[] = [
   },
   {
     id: "lifetime",
-    priceId: "price_lifetime",
+    priceId: "price_1TbXLYDgmvJ4Q2O61rlPDyRk",
     name: "Guto Pingo - Vitalício",
     price: "R$ 169.99",
     priceNote: "PROMOÇÃO",
@@ -493,16 +493,12 @@ export default function GutoPingoPage() {
     }
 
     try {
-      console.log("CLIENT DEBUG: handleBuy called for priceId:", priceId);
       setLoadingCheckout(priceId);
       const result = await createCheckoutSession({ data: { priceId } });
-      console.log("CLIENT DEBUG: createCheckoutSession result:", result);
       if (result && 'checkoutUrl' in result && result.checkoutUrl) {
         window.location.href = result.checkoutUrl;
       } else if (result && 'error' in result) {
-        console.error("CLIENT DEBUG: error in result:", result.error);
         alert(`Erro no Checkout: ${result.error}`);
-        alert(`Erro: ${result.error}`);
       }
     } catch (err) {
       console.error("Checkout error:", err);
