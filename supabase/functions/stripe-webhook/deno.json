@@ -1,9 +1,0 @@
-
-{
-  "importMap": "import_map.json",
-  "scopes": {
-    "https://deno.land/x/": {
-      "stripe": "https://esm.sh/stripe@14.21.0"
-    }
-  }
-}
