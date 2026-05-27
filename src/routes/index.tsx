@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import {
   Zap,
@@ -21,7 +21,10 @@ import {
   Key,
   LogOut,
   User,
+  Loader2,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { createCheckoutSession } from "@/lib/payments.functions";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -34,9 +37,8 @@ interface LicenseKey {
 }
 
 interface UserType {
-  name: string;
-  email: string;
-  avatar?: string;
+  id: string;
+  email?: string;
 }
 
 interface Plan {
@@ -53,29 +55,7 @@ interface Plan {
   priceId: string;
 }
 
-// ─── Mock Data ────────────────────────────────────────────────────────────────
-
-const MOCK_USER: UserType = {
-  name: "GutoPinguim",
-  email: "guto@example.com",
-};
-
-const MOCK_KEYS: LicenseKey[] = [
-  {
-    id: "1",
-    key: "GUTO-XXXX-YYYY-ZZZZ-AAAA",
-    plan: "Vitalício",
-    expiresAt: null,
-    isLifetime: true,
-  },
-  {
-    id: "2",
-    key: "PING-30DY-BBBB-CCCC-DDDD",
-    plan: "30 Dias",
-    expiresAt: "2025-06-30",
-    isLifetime: false,
-  },
-];
+// ─── Constants ────────────────────────────────────────────────────────────────
 
 const PLANS: Plan[] = [
   {
@@ -98,6 +78,7 @@ const PLANS: Plan[] = [
     price: "R$ 20.00",
     priceNote: "acesso imediato",
     duration: "1 Dia",
+
     icon: <Clock size={20} />,
     color: "#6d28d9",
     features: ["Acesso de 1 dia", "Software as a service", "Business use"],
