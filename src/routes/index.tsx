@@ -465,9 +465,20 @@ export default function GutoPingoPage() {
       }
     });
 
+    // Simple polling to refresh keys every 10 seconds if user is logged in
+    // This helps show the key immediately after payment without manual refresh
+    const pollInterval = setInterval(() => {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session?.user) {
+          fetchLicenseKeys(session.user.id);
+        }
+      });
+    }, 10000);
+
     return () => {
       window.removeEventListener("scroll", onScroll);
       subscription.unsubscribe();
+      clearInterval(pollInterval);
     };
   }, []);
 
