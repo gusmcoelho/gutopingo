@@ -39,12 +39,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       const session = await stripe.checkout.sessions.create({
         line_items: [{ price: priceId, quantity: 1 }],
         mode: "payment",
-        // Habilita métodos de pagamento automáticos gerenciados pelo Dashboard do Stripe
-        // Isso permite Pix para brasileiros e outros métodos para outros países automaticamente.
-        // @ts-ignore - Algumas versões da biblioteca podem não ter a tipagem atualizada mas aceitam o campo
-        automatic_payment_methods: {
-          enabled: true,
-        },
+        payment_method_types: ["card", "pix"],
         success_url: `${baseUrl}/?success=true`,
         cancel_url: `${baseUrl}/?canceled=true`,
         client_reference_id: userId,
