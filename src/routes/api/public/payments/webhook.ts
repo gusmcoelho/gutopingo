@@ -117,8 +117,18 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
             const session = event.data.object;
             const userId = (session as any).client_reference_id;
             const priceId = (session as any).metadata?.priceId;
+            const sessionId = (session as any).id;
 
             if (userId && priceId) {
+              // Record sale in payment_intents for unified admin reporting
+              await supabaseAdmin.from('payment_intents').insert({
+                reference: `STRIPE_${sessionId}`,
+                user_id: userId,
+                price_id: priceId,
+                provider: 'stripe',
+                amount: PRICE_AMOUNT_MAP[priceId] || 0,
+                status: 'completed',
+              });
               await generateLicenseKey(userId, priceId);
             }
           }
