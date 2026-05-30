@@ -294,16 +294,16 @@ const translations = {
 const getPlans = (lang: Language): Plan[] => [
   {
     id: "test",
-    priceId: "price_1TbXLaDgmvJ4Q2O6idYoTXFJ",
-    name: lang === 'pt' ? "Guto Pingo - 5 Minutos (Teste)" : lang === 'tr' ? "Guto Pingo - 5 Dakika (Test)" : "Guto Pingo - 5 Minutes (Test)",
-    price: "R$ 5.00",
-    priceNote: lang === 'pt' ? "acesso imediato" : lang === 'tr' ? "anında erişim" : "immediate access",
+    priceId: "free_test_5min",
+    name: lang === 'pt' ? "Guto Pingo - 5 Minutos (Grátis)" : lang === 'tr' ? "Guto Pingo - 5 Dakika (Ücretsiz)" : "Guto Pingo - 5 Minutes (Free)",
+    price: lang === 'pt' ? "GRÁTIS" : lang === 'tr' ? "ÜCRETSİZ" : "FREE",
+    priceNote: lang === 'pt' ? "teste único por conta/IP" : lang === 'tr' ? "hesap/IP başına tek seferlik" : "one-time per account/IP",
     duration: lang === 'pt' ? "5 Minutos" : lang === 'tr' ? "5 Dakika" : "5 Minutes",
     icon: <Timer size={20} />,
     featured: true,
-    badge: lang === 'pt' ? "⭐ PRINCIPAL" : lang === 'tr' ? "⭐ ANA PLAN" : "⭐ MAIN",
-    color: "#7c3aed",
-    features: lang === 'pt' ? ["Acesso de 5 minutos", "Software as a service", "Business use"] : lang === 'tr' ? ["5 dakikalık erişim", "Hizmet olarak yazılım", "Ticari kullanım"] : ["5-minute access", "Software as a service", "Business use"],
+    badge: lang === 'pt' ? "🎁 TESTE GRÁTIS" : lang === 'tr' ? "🎁 ÜCRETSİZ TEST" : "🎁 FREE TRIAL",
+    color: "#22c55e",
+    features: lang === 'pt' ? ["Acesso de 5 minutos", "Limitado a 1x por IP/Conta", "Teste imediato"] : lang === 'tr' ? ["5 dakikalık erişim", "IP/Hesap başına 1 kez", "Anında test"] : ["5-minute access", "Limited 1x per IP/Account", "Instant test"],
   },
   {
     id: "1day",
@@ -688,14 +688,14 @@ function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId:
         </div>
       ) : (
         <button
-          onClick={() => setShowPaymentOptions(true)}
+          onClick={() => plan.id === "test" ? onBuy(plan.priceId, "stripe") : setShowPaymentOptions(true)}
           disabled={loading}
           style={{
             width: "100%",
             padding: plan.featured ? "14px 0" : "11px 0",
-            background: plan.featured ? "linear-gradient(135deg, #7c3aed, #a855f7)" : "transparent",
-            color: plan.featured ? "#fff" : "#a855f7",
-            border: plan.featured ? "2px solid #c4b5fd" : "2px solid #7c3aed",
+            background: plan.id === "test" ? "linear-gradient(135deg, #16a34a, #22c55e)" : (plan.featured ? "linear-gradient(135deg, #7c3aed, #a855f7)" : "transparent"),
+            color: (plan.featured || plan.id === "test") ? "#fff" : "#a855f7",
+            border: plan.id === "test" ? "2px solid #bbf7d0" : (plan.featured ? "2px solid #c4b5fd" : "2px solid #7c3aed"),
             cursor: "pointer",
             fontFamily: "'Courier New', monospace",
             fontSize: 13,
@@ -819,6 +819,47 @@ export default function GutoPingoPage() {
 
     try {
       setLoadingCheckout(priceId);
+      
+      if (priceId === "free_test_5min") {
+        // Obter IP do usuário (aproximado via API pública ou Edge Function)
+        const ipRes = await fetch('https://api.ipify.org?format=json');
+        const { ip } = await ipRes.json();
+        
+        // Verificar elegibilidade via RPC no Supabase
+        const { data: isEligible, error: checkError } = await supabase.rpc('check_trial_eligibility', {
+          p_user_id: user.id,
+          p_ip_address: ip
+        });
+
+        if (checkError) throw checkError;
+
+        if (!isEligible) {
+          alert(lang === 'pt' ? "Você já resgatou seu teste grátis neste IP ou conta." : "You have already claimed your free trial on this IP or account.");
+          return;
+        }
+
+        // Registrar o claim do trial
+        const { error: claimError } = await supabase.from('trial_claims').insert({
+          user_id: user.id,
+          ip_address: ip,
+          plan_id: 'test'
+        });
+
+        if (claimError) throw claimError;
+
+        // Chamar Edge Function para gerar a key de 5 minutos grátis
+        // Assumindo que a Edge Function create-free-trial já existe ou será criada
+        const { data: trialResult, error: trialError } = await supabase.functions.invoke('create-free-trial', {
+          body: { userId: user.id, planId: 'test' }
+        });
+
+        if (trialError) throw trialError;
+
+        alert(lang === 'pt' ? "Teste de 5 minutos ativado! Verifique suas chaves." : "5-minute trial activated! Check your keys.");
+        fetchLicenseKeys(user.id);
+        return;
+      }
+
       const result = await createCheckoutSession({ data: { priceId, method } });
       if (result && 'checkoutUrl' in result && result.checkoutUrl) {
         window.location.href = result.checkoutUrl;
@@ -827,7 +868,7 @@ export default function GutoPingoPage() {
       }
     } catch (err) {
       console.error("Checkout error:", err);
-      alert(lang === 'pt' ? "Erro ao iniciar o checkout. Tente novamente." : "Error starting checkout. Please try again.");
+      alert(lang === 'pt' ? "Erro ao processar. Tente novamente." : "Error processing. Please try again.");
     } finally {
       setLoadingCheckout(null);
     }
