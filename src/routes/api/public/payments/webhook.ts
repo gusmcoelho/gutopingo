@@ -1,19 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { createClient } from '@supabase/supabase-js';
 import { type StripeEnv, verifyWebhook } from '@/lib/stripe.server';
 import crypto from 'crypto';
-import { Database } from '@/integrations/supabase/types';
-
-let _supabase: ReturnType<typeof createClient<Database>> | null = null;
-function getSupabase() {
-  if (!_supabase) {
-    _supabase = createClient<Database>(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
-  }
-  return _supabase;
-}
+import { supabaseAdmin } from '@/integrations/supabase/client.server';
 
 const DURATION_MAP: Record<string, string> = {
   'price_1TbXLaDgmvJ4Q2O6idYoTXFJ': '5min',
@@ -34,7 +22,7 @@ async function generateLicenseKey(userId: string, priceId: string) {
   else if (duration === '30d') expiresAt.setDate(expiresAt.getDate() + 30);
   else if (duration === 'lifetime') expiresAt = null;
 
-  const { error } = await getSupabase().from('license_keys').insert({
+  const { error } = await supabaseAdmin.from('license_keys').insert({
     user_id: userId,
     key: licenseKey,
     duration: duration,
@@ -52,26 +40,46 @@ async function generateLicenseKey(userId: string, priceId: string) {
 
 async function handleLivePixWebhook(req: Request) {
   const body = await req.json();
-  console.log('LivePix Webhook Body:', JSON.stringify(body));
+  console.log('DEBUG: LivePix Webhook Received:', JSON.stringify(body));
 
-  // O webhook da LivePix envia um evento 'new' quando um pagamento é criado ou concluído
-  // No caso de integração simples, idealmente monitoramos o status se for enviado
-  // De acordo com a doc, recebemos userId, clientId, event, resource
+  // O evento 'new' no recurso 'payment' indica que um pagamento foi recebido
   if (body.event === 'new' && body.resource?.type === 'payment') {
-    // Para simplificar e garantir a entrega, o ideal é o LivePix enviar o status de pago.
-    // Se for apenas notificação de criação, precisamos verificar o pagamento via API.
-    // Por agora, assumiremos que se o evento é enviado e o usuário já caiu na success_url,
-    // vamos processar (ou podemos implementar a verificação real se o LivePix tiver o ID do pagamento).
+    const reference = body.resource?.reference;
     
-    // IMPORTANTE: Para LivePix, precisamos salvar os metadados (userId, priceId) em algum lugar
-    // ou usar a 'reference' que enviamos na criação.
-    const reference = body.resource?.id;
-    // Precisamos de uma forma de recuperar userId e priceId a partir da referência ou metadados
-    // A doc do webhook diz que envia 'resource' com 'id' (referência).
-    
-    // TODO: Implementar busca dos metadados salvos ou confiar nos dados do webhook se disponíveis.
-    // Como ainda não salvamos a referência em uma tabela de 'pending_payments', vou precisar 
-    // que o sistema de webhook seja mais robusto.
+    if (!reference) {
+      console.warn('LivePix Webhook: Missing reference in payload');
+      return;
+    }
+
+    console.log(`DEBUG: Processing LivePix payment for reference: ${reference}`);
+
+    // Busca o intent de pagamento correspondente
+    const { data: intent, error: fetchError } = await supabaseAdmin
+      .from('payment_intents')
+      .select('*')
+      .eq('reference', reference)
+      .eq('status', 'pending')
+      .maybeSingle();
+
+    if (fetchError || !intent) {
+      console.warn(`LivePix Webhook: No pending intent found for reference: ${reference}`);
+      return;
+    }
+
+    // 1. Marca como concluído para evitar processamento duplo
+    const { error: updateError } = await supabaseAdmin
+      .from('payment_intents')
+      .update({ status: 'completed' })
+      .eq('id', intent.id);
+
+    if (updateError) {
+      console.error('LivePix Webhook: Failed to update intent status', updateError);
+      throw updateError;
+    }
+
+    // 2. Gera a chave
+    await generateLicenseKey(intent.user_id, intent.price_id);
+    console.log(`LivePix Webhook: Successfully processed payment for user ${intent.user_id}`);
   }
 }
 
@@ -82,6 +90,8 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
         const url = new URL(request.url);
         const source = url.searchParams.get('source');
 
+        console.log(`DEBUG: Webhook endpoint called. Source: ${source}`);
+
         try {
           if (source === 'livepix') {
             await handleLivePixWebhook(request);
@@ -90,16 +100,15 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
 
           // Fluxo padrão Stripe
           const rawEnv = url.searchParams.get('env');
-          if (rawEnv !== 'live') {
-            return new Response('Only live webhook events are accepted', { status: 400 });
-          }
-          const env: StripeEnv = rawEnv;
+          const env: StripeEnv = (rawEnv === 'live') ? 'live' : 'sandbox';
           
           const event = await verifyWebhook(request, env);
+          console.log(`DEBUG: Stripe Event Verified: ${event.type}`);
+
           if (event.type === 'checkout.session.completed') {
             const session = event.data.object;
-            const userId = session.client_reference_id;
-            const priceId = session.metadata?.priceId;
+            const userId = (session as any).client_reference_id;
+            const priceId = (session as any).metadata?.priceId;
 
             if (userId && priceId) {
               await generateLicenseKey(userId, priceId);

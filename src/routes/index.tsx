@@ -31,46 +31,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { createCheckoutSession } from "@/lib/payments.functions";
 import crypto from 'crypto';
 
-// Função para gerar key no client-side como fallback emergencial
-async function generateEmergencyKey(userId: string, priceId: string) {
-  const durationMap: Record<string, string> = {
-    'price_1TbXLaDgmvJ4Q2O6idYoTXFJ': '5min',
-    'price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v': '1d',
-    'price_1TbXLZDgmvJ4Q2O66me1RzwB': '7d',
-    'price_1TbXLYDgmvJ4Q2O6YrA9zxs3': '30d',
-    'price_1TbXLYDgmvJ4Q2O61rlPDyRk': 'lifetime',
-  };
+// Removida função generateEmergencyKey do client-side por segurança e redundância.
+// Chaves agora são ativadas exclusivamente via Webhook no servidor.
 
-  const duration = durationMap[priceId] || '5min';
-  // Nota: Isso é um fallback, o ideal é o webhook. 
-  // Mas para não deixar o usuário na mão quando ele paga:
-  
-  // Verifica se já tem uma key criada recentemente para evitar duplicatas
-  const { data: existing } = await supabase
-    .from('license_keys')
-    .select('id')
-    .eq('user_id', userId)
-    .eq('duration', duration)
-    .order('created_at', { ascending: false })
-    .limit(1);
-
-  // Se não existir key ou a última for antiga (ex: mais de 10 min), cria uma nova
-  const licenseKey = `GUTO-${Math.random().toString(36).substr(2, 4).toUpperCase()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
-
-  let expiresAt: Date | null = new Date();
-  if (duration === '5min') expiresAt.setMinutes(expiresAt.getMinutes() + 5);
-  else if (duration === '1d') expiresAt.setDate(expiresAt.getDate() + 1);
-  else if (duration === '7d') expiresAt.setDate(expiresAt.getDate() + 7);
-  else if (duration === '30d') expiresAt.setDate(expiresAt.getDate() + 30);
-  else if (duration === 'lifetime') expiresAt = null;
-
-  await supabase.from('license_keys').insert({
-    user_id: userId,
-    key: licenseKey,
-    duration: duration,
-    expires_at: expiresAt ? expiresAt.toISOString() : null
-  });
-}
 
 
 
@@ -587,8 +550,10 @@ export default function GutoPingoPage() {
 
   const handleSuccessPayment = async (userId: string, priceId: string) => {
     console.log("Processando sucesso de pagamento Pix:", { userId, priceId });
-    await generateEmergencyKey(userId, priceId);
-    fetchLicenseKeys(userId);
+    // Agora o sistema aguarda o webhook para gerar a chave de forma segura.
+    // Atualizamos a lista de keys do usuário após um curto delay para dar tempo ao webhook.
+    setTimeout(() => fetchLicenseKeys(userId), 2000);
+    setTimeout(() => fetchLicenseKeys(userId), 5000);
   };
 
   const fetchLicenseKeys = async (userId: string) => {
