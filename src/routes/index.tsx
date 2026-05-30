@@ -564,7 +564,7 @@ function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
             {licKey.key}
           </div>
         </div>
-        <CopyButton text={licKey.key} />
+        <CopyButton text={licKey.key} lang={lang} />
       </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "#a78bfa", fontFamily: "'Courier New', monospace" }}>
