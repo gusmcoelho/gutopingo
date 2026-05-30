@@ -682,6 +682,15 @@ export default function GutoPingoPage() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <a 
+            href="https://discord.gg/kfezRBk7" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(124,58,237,0.1)", border: "2px solid #4c1d95", transition: "all 0.2s" }}
+            title="Discord Support"
+          >
+            <DiscordIcon size={18} color="#a855f7" />
+          </a>
           {user ? (
             <>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -697,6 +706,7 @@ export default function GutoPingoPage() {
               </button>
             </>
           ) : (
+
             <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
               <a 
                 href="https://discord.gg/kfezRBk7" 
