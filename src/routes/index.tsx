@@ -566,7 +566,7 @@ function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId:
               gap: 8,
             }}
           >
-            PAGAR COM PIX
+            {t.payPix}
           </button>
           <button
             onClick={() => onBuy(plan.priceId, "stripe")}
@@ -587,7 +587,7 @@ function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId:
               gap: 8,
             }}
           >
-            CARTÃO / OUTROS
+            {t.payStripe}
           </button>
           <button
             onClick={() => setShowPaymentOptions(false)}
@@ -601,7 +601,7 @@ function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId:
               fontFamily: "'Courier New', monospace",
             }}
           >
-            VOLTAR
+            {t.back}
           </button>
         </div>
       ) : (
@@ -629,7 +629,7 @@ function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId:
             opacity: loading ? 0.7 : 1,
           }}
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : (plan.id === "test" ? ">> TESTAR AGORA" : ">> COMPRAR KEY")}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : (plan.id === "test" ? t.testBtn : t.buyBtn)}
         </button>
       )}
     </div>
