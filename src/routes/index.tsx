@@ -550,8 +550,10 @@ export default function GutoPingoPage() {
 
   const handleSuccessPayment = async (userId: string, priceId: string) => {
     console.log("Processando sucesso de pagamento Pix:", { userId, priceId });
-    await generateEmergencyKey(userId, priceId);
-    fetchLicenseKeys(userId);
+    // Agora o sistema aguarda o webhook para gerar a chave de forma segura.
+    // Atualizamos a lista de keys do usuário após um curto delay para dar tempo ao webhook.
+    setTimeout(() => fetchLicenseKeys(userId), 2000);
+    setTimeout(() => fetchLicenseKeys(userId), 5000);
   };
 
   const fetchLicenseKeys = async (userId: string) => {
