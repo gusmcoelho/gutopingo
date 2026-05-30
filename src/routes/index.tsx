@@ -1159,8 +1159,9 @@ export default function GutoPingoPage() {
           </div>
 
           <h1 style={{ fontSize: "clamp(36px, 8vw, 80px)", fontWeight: 900, letterSpacing: "-0.02em", lineHeight: 1.05, marginBottom: 20, color: "#f5f3ff", textShadow: "0 0 40px rgba(168,85,247,0.5)" }}>
-            {t.hero.title1}
+            {t.hero.title1}<br /><span style={{ color: "#a855f7", textShadow: "0 0 20px rgba(168,85,247,0.8), 2px 2px 0 #4c1d95" }}>{t.hero.title2}</span><br /><span style={{ fontSize: "0.55em", color: "#c4b5fd" }}>{t.hero.title3}</span>
           </h1>
+
 
 
           <p style={{ fontSize: "clamp(14px, 2.5vw, 18px)", color: "#a78bfa", maxWidth: 520, margin: "0 auto 40px", lineHeight: 1.7, letterSpacing: "0.02em" }}>
