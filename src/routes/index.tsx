@@ -946,44 +946,36 @@ export default function GutoPingoPage() {
           {/* Tutorial Section */}
           <div style={{ background: "rgba(30,10,60,0.6)", border: "2px solid #4c1d95", padding: "40px", position: "relative" }}>
             <div style={{ position: "absolute", top: -14, left: 24, background: "#7c3aed", color: "#fff", fontSize: 10, padding: "4px 12px", fontFamily: "'Courier New', monospace", fontWeight: 900, letterSpacing: "0.1em", border: "2px solid #a855f7" }}>
-              GUIA DE INSTALAÇÃO
+              {t.tutorial.badge}
             </div>
             
             <h3 style={{ fontSize: 20, fontWeight: 900, color: "#e9d5ff", marginBottom: 24, display: "flex", alignItems: "center", gap: 12 }}>
-              <Settings className="text-primary" /> INSTALAR GUTO
+              <Settings className="text-primary" /> {t.tutorial.title}
             </h3>
 
             <div style={{ display: "grid", gap: 24 }}>
-              {[
-                { icon: <FileDown size={18} />, text: "Extraia o arquivo GUTO.zip → vai aparecer a pasta dist" },
-                { icon: <Monitor size={18} />, text: "Abra o Chrome e digite: chrome://extensions/" },
-                { icon: <Settings size={18} />, text: "Ative Modo do desenvolvedor (canto superior direito)" },
-                { icon: <Puzzle size={18} />, text: "Clique em Carregar sem compactação → selecione a pasta dist" },
-                { icon: <Check size={18} />, text: "Clique no 🧩, abra o GUTO, cole sua chave e clique em Validar" },
-              ].map((step, i) => (
-                <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-                  <div style={{ width: 28, height: 28, background: "#7c3aed", border: "2px solid #a855f7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 12, fontWeight: 900 }}>
-                    {i + 1}
+              {t.tutorial.steps.map((step, i) => {
+                const icons = [<FileDown size={18} />, <Monitor size={18} />, <Settings size={18} />, <Puzzle size={18} />, <Check size={18} />];
+                return (
+                  <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                    <div style={{ width: 28, height: 28, background: "#7c3aed", border: "2px solid #a855f7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 12, fontWeight: 900 }}>
+                      {i + 1}
+                    </div>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 14, color: "#c4b5fd", lineHeight: 1.5 }}>
+                      <span style={{ color: "#a855f7" }}>{icons[i]}</span>
+                      {step}
+                    </div>
                   </div>
-                  <div style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 14, color: "#c4b5fd", lineHeight: 1.5 }}>
-                    <span style={{ color: "#a855f7" }}>{step.icon}</span>
-                    {step.text}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div style={{ marginTop: 32, paddingTop: 32, borderTop: "1px solid #2e1065" }}>
               <h4 style={{ fontSize: 14, fontWeight: 900, color: "#f59e0b", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
-                <Zap size={16} /> IMPORTANTE:
+                <Zap size={16} /> {t.tutorial.important}
               </h4>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 12 }}>
-                {[
-                  "Sempre use o chat pela extensão GUTO, não pelo chat normal do Lovable",
-                  "Se a extensão não funcionar, vá na aba do seu projeto no Lovable e aperte F5",
-                  "Depois tente enviar novamente pela extensão",
-                  "Sempre deixe a aba do projeto aberta enquanto usa a extensão 🚀",
-                ].map((item, i) => (
+                {t.tutorial.importantSteps.map((item, i) => (
                   <li key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#a78bfa" }}>
                     <div style={{ width: 4, height: 4, background: "#f59e0b", marginTop: 8, flexShrink: 0 }} />
                     {item}
@@ -997,20 +989,23 @@ export default function GutoPingoPage() {
 
       <section style={{ padding: "80px 24px", maxWidth: 1100, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
-          <span style={{ fontSize: 11, color: "#7c3aed", letterSpacing: "0.25em", fontWeight: 700 }}>// POR QUE USAR</span>
+          <span style={{ fontSize: 11, color: "#7c3aed", letterSpacing: "0.25em", fontWeight: 700 }}>{t.features.tag}</span>
           <h2 style={{ fontSize: "clamp(24px, 4vw, 40px)", fontWeight: 900, color: "#f5f3ff", marginTop: 8 }}>
-            VANTAGENS DO <span style={{ color: "#a855f7" }}>GUTO PINGO</span>
+            {t.features.title1} <span style={{ color: "#a855f7" }}>{t.features.title2}</span>
           </h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
-          {FEATURES.map((f, i) => (
-            <div key={i} className="feature-card" style={{ background: "rgba(20,5,45,0.8)", border: "2px solid #2e1065", padding: "24px 20px", position: "relative", transition: "all 0.2s", cursor: "default" }}>
-              <div style={{ width: 44, height: 44, background: "rgba(124,58,237,0.2)", border: "2px solid #7c3aed", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16, color: "#a855f7" }}>{f.icon}</div>
-              <h3 style={{ fontSize: 14, fontWeight: 900, color: "#e9d5ff", marginBottom: 8, letterSpacing: "0.05em" }}>{f.title}</h3>
-              <p style={{ fontSize: 12, color: "#7c3aed", lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, #7c3aed, transparent)" }} />
-            </div>
-          ))}
+          {t.features.items.map((f, i) => {
+             const icons = [<Zap size={22} />, <Rocket size={22} />, <Shield size={22} />, <Cpu size={22} />, <Layers size={22} />, <Terminal size={22} />];
+             return (
+              <div key={i} className="feature-card" style={{ background: "rgba(20,5,45,0.8)", border: "2px solid #2e1065", padding: "24px 20px", position: "relative", transition: "all 0.2s", cursor: "default" }}>
+                <div style={{ width: 44, height: 44, background: "rgba(124,58,237,0.2)", border: "2px solid #7c3aed", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16, color: "#a855f7" }}>{icons[i]}</div>
+                <h3 style={{ fontSize: 14, fontWeight: 900, color: "#e9d5ff", marginBottom: 8, letterSpacing: "0.05em" }}>{f.title}</h3>
+                <p style={{ fontSize: 12, color: "#7c3aed", lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, #7c3aed, transparent)" }} />
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -1018,11 +1013,11 @@ export default function GutoPingoPage() {
         <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(rgba(124,58,237,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.04) 1px, transparent 1px)`, backgroundSize: "20px 20px", pointerEvents: "none" }} />
         <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <span style={{ fontSize: 11, color: "#7c3aed", letterSpacing: "0.25em", fontWeight: 700 }}>// SELECT YOUR PLAN</span>
+            <span style={{ fontSize: 11, color: "#7c3aed", letterSpacing: "0.25em", fontWeight: 700 }}>{t.pricing.tag}</span>
             <h2 style={{ fontSize: "clamp(24px, 4vw, 40px)", fontWeight: 900, color: "#f5f3ff", marginTop: 8, marginBottom: 12 }}>
-              ESCOLHA SEU <span style={{ color: "#a855f7" }}>PLANO</span>
+              {t.pricing.title1} <span style={{ color: "#a855f7" }}>{t.pricing.title2}</span>
             </h2>
-            <p style={{ color: "#6d28d9", fontSize: 13, letterSpacing: "0.05em" }}>Todos os planos desbloqueiam prompts ilimitados no Lovable</p>
+            <p style={{ color: "#6d28d9", fontSize: 13, letterSpacing: "0.05em" }}>{t.pricing.subtitle}</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20, alignItems: "stretch" }}>
             {PLANS.map((plan) => (
@@ -1031,6 +1026,7 @@ export default function GutoPingoPage() {
                 plan={plan} 
                 onBuy={handleBuy} 
                 loading={loadingCheckout === plan.priceId}
+                lang={lang}
               />
             ))}
           </div>
@@ -1042,7 +1038,7 @@ export default function GutoPingoPage() {
           <PixelPenguin size={32} />
           <span style={{ fontSize: 16, fontWeight: 900, letterSpacing: "0.1em" }}>GUTO<span style={{ color: "#a855f7" }}>PINGO</span></span>
         </div>
-        <p style={{ fontSize: 11, color: "#4c1d95", letterSpacing: "0.1em" }}>© 2025 GUTOPINGO.COM • TODOS OS DIREITOS RESERVADOS</p>
+        <p style={{ fontSize: 11, color: "#4c1d95", letterSpacing: "0.1em" }}>{t.footer.rights}</p>
         
         {/* Hidden SEO Keywords for Crawler */}
         <div style={{ opacity: 0, height: 0, pointerEvents: "none" }}>
@@ -1055,7 +1051,7 @@ export default function GutoPingoPage() {
           <a href="https://discord.gg/kfezRBk7" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 10, color: "#a855f7", textDecoration: "none", letterSpacing: "0.15em", fontWeight: 700 }}>
             <DiscordIcon size={14} color="#a855f7" /> DISCORD
           </a>
-          {["TERMOS", "PRIVACIDADE"].map((link) => (
+          {[t.footer.terms, t.footer.privacy].map((link) => (
             <a key={link} href="#" style={{ fontSize: 10, color: "#6d28d9", textDecoration: "none", letterSpacing: "0.15em" }}>{link}</a>
           ))}
         </div>
