@@ -691,6 +691,14 @@ export default function GutoPingoPage() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          {isAdmin && (
+            <button 
+              onClick={() => navigate({ to: "/admin" })}
+              style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 14px", background: "rgba(168,85,247,0.1)", color: "#a855f7", border: "2px solid #a855f7", cursor: "pointer", fontSize: 11, fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em" }}
+            >
+              ADMIN
+            </button>
+          )}
           <a 
             href="https://discord.gg/kfezRBk7" 
             target="_blank" 
