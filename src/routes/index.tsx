@@ -901,6 +901,32 @@ export default function GutoPingoPage() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ display: "flex", gap: 8, marginRight: 8 }}>
+            {[
+              { code: 'pt', flag: '🇧🇷' },
+              { code: 'en', flag: '🇺🇸' },
+              { code: 'tr', flag: '🇹🇷' }
+            ].map((l) => (
+              <button
+                key={l.code}
+                onClick={() => setLang(l.code as Language)}
+                style={{
+                  padding: "4px 8px",
+                  background: lang === l.code ? "rgba(124,58,237,0.2)" : "transparent",
+                  border: lang === l.code ? "1px solid #7c3aed" : "1px solid transparent",
+                  cursor: "pointer",
+                  fontSize: 16,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.2s"
+                }}
+                title={l.code.toUpperCase()}
+              >
+                {l.flag}
+              </button>
+            ))}
+          </div>
           {isAdmin && (
             <button 
               onClick={() => navigate({ to: "/admin" })}
