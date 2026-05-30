@@ -1338,7 +1338,7 @@ export default function GutoPingoPage() {
             </h2>
             <p style={{ color: "#6d28d9", fontSize: 13, letterSpacing: "0.05em", marginBottom: 8 }}>{t.pricing.subtitle}</p>
             <p style={{ color: "#a855f7", fontSize: 11, fontWeight: 700, letterSpacing: "0.02em" }}>
-              <span style={{ border: "1px solid #7c3aed", padding: "4px 12px", background: "rgba(124,58,237,0.1)" }}>
+              <span style={{ border: "2px solid #7c3aed", padding: "8px 16px", background: "rgba(124,58,237,0.2)", display: "inline-block", boxShadow: "0 0 15px rgba(124,58,237,0.4)" }}>
                 {t.pricing.support}
               </span>
             </p>
