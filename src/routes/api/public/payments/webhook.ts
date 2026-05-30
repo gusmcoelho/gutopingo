@@ -21,7 +21,21 @@ const PRICE_AMOUNT_MAP: Record<string, number> = {
 
 async function generateLicenseKey(userId: string, priceId: string) {
   const duration = DURATION_MAP[priceId] || 'custom';
-  const licenseKey = `GUTO-${crypto.randomBytes(4).toString('hex').toUpperCase()}-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
+  
+  // Prefixos solicitados pelo usuário:
+  // 1 dia: 1DAY-...
+  // 1 semana: 1WEEK-...
+  // 30 dias: 30DAYS-...
+  // Vitalício: LIFETIME-...
+  // Teste: 5MIN-...
+  let prefix = 'GUTO';
+  if (duration === '5min') prefix = '5MIN';
+  else if (duration === '1d') prefix = '1DAY';
+  else if (duration === '7d') prefix = '1WEEK';
+  else if (duration === '30d') prefix = '30DAYS';
+  else if (duration === 'lifetime') prefix = 'LIFETIME';
+
+  const licenseKey = `${prefix}-${crypto.randomBytes(4).toString('hex').toUpperCase()}${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
 
   let expiresAt: Date | null = new Date();
   if (duration === '5min') expiresAt.setMinutes(expiresAt.getMinutes() + 5);
@@ -42,7 +56,35 @@ async function generateLicenseKey(userId: string, priceId: string) {
     throw error;
   }
   
-  console.log(`License key successfully generated for user ${userId}`);
+  console.log(`License key successfully generated for user ${userId}: ${licenseKey}`);
+
+  // 3. Sincronização com Supabase EXTERNO
+  const extUrl = "https://ekrohxcvmteacivyadnd.supabase.co";
+  const extKey = process.env.EXTERNAL_SUPABASE_SERVICE_ROLE_KEY;
+
+  if (extUrl && extKey) {
+    try {
+      await fetch(`${extUrl}/rest/v1/licenses`, {
+        method: 'POST',
+        headers: {
+          'apikey': extKey,
+          'Authorization': `Bearer ${extKey}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          key: licenseKey,
+          status: 'active',
+          max_devices: 1,
+          expires_at: expiresAt ? expiresAt.toISOString() : null
+        })
+      });
+      console.log(`License key ${licenseKey} synced to external database.`);
+    } catch (e) {
+      console.error("Erro ao sincronizar key com banco externo no webhook:", e);
+    }
+  }
+
   return licenseKey;
 }
 
