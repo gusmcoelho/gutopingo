@@ -1124,7 +1124,7 @@ export default function GutoPingoPage() {
 
       <section id="tutorial" style={{ padding: "60px 24px", maxWidth: 900, margin: "0 auto" }}>
         {user && (
-          <>
+          <div id="active-keys-section">
             <div style={{ marginBottom: 32, textAlign: "center" }}>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "8px 20px", background: "rgba(124,58,237,0.15)", border: "1px solid #7c3aed", marginBottom: 16 }}>
                 <PixelPenguin size={28} />
@@ -1146,8 +1146,9 @@ export default function GutoPingoPage() {
                 {t.userSection.noKeys}
               </div>
             )}
-          </>
+          </div>
         )}
+
 
         {/* Tutorial Section */}
         <div style={{ background: "rgba(30,10,60,0.6)", border: "2px solid #4c1d95", padding: "40px", position: "relative" }}>
