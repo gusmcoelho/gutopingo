@@ -586,10 +586,8 @@ export default function GutoPingoPage() {
   }, [searchParams]);
 
   const handleSuccessPayment = async (userId: string, priceId: string) => {
-    // Chamar uma função no servidor ou RPC para gerar a key se ela não existir
-    // Isso garante que o usuário receba a key mesmo se o webhook demorar
     console.log("Processando sucesso de pagamento Pix:", { userId, priceId });
-    // A key será buscada pelo polling ou recarregamento
+    await generateEmergencyKey(userId, priceId);
     fetchLicenseKeys(userId);
   };
 
