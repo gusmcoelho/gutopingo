@@ -528,7 +528,7 @@ function CopyButton({ text, lang }: { text: string; lang: Language }) {
 }
 
 function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
-  const isLifetime = licKey.duration.toLowerCase() === "vitalício" || licKey.duration.toLowerCase() === "lifetime" || licKey.duration.toLowerCase() === "para sempre" || licKey.duration.toLowerCase() === "forever";
+  const isLifetime = licKey.duration && (licKey.duration.toLowerCase() === "vitalício" || licKey.duration.toLowerCase() === "lifetime" || licKey.duration.toLowerCase() === "para sempre" || licKey.duration.toLowerCase() === "forever");
 
   return (
     <div
