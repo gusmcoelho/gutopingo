@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "./integrations/supabase/client.server";
+import { supabaseAdmin } from "../integrations/supabase/client.server";
 import { createClient } from "@supabase/supabase-js";
 
 async function runSecurityTests() {
