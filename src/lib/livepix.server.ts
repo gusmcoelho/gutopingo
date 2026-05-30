@@ -44,7 +44,7 @@ export async function createLivePixPayment(amountInCents: number, metadata: Reco
   // LivePix usually uses decimal values for amount
   const amount = amountInCents / 100;
 
-  const response = await fetch(`${LIVEPIX_API_BASE}/payments`, {
+  const response = await fetch(`${LIVEPIX_API_BASE}/v2/payments`, {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${token}`,
