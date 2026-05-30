@@ -1264,10 +1264,10 @@ export default function GutoPingoPage() {
 
           <div style={{ marginTop: 32, paddingTop: 32, borderTop: "1px solid #2e1065" }}>
             <h4 style={{ fontSize: 14, fontWeight: 900, color: "#f59e0b", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
-              <Zap size={16} /> {t.tutorial.important}
+              <Zap size={16} /> {(translations[lang || 'pt'] || translations.pt).tutorial.important}
             </h4>
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 12 }}>
-              {t.tutorial.importantSteps.map((item, i) => (
+              {(translations[lang || 'pt'] || translations.pt).tutorial.importantSteps.map((item, i) => (
                 <li key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#a78bfa" }}>
                   <div style={{ width: 4, height: 4, background: "#f59e0b", marginTop: 8, flexShrink: 0 }} />
                   {item}
@@ -1280,13 +1280,14 @@ export default function GutoPingoPage() {
 
       <section style={{ padding: "80px 24px", maxWidth: 1100, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
-          <span style={{ fontSize: 11, color: "#7c3aed", letterSpacing: "0.25em", fontWeight: 700 }}>{t.features.tag}</span>
+          <span style={{ fontSize: 11, color: "#7c3aed", letterSpacing: "0.25em", fontWeight: 700 }}>{(translations[lang || 'pt'] || translations.pt).features.tag}</span>
           <h2 style={{ fontSize: "clamp(24px, 4vw, 40px)", fontWeight: 900, color: "#f5f3ff", marginTop: 8 }}>
-            {t.features.title1} <span style={{ color: "#a855f7" }}>{t.features.title2}</span>
+            {(translations[lang || 'pt'] || translations.pt).features.title1} <span style={{ color: "#a855f7" }}>{(translations[lang || 'pt'] || translations.pt).features.title2}</span>
           </h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
-          {t.features.items.map((f, i) => {
+          {(translations[lang || 'pt'] || translations.pt).features.items.map((f, i) => {
+
              const icons = [<Zap size={22} />, <Rocket size={22} />, <Shield size={22} />, <Cpu size={22} />, <Layers size={22} />, <Terminal size={22} />];
              return (
               <div key={i} className="feature-card" style={{ background: "rgba(20,5,45,0.8)", border: "2px solid #2e1065", padding: "24px 20px", position: "relative", transition: "all 0.2s", cursor: "default" }}>
