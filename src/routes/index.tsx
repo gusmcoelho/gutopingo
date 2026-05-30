@@ -271,6 +271,7 @@ const translations = {
       title1: "PLANINIZI",
       title2: "SEÇİN",
       subtitle: "Tüm planlar Lovable'da sınırsız prompt kilidini açar",
+      support: "Satın alma veya anahtarlarla ilgili sorun mu yaşıyorsunuz? Discord'a katılın ve bir bilet (ticket) açın!",
       payPix: "PIX İLE ÖDE",
       payStripe: "KART / DİĞERLERİ",
       back: "GERİ",
