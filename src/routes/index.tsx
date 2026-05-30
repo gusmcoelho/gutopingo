@@ -819,7 +819,7 @@ export default function GutoPingoPage() {
     };
   }, [searchParams]);
 
-  const t = translations[lang] || translations.pt;
+  const t = translations[lang || 'pt'] || translations.pt;
   const PLANS = getPlans(lang);
 
 
