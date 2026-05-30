@@ -528,14 +528,14 @@ function CopyButton({ text, lang }: { text: string; lang: Language }) {
 }
 
 function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
-  const isLifetime = licKey && licKey.key && (licKey.key.includes("-LIFETIME-") || (licKey.duration && (licKey.duration.toLowerCase() === "vitalício" || licKey.duration.toLowerCase() === "lifetime" || licKey.duration.toLowerCase() === "para sempre" || licKey.duration.toLowerCase() === "forever")));
+  const isLifetime = licKey && licKey.key && (licKey.key.includes("LIFETIME-") || (licKey.duration && (licKey.duration.toLowerCase() === "vitalício" || licKey.duration.toLowerCase() === "lifetime" || licKey.duration.toLowerCase() === "para sempre" || licKey.duration.toLowerCase() === "forever")));
 
   const getDisplayDuration = (key: string, duration: string) => {
-    if (key.includes("-LIFETIME-")) return lang === 'pt' ? "Vitalícia" : "Lifetime";
-    if (key.includes("-1MONTH-")) return lang === 'pt' ? "Mensal" : "Monthly";
-    if (key.includes("-1WEEK-")) return lang === 'pt' ? "Semanal" : "Weekly";
-    if (key.includes("-1DAY-")) return lang === 'pt' ? "Diária" : "Daily";
-    if (key.includes("-5MIN-")) return lang === 'pt' ? "5 Minutos (Teste)" : "5 Minutes (Trial)";
+    if (key.includes("LIFETIME-")) return lang === 'pt' ? "Vitalícia" : "Lifetime";
+    if (key.includes("30DAYS-")) return lang === 'pt' ? "Mensal" : "Monthly";
+    if (key.includes("1WEEK-")) return lang === 'pt' ? "Semanal" : "Weekly";
+    if (key.includes("1DAY-")) return lang === 'pt' ? "Diária" : "Daily";
+    if (key.includes("5MIN-")) return lang === 'pt' ? "5 Minutos (Teste)" : "5 Minutes (Trial)";
     return duration;
   };
 
