@@ -55,8 +55,9 @@ async function generateLicenseKey(userId: string, priceId: string) {
     console.error('Erro ao inserir license_key:', error);
     throw error;
   }
-  
-  console.log(`License key successfully generated for user ${userId}: ${licenseKey}`);
+
+  const redactedKey = `${licenseKey.slice(0, 6)}****`;
+  console.log(`License key successfully generated for user ${userId}: ${redactedKey}`);
 
   // 3. Sincronização com Supabase EXTERNO
   const extUrl = "https://ekrohxcvmteacivyadnd.supabase.co";
@@ -79,7 +80,7 @@ async function generateLicenseKey(userId: string, priceId: string) {
           expires_at: expiresAt ? expiresAt.toISOString() : null
         })
       });
-      console.log(`License key ${licenseKey} synced to external database.`);
+      console.log(`License key ${redactedKey} synced to external database.`);
     } catch (e) {
       console.error("Erro ao sincronizar key com banco externo no webhook:", e);
     }
@@ -89,8 +90,30 @@ async function generateLicenseKey(userId: string, priceId: string) {
 }
 
 async function handleLivePixWebhook(req: Request) {
+  // Verify shared-secret token in the URL (configured in LivePix webhook URL)
+  const url = new URL(req.url);
+  const providedToken = url.searchParams.get('token');
+  const expectedToken = process.env.LIVEPIX_WEBHOOK_TOKEN;
+
+  if (!expectedToken) {
+    console.error('LIVEPIX_WEBHOOK_TOKEN is not configured — rejecting webhook');
+    throw new Error('Webhook secret not configured');
+  }
+
+  if (!providedToken || providedToken.length !== expectedToken.length) {
+    throw new Error('Invalid webhook token');
+  }
+
+  // Timing-safe comparison
+  const a = Buffer.from(providedToken);
+  const b = Buffer.from(expectedToken);
+  if (!crypto.timingSafeEqual(a, b)) {
+    throw new Error('Invalid webhook token');
+  }
+
   const body = await req.json();
-  console.log('DEBUG: LivePix Webhook Received:', JSON.stringify(body));
+  console.log('DEBUG: LivePix Webhook Received (verified)');
+
 
   // O evento 'new' no recurso 'payment' indica que um pagamento foi recebido
   if (body.event === 'new' && body.resource?.type === 'payment') {
@@ -98,6 +121,12 @@ async function handleLivePixWebhook(req: Request) {
     
     if (!reference) {
       console.warn('LivePix Webhook: Missing reference in payload');
+      return;
+    }
+
+    // Validate reference format (LivePix uses LPX_<timestamp>_<chars>)
+    if (typeof reference !== 'string' || !/^LPX_\d+_[A-Z0-9]+$/.test(reference)) {
+      console.warn('LivePix Webhook: Invalid reference format');
       return;
     }
 
