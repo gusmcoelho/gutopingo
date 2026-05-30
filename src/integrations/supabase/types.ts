@@ -77,6 +77,30 @@ export type Database = {
         }
         Relationships: []
       }
+      trial_claims: {
+        Row: {
+          claimed_at: string
+          id: string
+          ip_address: string
+          plan_id: string
+          user_id: string | null
+        }
+        Insert: {
+          claimed_at?: string
+          id?: string
+          ip_address: string
+          plan_id?: string
+          user_id?: string | null
+        }
+        Update: {
+          claimed_at?: string
+          id?: string
+          ip_address?: string
+          plan_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -103,6 +127,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_trial_eligibility: {
+        Args: { p_ip_address: string; p_user_id: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
