@@ -1205,8 +1205,9 @@ export default function GutoPingoPage() {
                 </span>
               </div>
               <h2 style={{ fontSize: "clamp(22px, 4vw, 36px)", fontWeight: 900, color: "#e9d5ff", letterSpacing: "-0.01em" }}>
-                {t.userSection.activeKeys}
+                {t.userSection.activeKeys.split(' ')[0]} <span style={{ color: "#a855f7" }}>{t.userSection.activeKeys.split(' ').slice(1).join(' ')}</span>
               </h2>
+
 
             </div>
 
