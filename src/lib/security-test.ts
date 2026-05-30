@@ -39,8 +39,7 @@ async function runSecurityTests() {
   // For the sake of this test, we'll verify table grants and policies via SQL.
   
   console.log("\nVerifying Payment Intents RLS...");
-  const { data: policyData, error: policyError } = await supabaseAdmin.rpc('get_policies', { table_name: 'payment_intents' });
-  // Since I don't have a get_policies RPC, I'll use a direct query.
+
   
   const { data: rlsStatus } = await supabaseAdmin.from('payment_intents').select('id').limit(1);
   console.log("Admin can read payment_intents (Service Role)");
