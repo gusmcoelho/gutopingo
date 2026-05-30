@@ -904,11 +904,14 @@ export default function GutoPingoPage() {
         </div>
 
         <div style={{ display: "flex", justifyContent: "center", gap: 24, marginTop: 16 }}>
-
+          <a href="https://discord.gg/kfezRBk7" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 10, color: "#a855f7", textDecoration: "none", letterSpacing: "0.15em", fontWeight: 700 }}>
+            <DiscordIcon size={14} color="#a855f7" /> DISCORD
+          </a>
           {["TERMOS", "PRIVACIDADE"].map((link) => (
             <a key={link} href="#" style={{ fontSize: 10, color: "#6d28d9", textDecoration: "none", letterSpacing: "0.15em" }}>{link}</a>
           ))}
         </div>
+
       </footer>
     </div>
   );
