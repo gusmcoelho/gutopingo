@@ -16,7 +16,7 @@ export async function getLivePixAccessToken() {
     throw new Error("LIVEPIX_CLIENT_ID or LIVEPIX_CLIENT_SECRET not configured");
   }
 
-  const response = await fetch(`${LIVEPIX_API_BASE}/v2/oauth2/token`, {
+  const response = await fetch(`${LIVEPIX_API_BASE}/oauth2/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -44,7 +44,7 @@ export async function createLivePixPayment(amountInCents: number, metadata: Reco
   // LivePix usually uses decimal values for amount
   const amount = amountInCents / 100;
 
-  const response = await fetch(`${LIVEPIX_API_BASE}/v2/payments`, {
+  const response = await fetch(`${LIVEPIX_API_BASE}/payments`, {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${token}`,
