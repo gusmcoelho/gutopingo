@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet";
 import {
   Zap,
@@ -26,10 +26,14 @@ import {
   Settings,
   Puzzle,
   RefreshCw,
+  CheckCircle2,
+  AlertTriangle,
+  Info
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { createCheckoutSession } from "@/lib/payments.functions";
-import crypto from 'crypto';
+import { toast, Toaster } from "sonner";
+
 
 // Removida função generateEmergencyKey do client-side por segurança e redundância.
 // Chaves agora são ativadas exclusivamente via Webhook no servidor.
