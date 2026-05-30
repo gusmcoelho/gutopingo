@@ -131,6 +131,7 @@ export type Database = {
         Args: { p_ip_address: string; p_user_id: string }
         Returns: boolean
       }
+      generate_free_trial_key: { Args: { p_user_id: string }; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

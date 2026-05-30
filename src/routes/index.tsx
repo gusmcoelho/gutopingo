@@ -874,15 +874,18 @@ export default function GutoPingoPage() {
 
         if (claimError) throw claimError;
 
-        // Chamar Edge Function para gerar a key de 5 minutos grátis
-        // Assumindo que a Edge Function create-free-trial já existe ou será criada
-        const { data: trialResult, error: trialError } = await supabase.functions.invoke('create-free-trial', {
-          body: { userId: user.id, planId: 'test' }
+        // Chamar RPC para gerar a key de 5 minutos grátis diretamente
+        const { data: trialResult, error: trialError }: { data: any, error: any } = await supabase.rpc('generate_free_trial_key', {
+          p_user_id: user.id
         });
 
         if (trialError) throw trialError;
+        if (trialResult?.error) {
+          alert(trialResult.error);
+          return;
+        }
 
-        alert(lang === 'pt' ? "Teste de 5 minutos ativado! Verifique suas chaves." : "5-minute trial activated! Check your keys.");
+        alert(lang === 'pt' ? "Teste de 5 minutos ativado! Verifique suas chaves abaixo." : "5-minute trial activated! Check your keys below.");
         fetchLicenseKeys(user.id);
         return;
       }
