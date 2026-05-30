@@ -88,7 +88,7 @@ const translations = {
       title1: "PROMPTS",
       title2: "ILIMITADOS",
       title3: "NO LOVABLE",
-      subtitle: "Pare de travar no limite de prompts. A extensão do Guto Pingo desbloqueia criação infinita no Lovable com uma key simples.",
+      subtitle: "Pare de travar no limite de prompts. A extensão do Guto Pingo desbloqueia criação infinita no Lovable com uma key simples. TESTE GRÁTIS POR 5 MINUTOS AGORA!",
       buyBtn: "COMPRAR KEY",
       downloadBtn: "BAIXAR EXTENSÃO",
       discordBtn: "DISCORD",
@@ -160,7 +160,7 @@ const translations = {
       title1: "UNLIMITED",
       title2: "PROMPTS",
       title3: "ON LOVABLE",
-      subtitle: "Stop getting stuck on prompt limits. The Guto Pingo extension unlocks infinite creation on Lovable with a simple key.",
+      subtitle: "Stop getting stuck on prompt limits. The Guto Pingo extension unlocks infinite creation on Lovable with a simple key. 5-MINUTE FREE TRIAL AVAILABLE!",
       buyBtn: "BUY KEY",
       downloadBtn: "DOWNLOAD EXTENSION",
       discordBtn: "DISCORD",
@@ -232,7 +232,7 @@ const translations = {
       title1: "SINIRSIZ",
       title2: "PROMPT",
       title3: "LOVABLE'DA",
-      subtitle: "Prompt sınırlarına takılmayı bırakın. Guto Pingo uzantısı, basit bir anahtar ile Lovable'da sonsuz üretim sağlar.",
+      subtitle: "Prompt sınırlarına takılmayı bırakın. Guto Pingo uzantısı, basit bir anahtar ile Lovable'da sonsuz üretim sağlar. 5 DAKİKALIK ÜCRETSİZ TEST MEVCUT!",
       buyBtn: "ANAHTAR SATIN AL",
       downloadBtn: "UZANTIYI İNDİR",
       discordBtn: "DISCORD",
@@ -1175,6 +1175,12 @@ export default function GutoPingoPage() {
             {(translations[lang || 'pt'] || translations.pt).hero.subtitle}
           </p>
 
+
+          <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginBottom: 12 }}>
+            <a href="#pricing" style={{ padding: "16px 36px", background: "linear-gradient(135deg, #22c55e, #16a34a)", color: "#fff", border: "2px solid #bbf7d0", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", boxShadow: "4px 4px 0 #14532d", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
+              <Timer size={16} /> {t.pricing.testBtn}
+            </a>
+          </div>
 
           <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
             <a href="#pricing" style={{ padding: "16px 36px", background: "#7c3aed", color: "#fff", border: "2px solid #a855f7", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", boxShadow: "4px 4px 0 #4c1d95", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
