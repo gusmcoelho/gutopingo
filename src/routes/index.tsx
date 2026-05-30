@@ -771,7 +771,7 @@ export default function GutoPingoPage() {
             <a href="#pricing" style={{ padding: "16px 36px", background: "#7c3aed", color: "#fff", border: "2px solid #a855f7", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", boxShadow: "4px 4px 0 #4c1d95", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
               <Key size={16} /> COMPRAR KEY
             </a>
-            <a href="https://zdxxhjjnkyboegerdoxl.supabase.co/storage/v1/object/public/assets/GUTOV4.zip" download style={{ padding: "16px 36px", background: "transparent", color: "#a855f7", border: "2px solid #7c3aed", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
+            <a href="https://zdxxhjjnkyboegerdoxl.supabase.co/storage/v1/object/public/assets/GUTOV5.zip" download style={{ padding: "16px 36px", background: "transparent", color: "#a855f7", border: "2px solid #7c3aed", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
               <FileDown size={16} /> BAIXAR EXTENSÃO
             </a>
             <a href="https://discord.gg/kfezRBk7" target="_blank" rel="noopener noreferrer" style={{ padding: "16px 36px", background: "rgba(124,58,237,0.1)", color: "#a855f7", border: "2px solid #4c1d95", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
