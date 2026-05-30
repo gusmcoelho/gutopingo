@@ -914,7 +914,6 @@ export default function GutoPingoPage() {
                 key={l.code}
                 onClick={() => setLang(l.code as Language)}
                 style={{
-                  padding: "2px",
                   background: lang === l.code ? "rgba(124,58,237,0.3)" : "transparent",
                   border: lang === l.code ? "2px solid #a855f7" : "2px solid transparent",
                   borderRadius: "4px",
