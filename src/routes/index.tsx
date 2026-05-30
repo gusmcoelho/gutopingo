@@ -688,7 +688,7 @@ function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId:
         </div>
       ) : (
         <button
-          onClick={() => plan.id === "test" ? onBuy(plan.priceId) : setShowPaymentOptions(true)}
+          onClick={() => plan.id === "test" ? onBuy(plan.priceId, "stripe") : setShowPaymentOptions(true)}
           disabled={loading}
           style={{
             width: "100%",
