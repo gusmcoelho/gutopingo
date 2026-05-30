@@ -57,7 +57,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         line_items: [{ price: priceId, quantity: 1 }],
         mode: "payment",
         payment_method_types: ["card"],
-        success_url: `${baseUrl}/?success=true`,
+        success_url: `${baseUrl}/?success=true&userId=${userId}&priceId=${priceId}`,
         cancel_url: `${baseUrl}/?canceled=true`,
         client_reference_id: userId,
         metadata: {
