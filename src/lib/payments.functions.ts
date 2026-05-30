@@ -43,6 +43,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         success_url: `${baseUrl}/?success=true`,
         cancel_url: `${baseUrl}/?canceled=true`,
         client_reference_id: userId,
+        currency: "brl",
         metadata: {
           userId,
           priceId
