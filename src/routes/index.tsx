@@ -1056,11 +1056,12 @@ export default function GutoPingoPage() {
           </div>
           
           <div style={{ display: "flex", gap: 12, paddingLeft: 16, borderLeft: "2px solid rgba(124,58,237,0.5)" }}>
-            {[
+            {([
               { code: 'pt', img: 'https://flagcdn.com/w80/br.png', label: 'Brasil' },
               { code: 'en', img: 'https://flagcdn.com/w80/us.png', label: 'English' },
               { code: 'tr', img: 'https://flagcdn.com/w80/tr.png', label: 'Türkiye' }
-            ].map((l) => (
+            ] as const).map((l) => (
+
               <button
                 key={l.code}
                 onClick={() => setLang(l.code as Language)}
