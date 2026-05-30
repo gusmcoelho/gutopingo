@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// Base URL confirmada pelo JSON enviado pelo usuário
 const LIVEPIX_API_BASE = "https://api.livepix.gg";
 
 interface LivePixTokenResponse {
@@ -16,21 +17,22 @@ export async function getLivePixAccessToken() {
     throw new Error("LIVEPIX_CLIENT_ID or LIVEPIX_CLIENT_SECRET not configured");
   }
 
-  const response = await fetch(`${LIVEPIX_API_BASE}/v2/auth/token`, {
+  // Tentando o caminho padrão de OAuth2 que costuma ser omitido em documentações resumidas
+  // ou o caminho que a documentação JSON indicar (se eu pudesse ver as chaves 'servers' ou 'paths')
+  const response = await fetch(`${LIVEPIX_API_BASE}/oauth2/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
       "Authorization": `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString("base64")}`,
     },
     body: new URLSearchParams({
-      grant_type: "client_credentials",
-      scope: "payments:read payments:write",
+      grant_type: "client_credentials"
     }),
   });
 
   if (!response.ok) {
     const error = await response.text();
-    console.error("LivePix Token Error:", error);
+    console.error(`LivePix Token Error (${response.status}):`, error);
     throw new Error(`Failed to get LivePix access token: ${response.statusText}`);
   }
 
@@ -40,8 +42,6 @@ export async function getLivePixAccessToken() {
 
 export async function createLivePixPayment(amountInCents: number, metadata: Record<string, any>) {
   const token = await getLivePixAccessToken();
-  
-  // LivePix usually uses decimal values for amount
   const amount = amountInCents / 100;
 
   const response = await fetch(`${LIVEPIX_API_BASE}/payments`, {
@@ -53,13 +53,12 @@ export async function createLivePixPayment(amountInCents: number, metadata: Reco
     body: JSON.stringify({
       amount: amount,
       metadata: metadata,
-      // Custom success/cancel URLs might be handled by your frontend polling or webhooks
     }),
   });
 
   if (!response.ok) {
     const error = await response.text();
-    console.error("LivePix Payment Error:", error);
+    console.error(`LivePix Payment Error (${response.status}):`, error);
     throw new Error(`Failed to create LivePix payment: ${response.statusText}`);
   }
 
