@@ -66,7 +66,7 @@ interface Plan {
   priceId: string;
 }
 
-type Language = 'pt' | 'en';
+type Language = 'pt' | 'en' | 'tr';
 
 // ─── Translations ─────────────────────────────────────────────────────────────
 
@@ -209,6 +209,76 @@ const translations = {
       rights: "© 2025 GUTOPINGO.COM • ALL RIGHTS RESERVED",
       terms: "TERMS",
       privacy: "PRIVACY",
+    }
+  },
+  tr: {
+    nav: {
+      admin: "YÖNETİCİ",
+      logout: "ÇIKIŞ YAP",
+      login: "GİRİŞ YAP",
+      register: "KAYIT OL",
+    },
+    hero: {
+      status: "UZANTI AKTİF • LOVABLE KİLİDİ AÇILDI",
+      title1: "SINIRSIZ",
+      title2: "PROMPT",
+      title3: "LOVABLE'DA",
+      subtitle: "Prompt sınırlarına takılmayı bırakın. Guto Pingo uzantısı, basit bir anahtar ile Lovable'da sonsuz üretim sağlar.",
+      buyBtn: "ANAHTAR SATIN AL",
+      downloadBtn: "UZANTIYI İNDİR",
+      discordBtn: "DISCORD",
+    },
+    userSection: {
+      welcome: "HOŞ GELDİN",
+      activeKeys: "AKTİF ANAHTARLARINIZ",
+      noKeys: "Henüz aktif bir anahtarınız yok. Aşağıdan bir plan seçin!",
+    },
+    tutorial: {
+      badge: "KURULUM KILAVUZU",
+      title: "GUTO'YU KUR",
+      steps: [
+        "GUTO.zip dosyasını dışa aktarın → 'dist' klasörü görünecektir",
+        "Chrome'u açın ve yazın: chrome://extensions/",
+        "Geliştirici Modunu etkinleştirin (sağ üst köşe)",
+        "Paketlenmemiş öğe yükle'ye tıklayın → 'dist' klasörünü seçin",
+        "🧩 simgesine tıklayın, GUTO'yu açın, anahtarınızı yapıştırın ve Doğrula'ya tıklayın",
+      ],
+      important: "ÖNEMLİ:",
+      importantSteps: [
+        "Her zaman sohbeti normal Lovable sohbeti üzerinden değil, GUTO uzantısı üzerinden kullanın",
+        "Uzantı çalışmazsa, Lovable'daki proje sekmenize gidin ve F5'e basın",
+        "Ardından uzantı üzerinden tekrar göndermeyi deneyin",
+        "Uzantıyı kullanırken her zaman proje sekmesini açık bırakın 🚀",
+      ],
+    },
+    features: {
+      tag: "// NEDEN KULLANMALI",
+      title1: "GUTO PINGO'NUN",
+      title2: "AVANTAJLARI",
+      items: [
+        { title: "Sınırsız Prompt", desc: "Donma yok. Sınır yok. Lovable'da istediğiniz kadar oluşturun." },
+        { title: "Anında Aktivasyon", desc: "Anahtarı kopyalayın, uzantıya yapıştırın ve hazırsınız. Saniyeler içinde çalışır." },
+        { title: "100% Güvenli", desc: "Denetlenmiş uzantı, kişisel verilere veya özel kodlara erişim yok." },
+        { title: "Yüksek Performans", desc: "Lovable veya tarayıcı performansınız üzerinde hiçbir etkisi yoktur." },
+        { title: "Çoklu Proje", desc: "Bir anahtar tüm projelerinizde aynı anda çalışır." },
+        { title: "Teknik Destek", desc: "Size yardımcı olmak için Discord ve WhatsApp'ta aktif destek ekibi." },
+      ]
+    },
+    pricing: {
+      tag: "// PLANINIZI SEÇİN",
+      title1: "PLANINIZI",
+      title2: "SEÇİN",
+      subtitle: "Tüm planlar Lovable'da sınırsız prompt kilidini açar",
+      payPix: "PIX İLE ÖDE",
+      payStripe: "KART / DİĞERLERİ",
+      back: "GERİ",
+      buyBtn: ">> ANAHTAR SATIN AL",
+      testBtn: ">> ŞİMDİ TEST ET",
+    },
+    footer: {
+      rights: "© 2025 GUTOPINGO.COM • TÜM HAKLARI SAKLIDIR",
+      terms: "ŞARTLAR",
+      privacy: "GİZLİLİK",
     }
   }
 };
