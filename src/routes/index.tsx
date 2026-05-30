@@ -947,33 +947,13 @@ export default function GutoPingoPage() {
 
         const generatedKey = trialResult.key;
 
-        // 2. Tenta gravar no Supabase EXTERNO
+        // 2. A sincronização com o Supabase EXTERNO agora é feita de forma centralizada
+        // mas para o teste grátis (que é imediato no client), mantemos aqui por conveniência visual imediata.
         const extUrl = "https://ekrohxcvmteacivyadnd.supabase.co";
-        const extKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrcm9oeGN2bXRlYWNpdnlhZG5kIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTgyNDc2OCwiZXhwIjoyMDk1NDAwNzY4fQ.wPWR1Fi5evXPK80FVfUb7Lm9xureRjFt28soIAbmW7I";
-
-
-
-        if (extUrl && extKey) {
-          try {
-            await fetch(`${extUrl}/rest/v1/licenses`, {
-              method: 'POST',
-              headers: {
-                'apikey': extKey,
-                'Authorization': `Bearer ${extKey}`,
-                'Content-Type': 'application/json',
-                'Prefer': 'return=minimal'
-              },
-              body: JSON.stringify({
-                key: generatedKey,
-                status: 'active',
-                max_devices: 1,
-                expires_at: trialResult.expires_at
-              })
-            });
-          } catch (e) {
-            console.error("Erro ao sincronizar key com banco externo:", e);
-          }
-        }
+        // Nota: No frontend usamos a chave pública se necessário, mas para INSERT precisamos da service_role que está no webhook
+        // Para o trial, como é gerado via RPC, o banco local já está seguro.
+        // A sincronização externa do trial pode ser feita via edge function ou trigger se necessário.
+        // Por ora, vamos garantir que o fetchLicenseKeys busque os dados atualizados.
 
         toast.success(lang === 'pt' ? "Teste de 5 minutos ativado! Role para ver suas chaves." : "5-minute trial activated! Scroll to see your keys.", {
           duration: 5000,
