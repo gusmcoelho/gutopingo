@@ -66,7 +66,7 @@ interface Plan {
   priceId: string;
 }
 
-type Language = 'pt' | 'en';
+type Language = 'pt' | 'en' | 'tr';
 
 // ─── Translations ─────────────────────────────────────────────────────────────
 
@@ -210,6 +210,76 @@ const translations = {
       terms: "TERMS",
       privacy: "PRIVACY",
     }
+  },
+  tr: {
+    nav: {
+      admin: "YÖNETİCİ",
+      logout: "ÇIKIŞ YAP",
+      login: "GİRİŞ YAP",
+      register: "KAYIT OL",
+    },
+    hero: {
+      status: "UZANTI AKTİF • LOVABLE KİLİDİ AÇILDI",
+      title1: "SINIRSIZ",
+      title2: "PROMPT",
+      title3: "LOVABLE'DA",
+      subtitle: "Prompt sınırlarına takılmayı bırakın. Guto Pingo uzantısı, basit bir anahtar ile Lovable'da sonsuz üretim sağlar.",
+      buyBtn: "ANAHTAR SATIN AL",
+      downloadBtn: "UZANTIYI İNDİR",
+      discordBtn: "DISCORD",
+    },
+    userSection: {
+      welcome: "HOŞ GELDİN",
+      activeKeys: "AKTİF ANAHTARLARINIZ",
+      noKeys: "Henüz aktif bir anahtarınız yok. Aşağıdan bir plan seçin!",
+    },
+    tutorial: {
+      badge: "KURULUM KILAVUZU",
+      title: "GUTO'YU KUR",
+      steps: [
+        "GUTO.zip dosyasını dışa aktarın → 'dist' klasörü görünecektir",
+        "Chrome'u açın ve yazın: chrome://extensions/",
+        "Geliştirici Modunu etkinleştirin (sağ üst köşe)",
+        "Paketlenmemiş öğe yükle'ye tıklayın → 'dist' klasörünü seçin",
+        "🧩 simgesine tıklayın, GUTO'yu açın, anahtarınızı yapıştırın ve Doğrula'ya tıklayın",
+      ],
+      important: "ÖNEMLİ:",
+      importantSteps: [
+        "Her zaman sohbeti normal Lovable sohbeti üzerinden değil, GUTO uzantısı üzerinden kullanın",
+        "Uzantı çalışmazsa, Lovable'daki proje sekmenize gidin ve F5'e basın",
+        "Ardından uzantı üzerinden tekrar göndermeyi deneyin",
+        "Uzantıyı kullanırken her zaman proje sekmesini açık bırakın 🚀",
+      ],
+    },
+    features: {
+      tag: "// NEDEN KULLANMALI",
+      title1: "GUTO PINGO'NUN",
+      title2: "AVANTAJLARI",
+      items: [
+        { title: "Sınırsız Prompt", desc: "Donma yok. Sınır yok. Lovable'da istediğiniz kadar oluşturun." },
+        { title: "Anında Aktivasyon", desc: "Anahtarı kopyalayın, uzantıya yapıştırın ve hazırsınız. Saniyeler içinde çalışır." },
+        { title: "100% Güvenli", desc: "Denetlenmiş uzantı, kişisel verilere veya özel kodlara erişim yok." },
+        { title: "Yüksek Performans", desc: "Lovable veya tarayıcı performansınız üzerinde hiçbir etkisi yoktur." },
+        { title: "Çoklu Proje", desc: "Bir anahtar tüm projelerinizde aynı anda çalışır." },
+        { title: "Teknik Destek", desc: "Size yardımcı olmak için Discord ve WhatsApp'ta aktif destek ekibi." },
+      ]
+    },
+    pricing: {
+      tag: "// PLANINIZI SEÇİN",
+      title1: "PLANINIZI",
+      title2: "SEÇİN",
+      subtitle: "Tüm planlar Lovable'da sınırsız prompt kilidini açar",
+      payPix: "PIX İLE ÖDE",
+      payStripe: "KART / DİĞERLERİ",
+      back: "GERİ",
+      buyBtn: ">> ANAHTAR SATIN AL",
+      testBtn: ">> ŞİMDİ TEST ET",
+    },
+    footer: {
+      rights: "© 2025 GUTOPINGO.COM • TÜM HAKLARI SAKLIDIR",
+      terms: "ŞARTLAR",
+      privacy: "GİZLİLİK",
+    }
   }
 };
 
@@ -219,58 +289,58 @@ const getPlans = (lang: Language): Plan[] => [
   {
     id: "test",
     priceId: "price_1TbXLaDgmvJ4Q2O6idYoTXFJ",
-    name: lang === 'pt' ? "Guto Pingo - 5 Minutos (Teste)" : "Guto Pingo - 5 Minutes (Test)",
+    name: lang === 'pt' ? "Guto Pingo - 5 Minutos (Teste)" : lang === 'tr' ? "Guto Pingo - 5 Dakika (Test)" : "Guto Pingo - 5 Minutes (Test)",
     price: "R$ 5.00",
-    priceNote: lang === 'pt' ? "acesso imediato" : "immediate access",
-    duration: lang === 'pt' ? "5 Minutos" : "5 Minutes",
+    priceNote: lang === 'pt' ? "acesso imediato" : lang === 'tr' ? "anında erişim" : "immediate access",
+    duration: lang === 'pt' ? "5 Minutos" : lang === 'tr' ? "5 Dakika" : "5 Minutes",
     icon: <Timer size={20} />,
     featured: true,
-    badge: lang === 'pt' ? "⭐ PRINCIPAL" : "⭐ MAIN",
+    badge: lang === 'pt' ? "⭐ PRINCIPAL" : lang === 'tr' ? "⭐ ANA PLAN" : "⭐ MAIN",
     color: "#7c3aed",
-    features: lang === 'pt' ? ["Acesso de 5 minutos", "Software as a service", "Business use"] : ["5-minute access", "Software as a service", "Business use"],
+    features: lang === 'pt' ? ["Acesso de 5 minutos", "Software as a service", "Business use"] : lang === 'tr' ? ["5 dakikalık erişim", "Hizmet olarak yazılım", "Ticari kullanım"] : ["5-minute access", "Software as a service", "Business use"],
   },
   {
     id: "1day",
     priceId: "price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v",
-    name: lang === 'pt' ? "Guto Pingo - 1 Dia" : "Guto Pingo - 1 Day",
+    name: lang === 'pt' ? "Guto Pingo - 1 Dia" : lang === 'tr' ? "Guto Pingo - 1 Gün" : "Guto Pingo - 1 Day",
     price: "R$ 20.00",
-    priceNote: lang === 'pt' ? "acesso imediato" : "immediate access",
-    duration: lang === 'pt' ? "1 Dia" : "1 Day",
+    priceNote: lang === 'pt' ? "acesso imediato" : lang === 'tr' ? "anında erişim" : "immediate access",
+    duration: lang === 'pt' ? "1 Dia" : lang === 'tr' ? "1 Gün" : "1 Day",
     icon: <Clock size={20} />,
     color: "#6d28d9",
-    features: lang === 'pt' ? ["Acesso de 1 dia", "Software as a service", "Business use"] : ["1-day access", "Software as a service", "Business use"],
+    features: lang === 'pt' ? ["Acesso de 1 dia", "Software as a service", "Business use"] : lang === 'tr' ? ["1 günlük erişim", "Hizmet olarak yazılım", "Ticari kullanım"] : ["1-day access", "Software as a service", "Business use"],
   },
   {
     id: "1week",
     priceId: "price_1TbXLZDgmvJ4Q2O66me1RzwB",
-    name: lang === 'pt' ? "Guto Pingo - 1 Semana" : "Guto Pingo - 1 Week",
+    name: lang === 'pt' ? "Guto Pingo - 1 Semana" : lang === 'tr' ? "Guto Pingo - 1 Hafta" : "Guto Pingo - 1 Week",
     price: "R$ 45.00",
-    priceNote: lang === 'pt' ? "acesso imediato" : "immediate access",
-    duration: lang === 'pt' ? "1 Semana" : "1 Week",
+    priceNote: lang === 'pt' ? "acesso imediato" : lang === 'tr' ? "anında erişim" : "immediate access",
+    duration: lang === 'pt' ? "1 Semana" : lang === 'tr' ? "1 Hafta" : "1 Week",
     icon: <Zap size={20} />,
     color: "#5b21b6",
-    features: lang === 'pt' ? ["Acesso de 1 semana", "Software as a service", "Business use"] : ["1-week access", "Software as a service", "Business use"],
+    features: lang === 'pt' ? ["Acesso de 1 semana", "Software as a service", "Business use"] : lang === 'tr' ? ["1 haftalık erişim", "Hizmet olarak yazılım", "Ticari kullanım"] : ["1-week access", "Software as a service", "Business use"],
   },
   {
     id: "30days",
     priceId: "price_1TbXLYDgmvJ4Q2O6YrA9zxs3",
-    name: lang === 'pt' ? "Guto Pingo - 30 Dias" : "Guto Pingo - 30 Days",
+    name: lang === 'pt' ? "Guto Pingo - 30 Dias" : lang === 'tr' ? "Guto Pingo - 30 Gün" : "Guto Pingo - 30 Days",
     price: "R$ 100.00",
-    priceNote: lang === 'pt' ? "acesso imediato" : "immediate access",
-    duration: lang === 'pt' ? "30 Dias" : "30 Days",
+    priceNote: lang === 'pt' ? "acesso imediato" : lang === 'tr' ? "anında erişim" : "immediate access",
+    duration: lang === 'pt' ? "30 Dias" : lang === 'tr' ? "30 Gün" : "30 Days",
     icon: <Globe size={20} />,
     color: "#4c1d95",
-    features: lang === 'pt' ? ["Acesso de 30 dias", "Software as a service", "Business use"] : ["30-day access", "Software as a service", "Business use"],
+    features: lang === 'pt' ? ["Acesso de 30 dias", "Software as a service", "Business use"] : lang === 'tr' ? ["30 günlük erişim", "Hizmet olarak yazılım", "Ticari kullanım"] : ["30-day access", "Software as a service", "Business use"],
   },
   {
     id: "lifetime",
     priceId: "price_1TbXLYDgmvJ4Q2O61rlPDyRk",
-    name: lang === 'pt' ? "Guto Pingo - Vitalício" : "Guto Pingo - Lifetime",
+    name: lang === 'pt' ? "Guto Pingo - Vitalício" : lang === 'tr' ? "Guto Pingo - Ömür Boyu" : "Guto Pingo - Lifetime",
     price: "R$ 169.99",
-    priceNote: lang === 'pt' ? "PROMOÇÃO" : "PROMOTION",
-    duration: lang === 'pt' ? "Para sempre" : "Forever",
+    priceNote: lang === 'pt' ? "PROMOÇÃO" : lang === 'tr' ? "PROMOSYON" : "PROMOTION",
+    duration: lang === 'pt' ? "Para sempre" : lang === 'tr' ? "Sonsuza kadar" : "Forever",
     icon: <Infinity size={20} />,
-    badge: lang === 'pt' ? "🔥 PROMO LIMITADA" : "🔥 LIMITED PROMO",
+    badge: lang === 'pt' ? "🔥 PROMO LIMITADA" : lang === 'tr' ? "🔥 SINIRLI PROMO" : "🔥 LIMITED PROMO",
     color: "#7c3aed",
     features: lang === 'pt' ? [
       "Acesso vitalício",
@@ -278,6 +348,12 @@ const getPlans = (lang: Language): Plan[] => [
       "Business use",
       "Atualizações grátis",
       "Prioridade máxima",
+    ] : lang === 'tr' ? [
+      "Ömür boyu erişim",
+      "Hizmet olarak yazılım",
+      "Ticari kullanım",
+      "Ücretsiz güncellemeler",
+      "Maksimum öncelik",
     ] : [
       "Lifetime access",
       "Software as a service",
@@ -653,6 +729,8 @@ export default function GutoPingoPage() {
     const browserLang = navigator.language.toLowerCase();
     if (browserLang.startsWith('pt')) {
       setLang('pt');
+    } else if (browserLang.startsWith('tr')) {
+      setLang('tr');
     } else {
       setLang('en');
     }
