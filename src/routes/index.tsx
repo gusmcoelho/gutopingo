@@ -627,7 +627,34 @@ function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId:
         ))}
       </div>
 
-      {showPaymentOptions ? (
+      {plan.id === "test" ? (
+        <button
+          onClick={() => onBuy(plan.priceId, "stripe")}
+          disabled={loading}
+          style={{
+            width: "100%",
+            padding: "14px 0",
+            background: "linear-gradient(135deg, #16a34a, #22c55e)",
+            color: "#fff",
+            border: "2px solid #bbf7d0",
+            cursor: "pointer",
+            fontFamily: "'Courier New', monospace",
+            fontSize: 13,
+            fontWeight: 900,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            transition: "all 0.15s",
+            imageRendering: "pixelated",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+            opacity: loading ? 0.7 : 1,
+          }}
+        >
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t.testBtn}
+        </button>
+      ) : showPaymentOptions ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <button
             onClick={() => onBuy(plan.priceId, "pix")}
@@ -688,14 +715,14 @@ function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId:
         </div>
       ) : (
         <button
-          onClick={() => plan.id === "test" ? onBuy(plan.priceId, "stripe") : setShowPaymentOptions(true)}
+          onClick={() => setShowPaymentOptions(true)}
           disabled={loading}
           style={{
             width: "100%",
             padding: plan.featured ? "14px 0" : "11px 0",
-            background: plan.id === "test" ? "linear-gradient(135deg, #16a34a, #22c55e)" : (plan.featured ? "linear-gradient(135deg, #7c3aed, #a855f7)" : "transparent"),
-            color: (plan.featured || plan.id === "test") ? "#fff" : "#a855f7",
-            border: plan.id === "test" ? "2px solid #bbf7d0" : (plan.featured ? "2px solid #c4b5fd" : "2px solid #7c3aed"),
+            background: plan.featured ? "linear-gradient(135deg, #7c3aed, #a855f7)" : "transparent",
+            color: plan.featured ? "#fff" : "#a855f7",
+            border: plan.featured ? "2px solid #c4b5fd" : "2px solid #7c3aed",
             cursor: "pointer",
             fontFamily: "'Courier New', monospace",
             fontSize: 13,
@@ -711,7 +738,7 @@ function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId:
             opacity: loading ? 0.7 : 1,
           }}
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : (plan.id === "test" ? t.testBtn : t.buyBtn)}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t.buyBtn}
         </button>
       )}
     </div>
