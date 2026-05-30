@@ -1060,7 +1060,7 @@ export default function GutoPingoPage() {
               { code: 'pt', img: 'https://flagcdn.com/w80/br.png', label: 'Brasil' },
               { code: 'en', img: 'https://flagcdn.com/w80/us.png', label: 'English' },
               { code: 'tr', img: 'https://flagcdn.com/w80/tr.png', label: 'Türkiye' }
-            ] as const).map((l) => (
+            ] as const).map((l: { code: Language; img: string; label: string }) => (
 
               <button
                 key={l.code}
