@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { createStripeClient, getStripeErrorMessage } from "@/lib/stripe.server";
+import { createLivePixPayment } from "@/lib/livepix.server";
 
 const ALLOWED_PRICE_IDS = new Set([
   "price_1TbXLaDgmvJ4Q2O6idYoTXFJ",
@@ -19,27 +20,43 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         priceId: z
           .string()
           .refine((id) => ALLOWED_PRICE_IDS.has(id), { message: "Invalid price ID" }),
+        method: z.enum(["stripe", "pix"]).default("stripe"),
       })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
     const { userId } = context;
-    const { priceId } = data;
+    const { priceId, method } = data;
     
     try {
-      console.log("DEBUG: createCheckoutSession called for priceId:", priceId);
-      const env = 'live';
-      console.log("DEBUG: Using Stripe env:", env);
-      const stripe = createStripeClient(env);
+      console.log(`DEBUG: createCheckoutSession called for priceId: ${priceId}, method: ${method}`);
       
-      // In a server function, we can't use window.location.origin
-      // Lovable automatically provides process.env.LOVABLE_APP_URL in many cases
+      const priceMap: Record<string, number> = {
+        "price_1TbXLaDgmvJ4Q2O6idYoTXFJ": 14990, // Exemplo
+        "price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v": 4990,
+        "price_1TbXLZDgmvJ4Q2O66me1RzwB": 1990,
+        "price_1TbXLYDgmvJ4Q2O6YrA9zxs3": 990,
+        "price_1TbXLYDgmvJ4Q2O61rlPDyRk": 290,
+      };
+
+      if (method === "pix") {
+        const amount = priceMap[priceId] || 1000;
+        const payment = await createLivePixPayment(amount, {
+          userId,
+          priceId,
+        });
+        // LivePix returns a URL to the checkout/payment page
+        return { checkoutUrl: payment.checkoutUrl || payment.url };
+      }
+
+      const env = 'live';
+      const stripe = createStripeClient(env);
       const baseUrl = process.env.LOVABLE_APP_URL || process.env.APP_URL || 'https://zdxxhjjnkyboegerdoxl.lovable.app';
 
       const session = await stripe.checkout.sessions.create({
         line_items: [{ price: priceId, quantity: 1 }],
         mode: "payment",
-        payment_method_types: ["card", "pix"],
+        payment_method_types: ["card"],
         success_url: `${baseUrl}/?success=true`,
         cancel_url: `${baseUrl}/?canceled=true`,
         client_reference_id: userId,
@@ -55,7 +72,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
 
       return { checkoutUrl: session.url };
     } catch (error) {
-      console.error("Stripe Checkout Error:", error);
-      return { error: getStripeErrorMessage(error) };
+      console.error("Payment Error:", error);
+      return { error: error instanceof Error ? error.message : "Payment request failed" };
     }
   });
