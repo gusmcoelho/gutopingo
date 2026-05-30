@@ -758,7 +758,11 @@ export default function GutoPingoPage() {
             <a href="https://www.mediafire.com/file/6xf8t9whuek6xnu/GUTOV4.zip/file" target="_blank" rel="noopener noreferrer" style={{ padding: "16px 36px", background: "transparent", color: "#a855f7", border: "2px solid #7c3aed", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
               <FileDown size={16} /> BAIXAR EXTENSÃO
             </a>
+            <a href="https://discord.gg/kfezRBk7" target="_blank" rel="noopener noreferrer" style={{ padding: "16px 36px", background: "rgba(124,58,237,0.1)", color: "#a855f7", border: "2px solid #4c1d95", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
+              <DiscordIcon size={18} color="#a855f7" /> DISCORD
+            </a>
           </div>
+
 
           <div style={{ marginTop: 64, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: "#4c1d95", animation: "twinkle 2s ease-in-out infinite" }}>
             <span style={{ fontSize: 10, letterSpacing: "0.2em" }}>SCROLL</span>
