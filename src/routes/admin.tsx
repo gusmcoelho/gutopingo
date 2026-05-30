@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router"; // forced refresh
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { getAdminStats } from "@/lib/admin.functions";
