@@ -873,7 +873,7 @@ export default function GutoPingoPage() {
 
       // Agora buscamos no Supabase EXTERNO se as credenciais existirem
       const extUrl = "https://ekrohxcvmteacivyadnd.supabase.co";
-      const extKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrcm9oeGN2bXRlYWNpdnlhZG5kIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTgyNDc2OCwiZXhwIjoyMDk1NDAwNzY4fQ.wPWR1Fi5evXPK80FVfUb7Lm9xureRjFt28soIAbmW7I";
+      const extKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrcm9oeGN2bXRlYWNpdnlhZG5kIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTgyNDc2OCwiZXhwIjoyMDk1NDAwNzY4fQ.wPWR1Fi5evXPK80FVfUb7Lm9xureRjFt28soIAbmW7I"; // Chave de leitura segura para o frontend
 
       if (extUrl && extKey) {
         try {
