@@ -528,7 +528,7 @@ function CopyButton({ text, lang }: { text: string; lang: Language }) {
 }
 
 function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
-  const isLifetime = licKey.duration && (licKey.duration.toLowerCase() === "vitalício" || licKey.duration.toLowerCase() === "lifetime" || licKey.duration.toLowerCase() === "para sempre" || licKey.duration.toLowerCase() === "forever");
+  const isLifetime = licKey && licKey.duration && (licKey.duration.toLowerCase() === "vitalício" || licKey.duration.toLowerCase() === "lifetime" || licKey.duration.toLowerCase() === "para sempre" || licKey.duration.toLowerCase() === "forever");
 
   return (
     <div
@@ -855,7 +855,7 @@ export default function GutoPingoPage() {
   const fetchLicenseKeys = async (userId: string) => {
     try {
       // Primeiro buscamos as keys locais (inclusive o teste grátis)
-      const { data: localData, error: localError } = await supabase
+      const { data: localData } = await supabase
         .from("license_keys")
         .select("*")
         .eq("user_id", userId);
@@ -876,16 +876,17 @@ export default function GutoPingoPage() {
           });
           if (response.ok) {
             const extData = await response.json();
-            // Filtrar ou mapear se necessário, mas por agora vamos mostrar todas
-            allKeys = [...allKeys, ...extData];
+            if (Array.isArray(extData)) {
+              allKeys = [...allKeys, ...extData];
+            }
           }
         } catch (e) {
           console.error("Erro ao buscar keys externas:", e);
         }
       }
-
       
       setLicenseKeys(allKeys);
+
     } catch (err) {
       console.error("Error fetching keys:", err);
     }
