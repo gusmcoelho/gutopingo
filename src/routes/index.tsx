@@ -485,7 +485,7 @@ function PixelStars() {
   );
 }
 
-function CopyButton({ text }: { text: string }) {
+function CopyButton({ text, lang }: { text: string; lang: Language }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
