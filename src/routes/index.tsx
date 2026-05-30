@@ -818,8 +818,9 @@ export default function GutoPingoPage() {
     };
   }, [searchParams]);
 
-  const t = translations[lang];
+  const t = translations[lang] || translations.pt;
   const PLANS = getPlans(lang);
+
 
   const handleSuccessPayment = async (userId: string, priceId: string) => {
     console.log("Processando sucesso de pagamento:", { userId, priceId });
