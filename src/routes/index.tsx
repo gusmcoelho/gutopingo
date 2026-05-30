@@ -904,30 +904,35 @@ export default function GutoPingoPage() {
             </span>
           </div>
           
-          <div style={{ display: "flex", gap: 6, paddingLeft: 12, borderLeft: "1px solid rgba(124,58,237,0.3)" }}>
+          <div style={{ display: "flex", gap: 12, paddingLeft: 16, borderLeft: "2px solid rgba(124,58,237,0.5)" }}>
             {[
-              { code: 'pt', flag: '🇧🇷' },
-              { code: 'en', flag: '🇺🇸' },
-              { code: 'tr', flag: '🇹🇷' }
+              { code: 'pt', img: 'https://flagcdn.com/w80/br.png', label: 'Brasil' },
+              { code: 'en', img: 'https://flagcdn.com/w80/us.png', label: 'English' },
+              { code: 'tr', img: 'https://flagcdn.com/w80/tr.png', label: 'Türkiye' }
             ].map((l) => (
               <button
                 key={l.code}
                 onClick={() => setLang(l.code as Language)}
                 style={{
-                  padding: "4px",
-                  background: lang === l.code ? "rgba(124,58,237,0.2)" : "transparent",
-                  border: lang === l.code ? "1px solid #7c3aed" : "1px solid transparent",
+                  background: lang === l.code ? "rgba(124,58,237,0.3)" : "transparent",
+                  border: lang === l.code ? "2px solid #a855f7" : "2px solid transparent",
+                  borderRadius: "4px",
                   cursor: "pointer",
-                  fontSize: 20,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   transition: "all 0.2s",
-                  opacity: lang === l.code ? 1 : 0.6,
+                  opacity: lang === l.code ? 1 : 0.5,
+                  transform: lang === l.code ? "scale(1.1)" : "scale(1)",
+                  padding: "4px"
                 }}
-                title={l.code.toUpperCase()}
+                title={l.label}
               >
-                {l.flag}
+                <img 
+                  src={l.img} 
+                  alt={l.label} 
+                  style={{ width: 32, height: "auto", display: "block", filter: lang === l.code ? "none" : "grayscale(20%)" }} 
+                />
               </button>
             ))}
           </div>
