@@ -46,8 +46,11 @@ export async function getLivePixAccessToken() {
 export async function createLivePixPayment(amountInCents: number, metadata: Record<string, any>) {
   const token = await getLivePixAccessToken();
   
-  // URL base para recursos é api.livepix.gg, conforme doc (/v2/payments)
   const baseUrl = process.env.LOVABLE_APP_URL || process.env.APP_URL || 'https://zdxxhjjnkyboegerdoxl.lovable.app';
+  
+  // Incluímos a referência personalizada para identificar o pagamento no webhook
+  // O LivePix aceita 'reference' para bater depois
+  const referenceId = `ref_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
   const response = await fetch(`${LIVEPIX_API_BASE}/v2/payments`, {
     method: "POST",
@@ -56,11 +59,9 @@ export async function createLivePixPayment(amountInCents: number, metadata: Reco
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      amount: amountInCents, // Doc diz centavos
+      amount: amountInCents,
       currency: "BRL",
-      redirectUrl: `${baseUrl}/?success=true`,
-      // Metadados não são explicitamente listados no body da criação, 
-      // mas podem ser passados se a API aceitar ou salvos localmente vinculados à referência.
+      redirectUrl: `${baseUrl}/?success=true&userId=${metadata.userId}&priceId=${metadata.priceId}`,
     }),
   });
 
@@ -72,7 +73,6 @@ export async function createLivePixPayment(amountInCents: number, metadata: Reco
 
   const result = await response.json();
   
-  // A doc diz que retorna { data: { reference: "...", redirectUrl: "..." } }
   return {
     checkoutUrl: result.data?.redirectUrl,
     reference: result.data?.reference

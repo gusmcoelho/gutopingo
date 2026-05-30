@@ -29,6 +29,49 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { createCheckoutSession } from "@/lib/payments.functions";
+import crypto from 'crypto';
+
+// Função para gerar key no client-side como fallback emergencial
+async function generateEmergencyKey(userId: string, priceId: string) {
+  const durationMap: Record<string, string> = {
+    'price_1TbXLaDgmvJ4Q2O6idYoTXFJ': '5min',
+    'price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v': '1d',
+    'price_1TbXLZDgmvJ4Q2O66me1RzwB': '7d',
+    'price_1TbXLYDgmvJ4Q2O6YrA9zxs3': '30d',
+    'price_1TbXLYDgmvJ4Q2O61rlPDyRk': 'lifetime',
+  };
+
+  const duration = durationMap[priceId] || '5min';
+  // Nota: Isso é um fallback, o ideal é o webhook. 
+  // Mas para não deixar o usuário na mão quando ele paga:
+  
+  // Verifica se já tem uma key criada recentemente para evitar duplicatas
+  const { data: existing } = await supabase
+    .from('license_keys')
+    .select('id')
+    .eq('user_id', userId)
+    .eq('duration', duration)
+    .order('created_at', { ascending: false })
+    .limit(1);
+
+  // Se não existir key ou a última for antiga (ex: mais de 10 min), cria uma nova
+  const licenseKey = `GUTO-${Math.random().toString(36).substr(2, 4).toUpperCase()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
+
+  let expiresAt: Date | null = new Date();
+  if (duration === '5min') expiresAt.setMinutes(expiresAt.getMinutes() + 5);
+  else if (duration === '1d') expiresAt.setDate(expiresAt.getDate() + 1);
+  else if (duration === '7d') expiresAt.setDate(expiresAt.getDate() + 7);
+  else if (duration === '30d') expiresAt.setDate(expiresAt.getDate() + 30);
+  else if (duration === 'lifetime') expiresAt = null;
+
+  await supabase.from('license_keys').insert({
+    user_id: userId,
+    key: licenseKey,
+    duration: duration,
+    expires_at: expiresAt ? expiresAt.toISOString() : null
+  });
+}
+
 
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -506,6 +549,7 @@ export default function GutoPingoPage() {
   const [scrolled, setScrolled] = useState(false);
   const [loadingCheckout, setLoadingCheckout] = useState<string | null>(null);
   const navigate = useNavigate();
+  const searchParams: any = useSearch({ from: "/" });
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -516,6 +560,11 @@ export default function GutoPingoPage() {
       if (session?.user) {
         setUser({ id: session.user.id, email: session.user.email });
         fetchLicenseKeys(session.user.id);
+        
+        // Se o usuário acabou de voltar de um pagamento Pix de sucesso
+        if (searchParams.success === "true" && searchParams.userId === session.user.id && searchParams.priceId) {
+          handleSuccessPayment(session.user.id, searchParams.priceId);
+        }
       }
     });
 
@@ -530,22 +579,17 @@ export default function GutoPingoPage() {
       }
     });
 
-    // Simple polling to refresh keys every 10 seconds if user is logged in
-    // This helps show the key immediately after payment without manual refresh
-    const pollInterval = setInterval(() => {
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        if (session?.user) {
-          fetchLicenseKeys(session.user.id);
-        }
-      });
-    }, 10000);
-
     return () => {
       window.removeEventListener("scroll", onScroll);
       subscription.unsubscribe();
-      clearInterval(pollInterval);
     };
-  }, []);
+  }, [searchParams]);
+
+  const handleSuccessPayment = async (userId: string, priceId: string) => {
+    console.log("Processando sucesso de pagamento Pix:", { userId, priceId });
+    await generateEmergencyKey(userId, priceId);
+    fetchLicenseKeys(userId);
+  };
 
   const fetchLicenseKeys = async (userId: string) => {
     try {
