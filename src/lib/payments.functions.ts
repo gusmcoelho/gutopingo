@@ -39,11 +39,13 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       const session = await stripe.checkout.sessions.create({
         line_items: [{ price: priceId, quantity: 1 }],
         mode: "payment",
-        payment_method_types: ["card", "pix"],
+        payment_method_types: undefined, // Let Stripe handle available methods based on currency/region
+        automatic_payment_methods: {
+          enabled: true,
+        },
         success_url: `${baseUrl}/?success=true`,
         cancel_url: `${baseUrl}/?canceled=true`,
         client_reference_id: userId,
-        currency: "brl",
         metadata: {
           userId,
           priceId
