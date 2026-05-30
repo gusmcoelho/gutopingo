@@ -520,6 +520,7 @@ function PlanCard({ plan, onBuy, loading }: { plan: Plan; onBuy: (priceId: strin
 
 export default function GutoPingoPage() {
   const [user, setUser] = useState<UserType | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [licenseKeys, setLicenseKeys] = useState<LicenseKey[]>([]);
   const [scrolled, setScrolled] = useState(false);
   const [loadingCheckout, setLoadingCheckout] = useState<string | null>(null);
@@ -530,11 +531,17 @@ export default function GutoPingoPage() {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
 
+    const checkAdmin = async (userId: string) => {
+      const { data } = await supabase.from('user_roles').select('role').eq('user_id', userId).maybeSingle();
+      setIsAdmin(data?.role === 'admin');
+    };
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setUser({ id: session.user.id, email: session.user.email });
         fetchLicenseKeys(session.user.id);
+        checkAdmin(session.user.id);
         
         // Se o usuário acabou de voltar de um pagamento Pix de sucesso
         if (searchParams.success === "true" && searchParams.userId === session.user.id && searchParams.priceId) {
@@ -548,8 +555,10 @@ export default function GutoPingoPage() {
       if (session?.user) {
         setUser({ id: session.user.id, email: session.user.email });
         fetchLicenseKeys(session.user.id);
+        checkAdmin(session.user.id);
       } else {
         setUser(null);
+        setIsAdmin(false);
         setLicenseKeys([]);
       }
     });
