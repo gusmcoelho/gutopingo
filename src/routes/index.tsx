@@ -867,7 +867,8 @@ export default function GutoPingoPage() {
       const { data: localData } = await supabase
         .from("license_keys")
         .select("*")
-        .eq("user_id", userId);
+        .eq("user_id", userId)
+        .or(`expires_at.gt.${new Date().toISOString()},expires_at.is.null`);
       
       let allKeys = localData || [];
 
@@ -885,7 +886,7 @@ export default function GutoPingoPage() {
           
           if (allKeys.length > 0) {
             const keyStrings = allKeys.map(k => k.key);
-            const response = await fetch(`${extUrl}/rest/v1/licenses?key=in.(${keyStrings.map(s => `"${s}"`).join(',')})`, {
+            const response = await fetch(`${extUrl}/rest/v1/licenses?key=in.(${keyStrings.map(s => `"${s}"`).join(',')})&or=(expires_at.gt.${new Date().toISOString()},expires_at.is.null)`, {
               headers: {
                 'apikey': extKey,
                 'Authorization': `Bearer ${extKey}`
