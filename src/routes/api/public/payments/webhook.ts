@@ -11,6 +11,14 @@ const DURATION_MAP: Record<string, string> = {
   'price_1TbXLYDgmvJ4Q2O61rlPDyRk': 'lifetime',
 };
 
+const PRICE_AMOUNT_MAP: Record<string, number> = {
+  'price_1TbXLaDgmvJ4Q2O6idYoTXFJ': 500,
+  'price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v': 2000,
+  'price_1TbXLZDgmvJ4Q2O66me1RzwB': 4500,
+  'price_1TbXLYDgmvJ4Q2O6YrA9zxs3': 10000,
+  'price_1TbXLYDgmvJ4Q2O61rlPDyRk': 16999,
+};
+
 async function generateLicenseKey(userId: string, priceId: string) {
   const duration = DURATION_MAP[priceId] || 'custom';
   const licenseKey = `GUTO-${crypto.randomBytes(4).toString('hex').toUpperCase()}-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
