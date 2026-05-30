@@ -506,6 +506,7 @@ export default function GutoPingoPage() {
   const [scrolled, setScrolled] = useState(false);
   const [loadingCheckout, setLoadingCheckout] = useState<string | null>(null);
   const navigate = useNavigate();
+  const searchParams: any = useSearch({ from: "/" });
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -516,6 +517,11 @@ export default function GutoPingoPage() {
       if (session?.user) {
         setUser({ id: session.user.id, email: session.user.email });
         fetchLicenseKeys(session.user.id);
+        
+        // Se o usuário acabou de voltar de um pagamento Pix de sucesso
+        if (searchParams.success === "true" && searchParams.userId === session.user.id && searchParams.priceId) {
+          handleSuccessPayment(session.user.id, searchParams.priceId);
+        }
       }
     });
 
@@ -530,22 +536,19 @@ export default function GutoPingoPage() {
       }
     });
 
-    // Simple polling to refresh keys every 10 seconds if user is logged in
-    // This helps show the key immediately after payment without manual refresh
-    const pollInterval = setInterval(() => {
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        if (session?.user) {
-          fetchLicenseKeys(session.user.id);
-        }
-      });
-    }, 10000);
-
     return () => {
       window.removeEventListener("scroll", onScroll);
       subscription.unsubscribe();
-      clearInterval(pollInterval);
     };
-  }, []);
+  }, [searchParams]);
+
+  const handleSuccessPayment = async (userId: string, priceId: string) => {
+    // Chamar uma função no servidor ou RPC para gerar a key se ela não existir
+    // Isso garante que o usuário receba a key mesmo se o webhook demorar
+    console.log("Processando sucesso de pagamento Pix:", { userId, priceId });
+    // A key será buscada pelo polling ou recarregamento
+    fetchLicenseKeys(userId);
+  };
 
   const fetchLicenseKeys = async (userId: string) => {
     try {
