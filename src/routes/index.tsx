@@ -851,14 +851,37 @@ export default function GutoPingoPage() {
 
   const fetchLicenseKeys = async (userId: string) => {
     try {
-      const { data, error } = await supabase
+      // Primeiro buscamos as keys locais (inclusive o teste grátis)
+      const { data: localData, error: localError } = await supabase
         .from("license_keys")
         .select("*")
         .eq("user_id", userId);
       
-      if (!error && data) {
-        setLicenseKeys(data);
+      let allKeys = localData || [];
+
+      // Agora buscamos no Supabase EXTERNO se as credenciais existirem
+      const extUrl = import.meta.env.VITE_EXTERNAL_SUPABASE_URL || "https://ekrohxcvmteacivyadnd.supabase.co";
+      const extKey = import.meta.env.VITE_EXTERNAL_SUPABASE_SERVICE_ROLE_KEY || ""; // Idealmente usaríamos uma Edge Function para isso
+
+      if (extUrl && extKey) {
+        try {
+          const response = await fetch(`${extUrl}/rest/v1/licenses?select=*`, {
+            headers: {
+              'apikey': extKey,
+              'Authorization': `Bearer ${extKey}`
+            }
+          });
+          if (response.ok) {
+            const extData = await response.json();
+            // Filtrar ou mapear se necessário, mas por agora vamos mostrar todas
+            allKeys = [...allKeys, ...extData];
+          }
+        } catch (e) {
+          console.error("Erro ao buscar keys externas:", e);
+        }
       }
+      
+      setLicenseKeys(allKeys);
     } catch (err) {
       console.error("Error fetching keys:", err);
     }
@@ -874,32 +897,50 @@ export default function GutoPingoPage() {
       setLoadingCheckout(priceId);
       
       if (priceId === "free_test_5min") {
-        // Obter IP do usuário (aproximado via API pública ou Edge Function)
         const ipRes = await fetch('https://api.ipify.org?format=json');
         const { ip } = await ipRes.json();
         
-        console.log(`DEBUG: Claiming free trial for user ${user.id} at IP ${ip}`);
-
+        // 1. Gera localmente para controle de IP e exibição rápida
         const { data: trialResult, error: trialError }: { data: any, error: any } = await supabase.rpc('generate_free_trial_key', {
           p_user_id: user.id,
           p_ip_address: ip
         });
 
-        if (trialError) {
-          console.error("RPC Error:", trialError);
-          throw trialError;
-        }
-
-        if (trialResult?.error) {
-          toast.error(trialResult.error === 'Trial already claimed' 
+        if (trialError || trialResult?.error) {
+          toast.error(trialResult?.error === 'Trial already claimed' 
             ? (lang === 'pt' ? "Você já resgatou seu teste grátis neste IP ou conta." : "You have already claimed your free trial on this IP or account.")
-            : trialResult.error,
-            {
-              duration: 5000,
-              position: 'top-center',
-            }
+            : (trialResult?.error || "Erro ao gerar teste"),
+            { duration: 5000, position: 'top-center' }
           );
           return;
+        }
+
+        const generatedKey = trialResult.key;
+
+        // 2. Tenta gravar no Supabase EXTERNO
+        const extUrl = import.meta.env.VITE_EXTERNAL_SUPABASE_URL || "https://ekrohxcvmteacivyadnd.supabase.co";
+        const extKey = import.meta.env.VITE_EXTERNAL_SUPABASE_SERVICE_ROLE_KEY || "";
+
+        if (extUrl && extKey) {
+          try {
+            await fetch(`${extUrl}/rest/v1/licenses`, {
+              method: 'POST',
+              headers: {
+                'apikey': extKey,
+                'Authorization': `Bearer ${extKey}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify({
+                key: generatedKey,
+                status: 'active',
+                max_devices: 1,
+                expires_at: trialResult.expires_at
+              })
+            });
+          } catch (e) {
+            console.error("Erro ao sincronizar key com banco externo:", e);
+          }
         }
 
         toast.success(lang === 'pt' ? "Teste de 5 minutos ativado! Role para ver suas chaves." : "5-minute trial activated! Scroll to see your keys.", {
@@ -910,13 +951,13 @@ export default function GutoPingoPage() {
         
         await fetchLicenseKeys(user.id);
         
-        // Scroll suave para a seção de keys
         const keysSection = document.getElementById('active-keys-section');
         if (keysSection) {
           keysSection.scrollIntoView({ behavior: 'smooth' });
         }
         return;
       }
+
 
       const result = await createCheckoutSession({ data: { priceId, method } });
       if (result && 'checkoutUrl' in result && result.checkoutUrl) {
