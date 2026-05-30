@@ -1229,15 +1229,16 @@ export default function GutoPingoPage() {
         {/* Tutorial Section */}
         <div style={{ background: "rgba(30,10,60,0.6)", border: "2px solid #4c1d95", padding: "40px", position: "relative" }}>
           <div style={{ position: "absolute", top: -14, left: 24, background: "#7c3aed", color: "#fff", fontSize: 10, padding: "4px 12px", fontFamily: "'Courier New', monospace", fontWeight: 900, letterSpacing: "0.1em", border: "2px solid #a855f7" }}>
-            {t.tutorial.badge}
+            {(translations[lang || 'pt'] || translations.pt).tutorial.badge}
           </div>
           
           <h3 style={{ fontSize: 20, fontWeight: 900, color: "#e9d5ff", marginBottom: 24, display: "flex", alignItems: "center", gap: 12 }}>
-            <Settings className="text-primary" /> {t.tutorial.title}
+            <Settings className="text-primary" /> {(translations[lang || 'pt'] || translations.pt).tutorial.title}
           </h3>
 
           <div style={{ display: "grid", gap: 24 }}>
-            {t.tutorial.steps.map((step, i) => {
+            {(translations[lang || 'pt'] || translations.pt).tutorial.steps.map((step, i) => {
+
               const icons = [<FileDown size={18} />, <Monitor size={18} />, <Settings size={18} />, <Puzzle size={18} />, <Check size={18} />];
               return (
                 <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
