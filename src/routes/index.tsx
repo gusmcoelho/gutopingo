@@ -1028,80 +1028,88 @@ export default function GutoPingoPage() {
           </div>
 
 
-          <div style={{ marginTop: 64, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: "#4c1d95", animation: "twinkle 2s ease-in-out infinite" }}>
+          <div style={{ marginTop: 64, display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
+            <a href="#tutorial" style={{ padding: "12px 24px", background: "rgba(245,158,11,0.1)", color: "#f59e0b", border: "2px solid #f59e0b", textDecoration: "none", fontSize: 13, fontWeight: 900, letterSpacing: "0.1em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
+              <Monitor size={16} /> {lang === 'pt' ? 'VER TUTORIAL DE INSTALAÇÃO' : lang === 'tr' ? 'KURULUM KILAVUZUNU GÖR' : 'VIEW INSTALLATION GUIDE'}
+            </a>
+          </div>
+
+          <div style={{ marginTop: 32, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: "#4c1d95", animation: "twinkle 2s ease-in-out infinite" }}>
             <span style={{ fontSize: 10, letterSpacing: "0.2em" }}>{lang === 'pt' ? 'SCROLL' : 'SCROLL DOWN'}</span>
             <ChevronDown size={16} />
           </div>
         </div>
       </section>
 
-      {user && (
-        <section style={{ padding: "60px 24px", maxWidth: 900, margin: "0 auto" }}>
-          <div style={{ marginBottom: 32, textAlign: "center" }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "8px 20px", background: "rgba(124,58,237,0.15)", border: "1px solid #7c3aed", marginBottom: 16 }}>
-              <PixelPenguin size={28} />
-              <span style={{ fontSize: 12, color: "#a855f7", letterSpacing: "0.15em", fontWeight: 700 }}>
-                {t.userSection.welcome}, {user.email?.split("@")[0].toUpperCase()}
-              </span>
+      <section id="tutorial" style={{ padding: "60px 24px", maxWidth: 900, margin: "0 auto" }}>
+        {user && (
+          <>
+            <div style={{ marginBottom: 32, textAlign: "center" }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "8px 20px", background: "rgba(124,58,237,0.15)", border: "1px solid #7c3aed", marginBottom: 16 }}>
+                <PixelPenguin size={28} />
+                <span style={{ fontSize: 12, color: "#a855f7", letterSpacing: "0.15em", fontWeight: 700 }}>
+                  {t.userSection.welcome}, {user.email?.split("@")[0].toUpperCase()}
+                </span>
+              </div>
+              <h2 style={{ fontSize: "clamp(22px, 4vw, 36px)", fontWeight: 900, color: "#e9d5ff", letterSpacing: "-0.01em" }}>
+                {t.userSection.activeKeys.split(' ')[0]} <span style={{ color: "#a855f7" }}>{t.userSection.activeKeys.split(' ').slice(1).join(' ')}</span>
+              </h2>
             </div>
-            <h2 style={{ fontSize: "clamp(22px, 4vw, 36px)", fontWeight: 900, color: "#e9d5ff", letterSpacing: "-0.01em" }}>
-              {t.userSection.activeKeys.split(' ')[0]} <span style={{ color: "#a855f7" }}>{t.userSection.activeKeys.split(' ').slice(1).join(' ')}</span>
-            </h2>
+
+            {licenseKeys.length > 0 ? (
+              <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", marginBottom: 64 }}>
+                {licenseKeys.map((k) => <KeyCard key={k.id} licKey={k} lang={lang} />)}
+              </div>
+            ) : (
+              <div style={{ textAlign: "center", padding: "40px", background: "rgba(124,58,237,0.05)", border: "2px dashed #4c1d95", color: "#7c3aed", marginBottom: 64 }}>
+                {t.userSection.noKeys}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Tutorial Section */}
+        <div style={{ background: "rgba(30,10,60,0.6)", border: "2px solid #4c1d95", padding: "40px", position: "relative" }}>
+          <div style={{ position: "absolute", top: -14, left: 24, background: "#7c3aed", color: "#fff", fontSize: 10, padding: "4px 12px", fontFamily: "'Courier New', monospace", fontWeight: 900, letterSpacing: "0.1em", border: "2px solid #a855f7" }}>
+            {t.tutorial.badge}
           </div>
+          
+          <h3 style={{ fontSize: 20, fontWeight: 900, color: "#e9d5ff", marginBottom: 24, display: "flex", alignItems: "center", gap: 12 }}>
+            <Settings className="text-primary" /> {t.tutorial.title}
+          </h3>
 
-          {licenseKeys.length > 0 ? (
-            <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", marginBottom: 64 }}>
-              {licenseKeys.map((k) => <KeyCard key={k.id} licKey={k} lang={lang} />)}
-            </div>
-          ) : (
-            <div style={{ textAlign: "center", padding: "40px", background: "rgba(124,58,237,0.05)", border: "2px dashed #4c1d95", color: "#7c3aed", marginBottom: 64 }}>
-              {t.userSection.noKeys}
-            </div>
-          )}
-
-          {/* Tutorial Section */}
-          <div style={{ background: "rgba(30,10,60,0.6)", border: "2px solid #4c1d95", padding: "40px", position: "relative" }}>
-            <div style={{ position: "absolute", top: -14, left: 24, background: "#7c3aed", color: "#fff", fontSize: 10, padding: "4px 12px", fontFamily: "'Courier New', monospace", fontWeight: 900, letterSpacing: "0.1em", border: "2px solid #a855f7" }}>
-              {t.tutorial.badge}
-            </div>
-            
-            <h3 style={{ fontSize: 20, fontWeight: 900, color: "#e9d5ff", marginBottom: 24, display: "flex", alignItems: "center", gap: 12 }}>
-              <Settings className="text-primary" /> {t.tutorial.title}
-            </h3>
-
-            <div style={{ display: "grid", gap: 24 }}>
-              {t.tutorial.steps.map((step, i) => {
-                const icons = [<FileDown size={18} />, <Monitor size={18} />, <Settings size={18} />, <Puzzle size={18} />, <Check size={18} />];
-                return (
-                  <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-                    <div style={{ width: 28, height: 28, background: "#7c3aed", border: "2px solid #a855f7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 12, fontWeight: 900 }}>
-                      {i + 1}
-                    </div>
-                    <div style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 14, color: "#c4b5fd", lineHeight: 1.5 }}>
-                      <span style={{ color: "#a855f7" }}>{icons[i]}</span>
-                      {step}
-                    </div>
+          <div style={{ display: "grid", gap: 24 }}>
+            {t.tutorial.steps.map((step, i) => {
+              const icons = [<FileDown size={18} />, <Monitor size={18} />, <Settings size={18} />, <Puzzle size={18} />, <Check size={18} />];
+              return (
+                <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                  <div style={{ width: 28, height: 28, background: "#7c3aed", border: "2px solid #a855f7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 12, fontWeight: 900 }}>
+                    {i + 1}
                   </div>
-                );
-              })}
-            </div>
-
-            <div style={{ marginTop: 32, paddingTop: 32, borderTop: "1px solid #2e1065" }}>
-              <h4 style={{ fontSize: 14, fontWeight: 900, color: "#f59e0b", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
-                <Zap size={16} /> {t.tutorial.important}
-              </h4>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 12 }}>
-                {t.tutorial.importantSteps.map((item, i) => (
-                  <li key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#a78bfa" }}>
-                    <div style={{ width: 4, height: 4, background: "#f59e0b", marginTop: 8, flexShrink: 0 }} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+                  <div style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 14, color: "#c4b5fd", lineHeight: 1.5 }}>
+                    <span style={{ color: "#a855f7" }}>{icons[i]}</span>
+                    {step}
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </section>
-      )}
+
+          <div style={{ marginTop: 32, paddingTop: 32, borderTop: "1px solid #2e1065" }}>
+            <h4 style={{ fontSize: 14, fontWeight: 900, color: "#f59e0b", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
+              <Zap size={16} /> {t.tutorial.important}
+            </h4>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 12 }}>
+              {t.tutorial.importantSteps.map((item, i) => (
+                <li key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#a78bfa" }}>
+                  <div style={{ width: 4, height: 4, background: "#f59e0b", marginTop: 8, flexShrink: 0 }} />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
 
       <section style={{ padding: "80px 24px", maxWidth: 1100, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
