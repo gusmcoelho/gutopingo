@@ -200,6 +200,7 @@ const translations = {
       title1: "CHOOSE YOUR",
       title2: "PLAN",
       subtitle: "All plans unlock unlimited prompts on Lovable",
+      support: "Having issues with your purchase or keys? Join our Discord and open a ticket!",
       payPix: "PAY WITH PIX",
       payStripe: "CARD / OTHERS",
       back: "BACK",
