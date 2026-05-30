@@ -562,7 +562,7 @@ export default function GutoPingoPage() {
     }
   };
 
-  const handleBuy = async (priceId: string) => {
+  const handleBuy = async (priceId: string, method: "stripe" | "pix" = "stripe") => {
     if (!user) {
       navigate({ to: "/auth" });
       return;
@@ -570,7 +570,7 @@ export default function GutoPingoPage() {
 
     try {
       setLoadingCheckout(priceId);
-      const result = await createCheckoutSession({ data: { priceId } });
+      const result = await createCheckoutSession({ data: { priceId, method } });
       if (result && 'checkoutUrl' in result && result.checkoutUrl) {
         window.location.href = result.checkoutUrl;
       } else if (result && 'error' in result) {
