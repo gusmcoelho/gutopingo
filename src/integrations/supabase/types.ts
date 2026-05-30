@@ -98,21 +98,21 @@ export type Database = {
           id: string
           ip_address: string
           plan_id: string
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           claimed_at?: string
           id?: string
           ip_address: string
           plan_id?: string
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           claimed_at?: string
           id?: string
           ip_address?: string
           plan_id?: string
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: []
       }
