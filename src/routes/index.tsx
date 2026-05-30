@@ -348,7 +348,9 @@ function KeyCard({ licKey }: { licKey: LicenseKey }) {
   );
 }
 
-function PlanCard({ plan, onBuy, loading }: { plan: Plan; onBuy: (priceId: string) => void; loading: boolean }) {
+function PlanCard({ plan, onBuy, loading }: { plan: Plan; onBuy: (priceId: string, method: "stripe" | "pix") => void; loading: boolean }) {
+  const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+
   return (
     <div
       style={{
@@ -405,32 +407,93 @@ function PlanCard({ plan, onBuy, loading }: { plan: Plan; onBuy: (priceId: strin
         ))}
       </div>
 
-      <button
-        onClick={() => onBuy(plan.priceId)}
-        disabled={loading}
-        style={{
-          width: "100%",
-          padding: plan.featured ? "14px 0" : "11px 0",
-          background: plan.featured ? "linear-gradient(135deg, #7c3aed, #a855f7)" : "transparent",
-          color: plan.featured ? "#fff" : "#a855f7",
-          border: plan.featured ? "2px solid #c4b5fd" : "2px solid #7c3aed",
-          cursor: "pointer",
-          fontFamily: "'Courier New', monospace",
-          fontSize: 13,
-          fontWeight: 900,
-          letterSpacing: "0.12em",
-          textTransform: "uppercase",
-          transition: "all 0.15s",
-          imageRendering: "pixelated",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 8,
-          opacity: loading ? 0.7 : 1,
-        }}
-      >
-        {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : (plan.id === "test" ? ">> TESTAR AGORA" : ">> COMPRAR KEY")}
-      </button>
+      {showPaymentOptions ? (
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <button
+            onClick={() => onBuy(plan.priceId, "pix")}
+            disabled={loading}
+            style={{
+              width: "100%",
+              padding: "11px 0",
+              background: "#22c55e",
+              color: "#fff",
+              border: "2px solid #16a34a",
+              cursor: "pointer",
+              fontFamily: "'Courier New', monospace",
+              fontSize: 12,
+              fontWeight: 900,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+            }}
+          >
+            PAGAR COM PIX
+          </button>
+          <button
+            onClick={() => onBuy(plan.priceId, "stripe")}
+            disabled={loading}
+            style={{
+              width: "100%",
+              padding: "11px 0",
+              background: "#7c3aed",
+              color: "#fff",
+              border: "2px solid #a855f7",
+              cursor: "pointer",
+              fontFamily: "'Courier New', monospace",
+              fontSize: 12,
+              fontWeight: 900,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+            }}
+          >
+            CARTÃO / OUTROS
+          </button>
+          <button
+            onClick={() => setShowPaymentOptions(false)}
+            style={{
+              background: "transparent",
+              border: "none",
+              color: "#7c3aed",
+              fontSize: 10,
+              cursor: "pointer",
+              marginTop: 4,
+              fontFamily: "'Courier New', monospace",
+            }}
+          >
+            VOLTAR
+          </button>
+        </div>
+      ) : (
+        <button
+          onClick={() => setShowPaymentOptions(true)}
+          disabled={loading}
+          style={{
+            width: "100%",
+            padding: plan.featured ? "14px 0" : "11px 0",
+            background: plan.featured ? "linear-gradient(135deg, #7c3aed, #a855f7)" : "transparent",
+            color: plan.featured ? "#fff" : "#a855f7",
+            border: plan.featured ? "2px solid #c4b5fd" : "2px solid #7c3aed",
+            cursor: "pointer",
+            fontFamily: "'Courier New', monospace",
+            fontSize: 13,
+            fontWeight: 900,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            transition: "all 0.15s",
+            imageRendering: "pixelated",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+            opacity: loading ? 0.7 : 1,
+          }}
+        >
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : (plan.id === "test" ? ">> TESTAR AGORA" : ">> COMPRAR KEY")}
+        </button>
+      )}
     </div>
   );
 }
@@ -499,7 +562,7 @@ export default function GutoPingoPage() {
     }
   };
 
-  const handleBuy = async (priceId: string) => {
+  const handleBuy = async (priceId: string, method: "stripe" | "pix" = "stripe") => {
     if (!user) {
       navigate({ to: "/auth" });
       return;
@@ -507,7 +570,7 @@ export default function GutoPingoPage() {
 
     try {
       setLoadingCheckout(priceId);
-      const result = await createCheckoutSession({ data: { priceId } });
+      const result = await createCheckoutSession({ data: { priceId, method } });
       if (result && 'checkoutUrl' in result && result.checkoutUrl) {
         window.location.href = result.checkoutUrl;
       } else if (result && 'error' in result) {
