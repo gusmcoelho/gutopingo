@@ -706,19 +706,7 @@ export default function GutoPingoPage() {
               </button>
             </>
           ) : (
-
-            <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-              <a 
-                href="https://discord.gg/kfezRBk7" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                style={{ width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(124,58,237,0.1)", border: "2px solid #4c1d95", transition: "all 0.2s" }}
-                title="Discord Support"
-                onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(124,58,237,0.2)"; e.currentTarget.style.borderColor = "#7c3aed"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(124,58,237,0.1)"; e.currentTarget.style.borderColor = "#4c1d95"; }}
-              >
-                <DiscordIcon size={20} color="#a855f7" />
-              </a>
+            <div style={{ display: "flex", gap: 10 }}>
               <button onClick={handleLogin} style={{ padding: "8px 20px", background: "transparent", color: "#a855f7", border: "2px solid #7c3aed", cursor: "pointer", fontSize: 12, fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em" }}>
                 ENTRAR
               </button>
@@ -726,6 +714,7 @@ export default function GutoPingoPage() {
                 CADASTRAR
               </button>
             </div>
+
 
           )}
         </div>
