@@ -135,7 +135,7 @@ const translations = {
       title1: "ESCOLHA SEU",
       title2: "PLANO",
       subtitle: "Todos os planos desbloqueiam prompts ilimitados no Lovable",
-      support: "Teve problemas com a compra ou keys? Entre no Discord e abra um ticket!",
+      support: "Precisa de ajuda? Entre no nosso Discord e abra um ticket de suporte agora!",
       payPix: "PAGAR COM PIX",
       payStripe: "CARTÃO / OUTROS",
       back: "VOLTAR",
@@ -207,7 +207,7 @@ const translations = {
       title1: "CHOOSE YOUR",
       title2: "PLAN",
       subtitle: "All plans unlock unlimited prompts on Lovable",
-      support: "Having issues with your purchase or keys? Join our Discord and open a ticket!",
+      support: "Need help? Join our Discord and open a support ticket now!",
       payPix: "PAY WITH PIX",
       payStripe: "CARD / OTHERS",
       back: "BACK",
@@ -279,7 +279,7 @@ const translations = {
       title1: "PLANINIZI",
       title2: "SEÇİN",
       subtitle: "Tüm planlar Lovable'da sınırsız prompt kilidini açar",
-      support: "Satın alma veya anahtarlarla ilgili sorun mu yaşıyorsunuz? Discord'a katılın ve bir bilet (ticket) açın!",
+      support: "Yardıma mı ihtiyacınız var? Discord'umuza katılın ve hemen bir destek bileti açın!",
       payPix: "PIX İLE ÖDE",
       payStripe: "KART / DİĞERLERİ",
       back: "GERİ",
@@ -1338,7 +1338,7 @@ export default function GutoPingoPage() {
             </h2>
             <p style={{ color: "#6d28d9", fontSize: 13, letterSpacing: "0.05em", marginBottom: 8 }}>{t.pricing.subtitle}</p>
             <p style={{ color: "#a855f7", fontSize: 11, fontWeight: 700, letterSpacing: "0.02em" }}>
-              <span style={{ border: "1px solid #7c3aed", padding: "4px 12px", background: "rgba(124,58,237,0.1)" }}>
+              <span style={{ border: "2px solid #7c3aed", padding: "8px 16px", background: "rgba(124,58,237,0.2)", display: "inline-block", boxShadow: "0 0 15px rgba(124,58,237,0.4)" }}>
                 {t.pricing.support}
               </span>
             </p>
