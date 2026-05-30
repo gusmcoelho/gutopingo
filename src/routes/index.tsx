@@ -869,15 +869,30 @@ export default function GutoPingoPage() {
         }
 
         if (trialResult?.error) {
-          alert(trialResult.error === 'Trial already claimed' 
+          toast.error(trialResult.error === 'Trial already claimed' 
             ? (lang === 'pt' ? "Você já resgatou seu teste grátis neste IP ou conta." : "You have already claimed your free trial on this IP or account.")
-            : trialResult.error
+            : trialResult.error,
+            {
+              duration: 5000,
+              position: 'top-center',
+            }
           );
           return;
         }
 
-        alert(lang === 'pt' ? "Teste de 5 minutos ativado! Verifique suas chaves abaixo." : "5-minute trial activated! Check your keys below.");
-        fetchLicenseKeys(user.id);
+        toast.success(lang === 'pt' ? "Teste de 5 minutos ativado! Role para ver suas chaves." : "5-minute trial activated! Scroll to see your keys.", {
+          duration: 5000,
+          position: 'top-center',
+          icon: <Rocket className="w-5 h-5 text-green-500" />
+        });
+        
+        await fetchLicenseKeys(user.id);
+        
+        // Scroll suave para a seção de keys
+        const keysSection = document.getElementById('active-keys-section');
+        if (keysSection) {
+          keysSection.scrollIntoView({ behavior: 'smooth' });
+        }
         return;
       }
 
@@ -885,15 +900,16 @@ export default function GutoPingoPage() {
       if (result && 'checkoutUrl' in result && result.checkoutUrl) {
         window.location.href = result.checkoutUrl;
       } else if (result && 'error' in result) {
-        alert(`${lang === 'pt' ? 'Erro no Checkout' : 'Checkout Error'}: ${result.error}`);
+        toast.error(`${lang === 'pt' ? 'Erro no Checkout' : 'Checkout Error'}: ${result.error}`);
       }
     } catch (err) {
       console.error("Checkout error:", err);
-      alert(lang === 'pt' ? "Erro ao processar. Tente novamente." : "Error processing. Please try again.");
+      toast.error(lang === 'pt' ? "Erro ao processar. Tente novamente." : "Error processing. Please try again.");
     } finally {
       setLoadingCheckout(null);
     }
   };
+
 
   const handleLogin = () => navigate({ to: "/auth" });
   const handleLogout = () => supabase.auth.signOut();
