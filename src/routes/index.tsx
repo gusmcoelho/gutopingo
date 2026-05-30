@@ -860,9 +860,8 @@ export default function GutoPingoPage() {
       let allKeys = localData || [];
 
       // Agora buscamos no Supabase EXTERNO se as credenciais existirem
-      const extUrl = import.meta.env.VITE_EXTERNAL_SUPABASE_URL || "https://ekrohxcvmteacivyadnd.supabase.co";
-      const extKey = import.meta.env.VITE_EXTERNAL_SUPABASE_SERVICE_ROLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrcm9oeGN2bXRlYWNpdnlhZG5kIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTgyNDc2OCwiZXhwIjoyMDk1NDAwNzY4fQ.wPWR1Fi5evXPK80FVfUb7Lm9xureRjFt28soIAbmW7I";
-
+      const extUrl = "https://ekrohxcvmteacivyadnd.supabase.co";
+      const extKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrcm9oeGN2bXRlYWNpdnlhZG5kIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTgyNDc2OCwiZXhwIjoyMDk1NDAwNzY4fQ.wPWR1Fi5evXPK80FVfUb7Lm9xureRjFt28soIAbmW7I";
 
       if (extUrl && extKey) {
         try {
@@ -881,6 +880,7 @@ export default function GutoPingoPage() {
           console.error("Erro ao buscar keys externas:", e);
         }
       }
+
       
       setLicenseKeys(allKeys);
     } catch (err) {
@@ -919,8 +919,9 @@ export default function GutoPingoPage() {
         const generatedKey = trialResult.key;
 
         // 2. Tenta gravar no Supabase EXTERNO
-        const extUrl = import.meta.env.VITE_EXTERNAL_SUPABASE_URL || "https://ekrohxcvmteacivyadnd.supabase.co";
-        const extKey = import.meta.env.VITE_EXTERNAL_SUPABASE_SERVICE_ROLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrcm9oeGN2bXRlYWNpdnlhZG5kIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTgyNDc2OCwiZXhwIjoyMDk1NDAwNzY4fQ.wPWR1Fi5evXPK80FVfUb7Lm9xureRjFt28soIAbmW7I";
+        const extUrl = "https://ekrohxcvmteacivyadnd.supabase.co";
+        const extKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrcm9oeGN2bXRlYWNpdnlhZG5kIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTgyNDc2OCwiZXhwIjoyMDk1NDAwNzY4fQ.wPWR1Fi5evXPK80FVfUb7Lm9xureRjFt28soIAbmW7I";
+
 
 
         if (extUrl && extKey) {
