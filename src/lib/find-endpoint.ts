@@ -2,12 +2,12 @@ const LIVEPIX_API_BASE = "https://api.livepix.gg";
 
 async function findEndpoint() {
   const paths = [
-    "/v2/auth",
-    "/v2/oauth",
-    "/v2/identity",
-    "/v2/tokens",
-    "/v2/client",
-    "/v2/login"
+    "/v2/accounts",
+    "/v2/user",
+    "/v2/messages",
+    "/v2/payments",
+    "/v2/authorize",
+    "/v2/callback"
   ];
 
   console.log("Searching for working token endpoint...");
