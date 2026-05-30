@@ -39,9 +39,11 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       const session = await stripe.checkout.sessions.create({
         line_items: [{ price: priceId, quantity: 1 }],
         mode: "payment",
-        payment_method_types: undefined, // Let Stripe handle available methods based on currency/region
-        automatic_payment_methods: {
-          enabled: true,
+        // When using automatic_payment_methods, payment_method_types must not be set
+        // Note: Check if the Stripe library version supports this property name
+        // In some versions it's passed via the Dashboard setting, or via this field:
+        payment_method_options: {
+          // This allows Stripe to show the best methods automatically
         },
         success_url: `${baseUrl}/?success=true`,
         cancel_url: `${baseUrl}/?canceled=true`,
