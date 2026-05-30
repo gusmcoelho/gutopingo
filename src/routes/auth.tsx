@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { Zap, Mail, Lock, AlertCircle, ArrowLeft, Loader2 } from "lucide-react";
 import { z } from "zod";
+import { toast } from "sonner";
 
 const authSearchSchema = z.object({
   register: z.boolean().optional(),
@@ -41,7 +42,10 @@ function AuthPage() {
           password,
         });
         if (signUpError) throw signUpError;
-        alert("Conta criada com sucesso!");
+        toast.success("Conta criada com sucesso!", {
+          duration: 4000,
+          position: "top-center",
+        });
       }
       navigate({ to: "/" });
     } catch (err: any) {
