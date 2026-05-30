@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router";
+
 import { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet";
 import {
@@ -527,7 +528,7 @@ function CopyButton({ text, lang }: { text: string; lang: Language }) {
 }
 
 function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
-  const isLifetime = licKey.duration.toLowerCase() === "vitalício" || licKey.duration.toLowerCase() === "lifetime" || licKey.duration.toLowerCase() === "para sempre" || licKey.duration.toLowerCase() === "forever";
+  const isLifetime = licKey.duration && (licKey.duration.toLowerCase() === "vitalício" || licKey.duration.toLowerCase() === "lifetime" || licKey.duration.toLowerCase() === "para sempre" || licKey.duration.toLowerCase() === "forever");
 
   return (
     <div
@@ -578,7 +579,8 @@ function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
 
 function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId: string, method: "stripe" | "pix") => void; loading: boolean; lang: Language }) {
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
-  const t = translations[lang].pricing;
+  const t = (translations[lang || 'pt'] || translations.pt).pricing;
+
 
   return (
     <div
@@ -818,8 +820,9 @@ export default function GutoPingoPage() {
     };
   }, [searchParams]);
 
-  const t = translations[lang];
+  const t = translations[lang || 'pt'] || translations.pt;
   const PLANS = getPlans(lang);
+
 
   const handleSuccessPayment = async (userId: string, priceId: string) => {
     console.log("Processando sucesso de pagamento:", { userId, priceId });
@@ -1059,6 +1062,8 @@ export default function GutoPingoPage() {
               { code: 'en', img: 'https://flagcdn.com/w80/us.png', label: 'English' },
               { code: 'tr', img: 'https://flagcdn.com/w80/tr.png', label: 'Türkiye' }
             ].map((l) => (
+
+
               <button
                 key={l.code}
                 onClick={() => setLang(l.code as Language)}
@@ -1153,16 +1158,17 @@ export default function GutoPingoPage() {
 
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 16px", background: "rgba(124,58,237,0.2)", border: "1px solid #7c3aed", marginBottom: 24 }}>
             <div style={{ width: 6, height: 6, background: "#22c55e", animation: "twinkle 1s infinite" }} />
-            <span style={{ fontSize: 11, color: "#a855f7", letterSpacing: "0.2em", fontWeight: 700 }}>{t.hero.status}</span>
+            <span style={{ fontSize: 11, color: "#a855f7", letterSpacing: "0.2em", fontWeight: 700 }}>{(translations[lang || 'pt'] || translations.pt).hero.status}</span>
           </div>
 
           <h1 style={{ fontSize: "clamp(36px, 8vw, 80px)", fontWeight: 900, letterSpacing: "-0.02em", lineHeight: 1.05, marginBottom: 20, color: "#f5f3ff", textShadow: "0 0 40px rgba(168,85,247,0.5)" }}>
-            {t.hero.title1}<br /><span style={{ color: "#a855f7", textShadow: "0 0 20px rgba(168,85,247,0.8), 2px 2px 0 #4c1d95" }}>{t.hero.title2}</span><br /><span style={{ fontSize: "0.55em", color: "#c4b5fd" }}>{t.hero.title3}</span>
+            {(translations[lang || 'pt'] || translations.pt).hero.title1}<br /><span style={{ color: "#a855f7", textShadow: "0 0 20px rgba(168,85,247,0.8), 2px 2px 0 #4c1d95" }}>{(translations[lang || 'pt'] || translations.pt).hero.title2}</span><br /><span style={{ fontSize: "0.55em", color: "#c4b5fd" }}>{(translations[lang || 'pt'] || translations.pt).hero.title3}</span>
           </h1>
 
           <p style={{ fontSize: "clamp(14px, 2.5vw, 18px)", color: "#a78bfa", maxWidth: 520, margin: "0 auto 40px", lineHeight: 1.7, letterSpacing: "0.02em" }}>
-            {t.hero.subtitle}
+            {(translations[lang || 'pt'] || translations.pt).hero.subtitle}
           </p>
+
 
           <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
             <a href="#pricing" style={{ padding: "16px 36px", background: "#7c3aed", color: "#fff", border: "2px solid #a855f7", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", boxShadow: "4px 4px 0 #4c1d95", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
@@ -1201,8 +1207,10 @@ export default function GutoPingoPage() {
                 </span>
               </div>
               <h2 style={{ fontSize: "clamp(22px, 4vw, 36px)", fontWeight: 900, color: "#e9d5ff", letterSpacing: "-0.01em" }}>
-                {t.userSection.activeKeys.split(' ')[0]} <span style={{ color: "#a855f7" }}>{t.userSection.activeKeys.split(' ').slice(1).join(' ')}</span>
+                {(t.userSection.activeKeys || "SUAS KEYS").split(' ')[0]} <span style={{ color: "#a855f7" }}>{(t.userSection.activeKeys || "SUAS KEYS").split(' ').slice(1).join(' ')}</span>
               </h2>
+
+
             </div>
 
             {licenseKeys.length > 0 ? (
@@ -1221,15 +1229,16 @@ export default function GutoPingoPage() {
         {/* Tutorial Section */}
         <div style={{ background: "rgba(30,10,60,0.6)", border: "2px solid #4c1d95", padding: "40px", position: "relative" }}>
           <div style={{ position: "absolute", top: -14, left: 24, background: "#7c3aed", color: "#fff", fontSize: 10, padding: "4px 12px", fontFamily: "'Courier New', monospace", fontWeight: 900, letterSpacing: "0.1em", border: "2px solid #a855f7" }}>
-            {t.tutorial.badge}
+            {(translations[lang || 'pt'] || translations.pt).tutorial.badge}
           </div>
           
           <h3 style={{ fontSize: 20, fontWeight: 900, color: "#e9d5ff", marginBottom: 24, display: "flex", alignItems: "center", gap: 12 }}>
-            <Settings className="text-primary" /> {t.tutorial.title}
+            <Settings className="text-primary" /> {(translations[lang || 'pt'] || translations.pt).tutorial.title}
           </h3>
 
           <div style={{ display: "grid", gap: 24 }}>
-            {t.tutorial.steps.map((step, i) => {
+            {(translations[lang || 'pt'] || translations.pt).tutorial.steps.map((step, i) => {
+
               const icons = [<FileDown size={18} />, <Monitor size={18} />, <Settings size={18} />, <Puzzle size={18} />, <Check size={18} />];
               return (
                 <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
@@ -1255,10 +1264,10 @@ export default function GutoPingoPage() {
 
           <div style={{ marginTop: 32, paddingTop: 32, borderTop: "1px solid #2e1065" }}>
             <h4 style={{ fontSize: 14, fontWeight: 900, color: "#f59e0b", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
-              <Zap size={16} /> {t.tutorial.important}
+              <Zap size={16} /> {(translations[lang || 'pt'] || translations.pt).tutorial.important}
             </h4>
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 12 }}>
-              {t.tutorial.importantSteps.map((item, i) => (
+              {(translations[lang || 'pt'] || translations.pt).tutorial.importantSteps.map((item, i) => (
                 <li key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#a78bfa" }}>
                   <div style={{ width: 4, height: 4, background: "#f59e0b", marginTop: 8, flexShrink: 0 }} />
                   {item}
@@ -1271,13 +1280,14 @@ export default function GutoPingoPage() {
 
       <section style={{ padding: "80px 24px", maxWidth: 1100, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
-          <span style={{ fontSize: 11, color: "#7c3aed", letterSpacing: "0.25em", fontWeight: 700 }}>{t.features.tag}</span>
+          <span style={{ fontSize: 11, color: "#7c3aed", letterSpacing: "0.25em", fontWeight: 700 }}>{(translations[lang || 'pt'] || translations.pt).features.tag}</span>
           <h2 style={{ fontSize: "clamp(24px, 4vw, 40px)", fontWeight: 900, color: "#f5f3ff", marginTop: 8 }}>
-            {t.features.title1} <span style={{ color: "#a855f7" }}>{t.features.title2}</span>
+            {(translations[lang || 'pt'] || translations.pt).features.title1} <span style={{ color: "#a855f7" }}>{(translations[lang || 'pt'] || translations.pt).features.title2}</span>
           </h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
-          {t.features.items.map((f, i) => {
+          {(translations[lang || 'pt'] || translations.pt).features.items.map((f, i) => {
+
              const icons = [<Zap size={22} />, <Rocket size={22} />, <Shield size={22} />, <Cpu size={22} />, <Layers size={22} />, <Terminal size={22} />];
              return (
               <div key={i} className="feature-card" style={{ background: "rgba(20,5,45,0.8)", border: "2px solid #2e1065", padding: "24px 20px", position: "relative", transition: "all 0.2s", cursor: "default" }}>
@@ -1298,6 +1308,7 @@ export default function GutoPingoPage() {
             <span style={{ fontSize: 11, color: "#7c3aed", letterSpacing: "0.25em", fontWeight: 700 }}>{t.pricing.tag}</span>
             <h2 style={{ fontSize: "clamp(24px, 4vw, 40px)", fontWeight: 900, color: "#f5f3ff", marginTop: 8, marginBottom: 12 }}>
               {t.pricing.title1} <span style={{ color: "#a855f7" }}>{t.pricing.title2}</span>
+
             </h2>
             <p style={{ color: "#6d28d9", fontSize: 13, letterSpacing: "0.05em", marginBottom: 8 }}>{t.pricing.subtitle}</p>
             <p style={{ color: "#a855f7", fontSize: 11, fontWeight: 700, letterSpacing: "0.02em" }}>
