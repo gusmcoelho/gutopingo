@@ -901,6 +901,32 @@ export default function GutoPingoPage() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ display: "flex", gap: 8, marginRight: 8 }}>
+            {[
+              { code: 'pt', flag: '🇧🇷' },
+              { code: 'en', flag: '🇺🇸' },
+              { code: 'tr', flag: '🇹🇷' }
+            ].map((l) => (
+              <button
+                key={l.code}
+                onClick={() => setLang(l.code as Language)}
+                style={{
+                  padding: "4px 8px",
+                  background: lang === l.code ? "rgba(124,58,237,0.2)" : "transparent",
+                  border: lang === l.code ? "1px solid #7c3aed" : "1px solid transparent",
+                  cursor: "pointer",
+                  fontSize: 16,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.2s"
+                }}
+                title={l.code.toUpperCase()}
+              >
+                {l.flag}
+              </button>
+            ))}
+          </div>
           {isAdmin && (
             <button 
               onClick={() => navigate({ to: "/admin" })}
@@ -981,7 +1007,7 @@ export default function GutoPingoPage() {
             <a href="#pricing" style={{ padding: "16px 36px", background: "#7c3aed", color: "#fff", border: "2px solid #a855f7", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", boxShadow: "4px 4px 0 #4c1d95", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
               <Key size={16} /> {t.hero.buyBtn}
             </a>
-            <a href="https://zdxxhjjnkyboegerdoxl.supabase.co/storage/v1/object/public/assets/GUTOV5.zip" download style={{ padding: "16px 36px", background: "transparent", color: "#a855f7", border: "2px solid #7c3aed", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
+            <a href="https://zdxxhjjnkyboegerdoxl.supabase.co/storage/v1/object/public/assets/GUTO.zip" download style={{ padding: "16px 36px", background: "transparent", color: "#a855f7", border: "2px solid #7c3aed", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
               <FileDown size={16} /> {t.hero.downloadBtn}
             </a>
             <a href="https://discord.gg/kfezRBk7" target="_blank" rel="noopener noreferrer" style={{ padding: "16px 36px", background: "rgba(124,58,237,0.1)", color: "#a855f7", border: "2px solid #4c1d95", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
