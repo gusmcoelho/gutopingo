@@ -1028,7 +1028,13 @@ export default function GutoPingoPage() {
           </div>
 
 
-          <div style={{ marginTop: 64, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: "#4c1d95", animation: "twinkle 2s ease-in-out infinite" }}>
+          <div style={{ marginTop: 64, display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
+            <a href="#tutorial" style={{ padding: "12px 24px", background: "rgba(245,158,11,0.1)", color: "#f59e0b", border: "2px solid #f59e0b", textDecoration: "none", fontSize: 13, fontWeight: 900, letterSpacing: "0.1em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
+              <Monitor size={16} /> {lang === 'pt' ? 'VER TUTORIAL DE INSTALAÇÃO' : lang === 'tr' ? 'KURULUM KILAVUZUNU GÖR' : 'VIEW INSTALLATION GUIDE'}
+            </a>
+          </div>
+
+          <div style={{ marginTop: 32, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: "#4c1d95", animation: "twinkle 2s ease-in-out infinite" }}>
             <span style={{ fontSize: 10, letterSpacing: "0.2em" }}>{lang === 'pt' ? 'SCROLL' : 'SCROLL DOWN'}</span>
             <ChevronDown size={16} />
           </div>
