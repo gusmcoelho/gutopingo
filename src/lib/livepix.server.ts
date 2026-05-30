@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const LIVEPIX_API_BASE = "https://api.livepix.gg/v2";
+const LIVEPIX_API_BASE = "https://api.livepix.gg";
 
 interface LivePixTokenResponse {
   access_token: string;
