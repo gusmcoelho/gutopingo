@@ -852,36 +852,25 @@ export default function GutoPingoPage() {
         const ipRes = await fetch('https://api.ipify.org?format=json');
         const { ip } = await ipRes.json();
         
-        // Verificar elegibilidade via RPC no Supabase
-        const { data: isEligible, error: checkError } = await supabase.rpc('check_trial_eligibility', {
+        console.log(`DEBUG: Claiming free trial for user ${user.id} at IP ${ip}`);
+
+        // Chamar RPC para gerar a key de 5 minutos grátis diretamente
+        // A RPC agora lida com trial_claims e license_keys em uma transação
+        const { data: trialResult, error: trialError }: { data: any, error: any } = await supabase.rpc('generate_free_trial_key', {
           p_user_id: user.id,
           p_ip_address: ip
         });
 
-        if (checkError) throw checkError;
-
-        if (!isEligible) {
-          alert(lang === 'pt' ? "Você já resgatou seu teste grátis neste IP ou conta." : "You have already claimed your free trial on this IP or account.");
-          return;
+        if (trialError) {
+          console.error("RPC Error:", trialError);
+          throw trialError;
         }
 
-        // Registrar o claim do trial
-        const { error: claimError } = await supabase.from('trial_claims').insert({
-          user_id: user.id,
-          ip_address: ip,
-          plan_id: 'test'
-        });
-
-        if (claimError) throw claimError;
-
-        // Chamar RPC para gerar a key de 5 minutos grátis diretamente
-        const { data: trialResult, error: trialError }: { data: any, error: any } = await supabase.rpc('generate_free_trial_key', {
-          p_user_id: user.id
-        });
-
-        if (trialError) throw trialError;
         if (trialResult?.error) {
-          alert(trialResult.error);
+          alert(trialResult.error === 'Trial already claimed' 
+            ? (lang === 'pt' ? "Você já resgatou seu teste grátis neste IP ou conta." : "You have already claimed your free trial on this IP or account.")
+            : trialResult.error
+          );
           return;
         }
 
