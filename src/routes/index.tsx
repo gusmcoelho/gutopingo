@@ -916,6 +916,8 @@ export default function GutoPingoPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#09001a", fontFamily: "'Courier New', monospace", color: "#e9d5ff", overflowX: "hidden" }}>
+      <Toaster richColors closeButton theme="dark" />
+
       <Helmet>
         <title>Guto Pingo | Prompts Ilimitados Lovable Extension</title>
         <meta name="description" content="Desbloqueie prompts ilimitados no Lovable com a extensão Guto Pingo. Economize créditos, acelere seu desenvolvimento e crie sem limites. Ativação instantânea." />
