@@ -27,9 +27,9 @@ async function runDebug() {
   // 3. Test Payment Creation (Small amount)
   console.log("\nAttempting to create a test payment (R$ 1.00)...");
   try {
-    const payment = await createLivePixPayment(100, {
-      userId: "00000000-0000-0000-0000-000000000000", // Dummy UUID for testing
-      priceId: "debug-test-price"
+    const payment = await createLivePixPayment(500, {
+      userId: "b75f289f-7985-4743-9a9f-80c684bb61ae",
+      priceId: "price_1TbXLaDgmvJ4Q2O6idYoTXFJ" // Plan de R$ 5,00
     });
     console.log("SUCCESS: Payment created!");
     console.log("Payment Object:", JSON.stringify(payment, null, 2));
