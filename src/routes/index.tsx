@@ -854,8 +854,6 @@ export default function GutoPingoPage() {
         
         console.log(`DEBUG: Claiming free trial for user ${user.id} at IP ${ip}`);
 
-        // Chamar RPC para gerar a key de 5 minutos grátis diretamente
-        // A RPC agora lida com trial_claims e license_keys em uma transação
         const { data: trialResult, error: trialError }: { data: any, error: any } = await supabase.rpc('generate_free_trial_key', {
           p_user_id: user.id,
           p_ip_address: ip
