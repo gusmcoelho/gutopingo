@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// Base URL confirmada
 const LIVEPIX_API_BASE = "https://api.livepix.gg";
 
 interface LivePixTokenResponse {
@@ -17,28 +16,30 @@ export async function getLivePixAccessToken() {
     throw new Error("LIVEPIX_CLIENT_ID or LIVEPIX_CLIENT_SECRET not configured");
   }
 
-  // O endpoint correto de OAuth2 na V2 costuma ser sem o prefixo /v2 se for centralizado,
-  // ou /v2/oauth/token. Vou tentar o mais provável baseado nos testes de 401 que deram /v2/...
-  const response = await fetch(`${LIVEPIX_API_BASE}/v2/oauth2/token`, {
+  // O endpoint de token da LivePix é /v2/auth/token ou /oauth2/token
+  // Vou tentar o que é documentado para a V2 mas com o prefixo /v2
+  const response = await fetch(`${LIVEPIX_API_BASE}/v2/auth/token`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Authorization": `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString("base64")}`,
+      "Content-Type": "application/json"
     },
-    body: new URLSearchParams({
+    body: JSON.stringify({
+      client_id: clientId,
+      client_secret: clientSecret,
       grant_type: "client_credentials"
     }),
   });
 
   if (!response.ok) {
-    // Se falhar, tenta sem o /v2 como fallback imediato
-    const retryResponse = await fetch(`${LIVEPIX_API_BASE}/oauth2/token`, {
+    // Tenta formato x-www-form-urlencoded caso JSON falhe
+    const retryResponse = await fetch(`${LIVEPIX_API_BASE}/v2/auth/token`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString("base64")}`,
+        "Content-Type": "application/x-www-form-urlencoded"
       },
       body: new URLSearchParams({
+        client_id: clientId,
+        client_secret: clientSecret,
         grant_type: "client_credentials"
       }),
     });
@@ -46,9 +47,8 @@ export async function getLivePixAccessToken() {
     if (!retryResponse.ok) {
       const error = await retryResponse.text();
       console.error(`LivePix Token Error:`, error);
-      throw new Error(`Failed to get LivePix access token: ${retryResponse.statusText}`);
+      throw new Error(`Failed to get LivePix access token: ${retryResponse.statusText} (${retryResponse.status})`);
     }
-    
     const data = (await retryResponse.json()) as LivePixTokenResponse;
     return data.access_token;
   }
