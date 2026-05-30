@@ -435,8 +435,8 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
-function KeyCard({ licKey }: { licKey: LicenseKey }) {
-  const isLifetime = licKey.duration.toLowerCase() === "vitalício";
+function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
+  const isLifetime = licKey.duration.toLowerCase() === "vitalício" || licKey.duration.toLowerCase() === "lifetime" || licKey.duration.toLowerCase() === "para sempre" || licKey.duration.toLowerCase() === "forever";
 
   return (
     <div
@@ -478,15 +478,16 @@ function KeyCard({ licKey }: { licKey: LicenseKey }) {
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "#a78bfa", fontFamily: "'Courier New', monospace" }}>
         <Clock size={11} />
-        {isLifetime ? "Nunca expira" : `Expira em: ${new Date(licKey.expires_at || "").toLocaleDateString()}`}
+        {isLifetime ? (lang === 'pt' ? "Nunca expira" : "Never expires") : `${lang === 'pt' ? "Expira em" : "Expires on"}: ${new Date(licKey.expires_at || "").toLocaleDateString()}`}
 
       </div>
     </div>
   );
 }
 
-function PlanCard({ plan, onBuy, loading }: { plan: Plan; onBuy: (priceId: string, method: "stripe" | "pix") => void; loading: boolean }) {
+function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId: string, method: "stripe" | "pix") => void; loading: boolean; lang: Language }) {
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+  const t = translations[lang].pricing;
 
   return (
     <div
