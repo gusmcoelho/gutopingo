@@ -972,7 +972,8 @@ export default function GutoPingoPage() {
       }
 
 
-      const result = await createCheckoutSession({ data: { priceId, method } });
+      const checkoutCurrency = lang === 'pt' ? 'brl' : lang === 'tr' ? 'try' : 'usd';
+      const result = await createCheckoutSession({ data: { priceId, method, currency: checkoutCurrency } });
       if (result && 'checkoutUrl' in result && result.checkoutUrl) {
         window.location.href = result.checkoutUrl;
       } else if (result && 'error' in result) {
