@@ -828,7 +828,7 @@ export default function GutoPingoPage() {
               onClick={() => navigate({ to: "/admin" })}
               style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 14px", background: "rgba(168,85,247,0.1)", color: "#a855f7", border: "2px solid #a855f7", cursor: "pointer", fontSize: 11, fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em" }}
             >
-              ADMIN
+              {t.nav.admin}
             </button>
           )}
           <a 
@@ -851,16 +851,16 @@ export default function GutoPingoPage() {
                 </span>
               </div>
               <button onClick={handleLogout} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 14px", background: "transparent", color: "#a855f7", border: "2px solid #4c1d95", cursor: "pointer", fontSize: 11, fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em" }}>
-                <LogOut size={13} /> SAIR
+                <LogOut size={13} /> {t.nav.logout}
               </button>
             </>
           ) : (
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={handleLogin} style={{ padding: "8px 20px", background: "transparent", color: "#a855f7", border: "2px solid #7c3aed", cursor: "pointer", fontSize: 12, fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em" }}>
-                ENTRAR
+                {t.nav.login}
               </button>
               <button onClick={() => navigate({ to: "/auth", search: { register: true } })} style={{ padding: "8px 20px", background: "#7c3aed", color: "#fff", border: "2px solid #a855f7", cursor: "pointer", fontSize: 12, fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em" }}>
-                CADASTRAR
+                {t.nav.register}
               </button>
             </div>
 
@@ -888,32 +888,32 @@ export default function GutoPingoPage() {
 
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 16px", background: "rgba(124,58,237,0.2)", border: "1px solid #7c3aed", marginBottom: 24 }}>
             <div style={{ width: 6, height: 6, background: "#22c55e", animation: "twinkle 1s infinite" }} />
-            <span style={{ fontSize: 11, color: "#a855f7", letterSpacing: "0.2em", fontWeight: 700 }}>EXTENSÃO ATIVA • LOVABLE DESBLOQUEADO</span>
+            <span style={{ fontSize: 11, color: "#a855f7", letterSpacing: "0.2em", fontWeight: 700 }}>{t.hero.status}</span>
           </div>
 
           <h1 style={{ fontSize: "clamp(36px, 8vw, 80px)", fontWeight: 900, letterSpacing: "-0.02em", lineHeight: 1.05, marginBottom: 20, color: "#f5f3ff", textShadow: "0 0 40px rgba(168,85,247,0.5)" }}>
-            PROMPTS<br /><span style={{ color: "#a855f7", textShadow: "0 0 20px rgba(168,85,247,0.8), 2px 2px 0 #4c1d95" }}>ILIMITADOS</span><br /><span style={{ fontSize: "0.55em", color: "#c4b5fd" }}>NO LOVABLE</span>
+            {t.hero.title1}<br /><span style={{ color: "#a855f7", textShadow: "0 0 20px rgba(168,85,247,0.8), 2px 2px 0 #4c1d95" }}>{t.hero.title2}</span><br /><span style={{ fontSize: "0.55em", color: "#c4b5fd" }}>{t.hero.title3}</span>
           </h1>
 
           <p style={{ fontSize: "clamp(14px, 2.5vw, 18px)", color: "#a78bfa", maxWidth: 520, margin: "0 auto 40px", lineHeight: 1.7, letterSpacing: "0.02em" }}>
-            Pare de travar no limite de prompts. A extensão do Guto Pingo desbloqueia <span style={{ color: "#e9d5ff", fontWeight: 700 }}>criação infinita</span> no Lovable com uma key simples.
+            {t.hero.subtitle}
           </p>
 
           <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
             <a href="#pricing" style={{ padding: "16px 36px", background: "#7c3aed", color: "#fff", border: "2px solid #a855f7", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", boxShadow: "4px 4px 0 #4c1d95", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
-              <Key size={16} /> COMPRAR KEY
+              <Key size={16} /> {t.hero.buyBtn}
             </a>
             <a href="https://zdxxhjjnkyboegerdoxl.supabase.co/storage/v1/object/public/assets/GUTOV5.zip" download style={{ padding: "16px 36px", background: "transparent", color: "#a855f7", border: "2px solid #7c3aed", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
-              <FileDown size={16} /> BAIXAR EXTENSÃO
+              <FileDown size={16} /> {t.hero.downloadBtn}
             </a>
             <a href="https://discord.gg/kfezRBk7" target="_blank" rel="noopener noreferrer" style={{ padding: "16px 36px", background: "rgba(124,58,237,0.1)", color: "#a855f7", border: "2px solid #4c1d95", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
-              <DiscordIcon size={18} color="#a855f7" /> DISCORD
+              <DiscordIcon size={18} color="#a855f7" /> {t.hero.discordBtn}
             </a>
           </div>
 
 
           <div style={{ marginTop: 64, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: "#4c1d95", animation: "twinkle 2s ease-in-out infinite" }}>
-            <span style={{ fontSize: 10, letterSpacing: "0.2em" }}>SCROLL</span>
+            <span style={{ fontSize: 10, letterSpacing: "0.2em" }}>{lang === 'pt' ? 'SCROLL' : 'SCROLL DOWN'}</span>
             <ChevronDown size={16} />
           </div>
         </div>
@@ -925,21 +925,21 @@ export default function GutoPingoPage() {
             <div style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "8px 20px", background: "rgba(124,58,237,0.15)", border: "1px solid #7c3aed", marginBottom: 16 }}>
               <PixelPenguin size={28} />
               <span style={{ fontSize: 12, color: "#a855f7", letterSpacing: "0.15em", fontWeight: 700 }}>
-                BEM-VINDO, {user.email?.split("@")[0].toUpperCase()}
+                {t.userSection.welcome}, {user.email?.split("@")[0].toUpperCase()}
               </span>
             </div>
             <h2 style={{ fontSize: "clamp(22px, 4vw, 36px)", fontWeight: 900, color: "#e9d5ff", letterSpacing: "-0.01em" }}>
-              SUAS <span style={{ color: "#a855f7" }}>KEYS ATIVAS</span>
+              {t.userSection.activeKeys.split(' ')[0]} <span style={{ color: "#a855f7" }}>{t.userSection.activeKeys.split(' ').slice(1).join(' ')}</span>
             </h2>
           </div>
 
           {licenseKeys.length > 0 ? (
             <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", marginBottom: 64 }}>
-              {licenseKeys.map((k) => <KeyCard key={k.id} licKey={k} />)}
+              {licenseKeys.map((k) => <KeyCard key={k.id} licKey={k} lang={lang} />)}
             </div>
           ) : (
             <div style={{ textAlign: "center", padding: "40px", background: "rgba(124,58,237,0.05)", border: "2px dashed #4c1d95", color: "#7c3aed", marginBottom: 64 }}>
-              Você ainda não possui nenhuma key ativa. Escolha um plano abaixo!
+              {t.userSection.noKeys}
             </div>
           )}
 
