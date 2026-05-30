@@ -491,8 +491,13 @@ function CopyButton({ text }: { text: string }) {
   const handleCopy = () => {
     navigator.clipboard.writeText(text);
     setCopied(true);
+    toast.success(lang === 'pt' ? "Copiado para o clipboard!" : "Copied to clipboard!", {
+      duration: 2000,
+      position: 'bottom-center'
+    });
     setTimeout(() => setCopied(false), 2000);
   };
+
 
   return (
     <button
