@@ -77,7 +77,7 @@ export async function createLivePixPayment(amountInCents: number, metadata: { us
       amount: amountInCents,
       currency: "BRL",
       reference: referenceId, // Documentation says this is the field for correlation
-      redirectUrl: `${baseUrl}/?success=true`,
+      redirectUrl: `${baseUrl}/?success=true&userId=${metadata.userId}&priceId=${metadata.priceId}`,
     }),
   });
 
