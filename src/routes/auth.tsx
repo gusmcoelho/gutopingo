@@ -42,8 +42,24 @@ function AuthPage() {
           password,
         });
         if (signUpError) throw signUpError;
-        toast.success("Conta criada com sucesso!", {
-          duration: 4000,
+        toast.custom((t) => (
+          <div className="bg-[#1a0f2e] border-4 border-primary p-6 shadow-[8px_8px_0px_0px_rgba(124,58,237,0.3)] flex flex-col items-center gap-4 min-w-[300px] animate-in fade-in zoom-in duration-300">
+            <div className="w-16 h-16 bg-primary border-4 border-white flex items-center justify-center">
+              <Zap className="w-8 h-8 text-white animate-pulse" />
+            </div>
+            <div className="text-center">
+              <h3 className="font-pixel text-primary text-sm mb-1">CONTA CRIADA!</h3>
+              <p className="font-retro text-white text-lg">Bem-vindo ao terminal, piloto.</p>
+            </div>
+            <button 
+              onClick={() => toast.dismiss(t)}
+              className="font-pixel text-[10px] text-primary hover:text-white transition-colors"
+            >
+              [ FECHAR ]
+            </button>
+          </div>
+        ), {
+          duration: 5000,
           position: "top-center",
         });
       }
@@ -135,22 +151,6 @@ function AuthPage() {
           </button>
         </form>
 
-        <div className="relative my-8">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t-2 border-primary/20"></div>
-          </div>
-          <div className="relative flex justify-center text-[10px] uppercase">
-            <span className="bg-[#1a0f2e] px-4 font-pixel text-muted-foreground">Ou continue com</span>
-          </div>
-        </div>
-
-        <button
-          onClick={handleGoogleLogin}
-          className="w-full pixel-btn bg-white text-black py-4 font-pixel text-xs flex items-center justify-center gap-3"
-        >
-          <img src="https://www.google.com/favicon.ico" className="w-4 h-4" alt="Google" />
-          GOOGLE
-        </button>
 
         <p className="mt-8 text-center font-retro text-xl">
           <span className="text-muted-foreground">
