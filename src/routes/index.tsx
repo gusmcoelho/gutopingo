@@ -897,14 +897,14 @@ export default function GutoPingoPage() {
 
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: "0 24px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", background: scrolled ? "rgba(9,0,26,0.95)" : "transparent", borderBottom: scrolled ? "1px solid #4c1d95" : "none", backdropFilter: scrolled ? "blur(10px)" : "none", transition: "all 0.3s" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <PixelPenguin size={36} />
-          <span style={{ fontSize: 20, fontWeight: 900, letterSpacing: "0.08em", color: "#e9d5ff", animation: "flicker 4s infinite" }}>
-            GUTO<span style={{ color: "#a855f7" }}>PINGO</span>
-          </span>
-        </div>
-
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ display: "flex", gap: 8, marginRight: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginRight: 8 }}>
+            <PixelPenguin size={36} />
+            <span style={{ fontSize: 20, fontWeight: 900, letterSpacing: "0.08em", color: "#e9d5ff", animation: "flicker 4s infinite" }}>
+              GUTO<span style={{ color: "#a855f7" }}>PINGO</span>
+            </span>
+          </div>
+          
+          <div style={{ display: "flex", gap: 6, paddingLeft: 12, borderLeft: "1px solid rgba(124,58,237,0.3)" }}>
             {[
               { code: 'pt', flag: '🇧🇷' },
               { code: 'en', flag: '🇺🇸' },
@@ -914,15 +914,16 @@ export default function GutoPingoPage() {
                 key={l.code}
                 onClick={() => setLang(l.code as Language)}
                 style={{
-                  padding: "4px 8px",
+                  padding: "4px",
                   background: lang === l.code ? "rgba(124,58,237,0.2)" : "transparent",
                   border: lang === l.code ? "1px solid #7c3aed" : "1px solid transparent",
                   cursor: "pointer",
-                  fontSize: 16,
+                  fontSize: 20,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  transition: "all 0.2s"
+                  transition: "all 0.2s",
+                  opacity: lang === l.code ? 1 : 0.6,
                 }}
                 title={l.code.toUpperCase()}
               >
@@ -930,6 +931,9 @@ export default function GutoPingoPage() {
               </button>
             ))}
           </div>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           {isAdmin && (
             <button 
               onClick={() => navigate({ to: "/admin" })}
