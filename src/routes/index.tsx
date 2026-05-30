@@ -1124,7 +1124,12 @@ export default function GutoPingoPage() {
             <h2 style={{ fontSize: "clamp(24px, 4vw, 40px)", fontWeight: 900, color: "#f5f3ff", marginTop: 8, marginBottom: 12 }}>
               {t.pricing.title1} <span style={{ color: "#a855f7" }}>{t.pricing.title2}</span>
             </h2>
-            <p style={{ color: "#6d28d9", fontSize: 13, letterSpacing: "0.05em" }}>{t.pricing.subtitle}</p>
+            <p style={{ color: "#6d28d9", fontSize: 13, letterSpacing: "0.05em", marginBottom: 8 }}>{t.pricing.subtitle}</p>
+            <p style={{ color: "#a855f7", fontSize: 11, fontWeight: 700, letterSpacing: "0.02em" }}>
+              <span style={{ border: "1px solid #7c3aed", padding: "4px 12px", background: "rgba(124,58,237,0.1)" }}>
+                {t.pricing.support}
+              </span>
+            </p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20, alignItems: "stretch" }}>
             {PLANS.map((plan) => (
