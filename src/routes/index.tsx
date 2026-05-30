@@ -1041,8 +1041,8 @@ export default function GutoPingoPage() {
         </div>
       </section>
 
-      {user && (
-        <section style={{ padding: "60px 24px", maxWidth: 900, margin: "0 auto" }}>
+      <section id="tutorial" style={{ padding: "60px 24px", maxWidth: 900, margin: "0 auto" }}>
+        {user && (
           <div style={{ marginBottom: 32, textAlign: "center" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "8px 20px", background: "rgba(124,58,237,0.15)", border: "1px solid #7c3aed", marginBottom: 16 }}>
               <PixelPenguin size={28} />
