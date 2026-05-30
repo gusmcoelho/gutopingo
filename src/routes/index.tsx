@@ -818,14 +818,31 @@ export default function GutoPingoPage() {
 
   const handleSuccessPayment = async (userId: string, priceId: string) => {
     console.log("Processando sucesso de pagamento:", { userId, priceId });
+    
+    toast.info(lang === 'pt' ? "Pagamento recebido! Ativando sua chave..." : "Payment received! Activating your key...", {
+      duration: 4000,
+      icon: <RefreshCw className="animate-spin text-purple-500" />
+    });
+
     // Agora o sistema aguarda o webhook para gerar a chave de forma segura.
     // Atualizamos a lista de keys do usuário após um curto delay para dar tempo ao webhook.
-    setTimeout(() => fetchLicenseKeys(userId), 2000);
-    setTimeout(() => fetchLicenseKeys(userId), 5000);
+    setTimeout(async () => {
+      await fetchLicenseKeys(userId);
+      toast.success(lang === 'pt' ? "Sua chave já está disponível abaixo!" : "Your key is now available below!", {
+        duration: 5000,
+        icon: <CheckCircle2 className="text-green-500" />
+      });
+      
+      const keysSection = document.getElementById('active-keys-section');
+      if (keysSection) {
+        keysSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 3000);
     
     // Limpa a URL para evitar re-processamento visual ao dar F5
     window.history.replaceState({}, '', '/');
   };
+
 
   const fetchLicenseKeys = async (userId: string) => {
     try {
