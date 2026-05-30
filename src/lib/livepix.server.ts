@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// Base URL confirmada pelo JSON enviado pelo usuário
+// Base URL confirmada
 const LIVEPIX_API_BASE = "https://api.livepix.gg";
 
 interface LivePixTokenResponse {
@@ -17,9 +17,9 @@ export async function getLivePixAccessToken() {
     throw new Error("LIVEPIX_CLIENT_ID or LIVEPIX_CLIENT_SECRET not configured");
   }
 
-  // Tentando o caminho padrão de OAuth2 que costuma ser omitido em documentações resumidas
-  // ou o caminho que a documentação JSON indicar (se eu pudesse ver as chaves 'servers' ou 'paths')
-  const response = await fetch(`${LIVEPIX_API_BASE}/oauth2/token`, {
+  // O endpoint correto de OAuth2 na V2 costuma ser sem o prefixo /v2 se for centralizado,
+  // ou /v2/oauth/token. Vou tentar o mais provável baseado nos testes de 401 que deram /v2/...
+  const response = await fetch(`${LIVEPIX_API_BASE}/v2/oauth2/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -31,9 +31,26 @@ export async function getLivePixAccessToken() {
   });
 
   if (!response.ok) {
-    const error = await response.text();
-    console.error(`LivePix Token Error (${response.status}):`, error);
-    throw new Error(`Failed to get LivePix access token: ${response.statusText}`);
+    // Se falhar, tenta sem o /v2 como fallback imediato
+    const retryResponse = await fetch(`${LIVEPIX_API_BASE}/oauth2/token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString("base64")}`,
+      },
+      body: new URLSearchParams({
+        grant_type: "client_credentials"
+      }),
+    });
+
+    if (!retryResponse.ok) {
+      const error = await retryResponse.text();
+      console.error(`LivePix Token Error:`, error);
+      throw new Error(`Failed to get LivePix access token: ${retryResponse.statusText}`);
+    }
+    
+    const data = (await retryResponse.json()) as LivePixTokenResponse;
+    return data.access_token;
   }
 
   const data = (await response.json()) as LivePixTokenResponse;
@@ -44,7 +61,7 @@ export async function createLivePixPayment(amountInCents: number, metadata: Reco
   const token = await getLivePixAccessToken();
   const amount = amountInCents / 100;
 
-  const response = await fetch(`${LIVEPIX_API_BASE}/payments`, {
+  const response = await fetch(`${LIVEPIX_API_BASE}/v2/payments`, {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${token}`,
@@ -58,7 +75,7 @@ export async function createLivePixPayment(amountInCents: number, metadata: Reco
 
   if (!response.ok) {
     const error = await response.text();
-    console.error(`LivePix Payment Error (${response.status}):`, error);
+    console.error(`LivePix Payment Error:`, error);
     throw new Error(`Failed to create LivePix payment: ${response.statusText}`);
   }
 
