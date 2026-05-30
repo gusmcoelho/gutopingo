@@ -47,7 +47,6 @@ interface LicenseKey {
   created_at: string;
 }
 
-
 interface UserType {
   id: string;
   email?: string;
@@ -67,105 +66,225 @@ interface Plan {
   priceId: string;
 }
 
+type Language = 'pt' | 'en';
+
+// ─── Translations ─────────────────────────────────────────────────────────────
+
+const translations = {
+  pt: {
+    nav: {
+      admin: "ADMIN",
+      logout: "SAIR",
+      login: "ENTRAR",
+      register: "CADASTRAR",
+    },
+    hero: {
+      status: "EXTENSÃO ATIVA • LOVABLE DESBLOQUEADO",
+      title1: "PROMPTS",
+      title2: "ILIMITADOS",
+      title3: "NO LOVABLE",
+      subtitle: "Pare de travar no limite de prompts. A extensão do Guto Pingo desbloqueia criação infinita no Lovable com uma key simples.",
+      buyBtn: "COMPRAR KEY",
+      downloadBtn: "BAIXAR EXTENSÃO",
+      discordBtn: "DISCORD",
+    },
+    userSection: {
+      welcome: "BEM-VINDO",
+      activeKeys: "SUAS KEYS ATIVAS",
+      noKeys: "Você ainda não possui nenhuma key ativa. Escolha um plano abaixo!",
+    },
+    tutorial: {
+      badge: "GUIA DE INSTALAÇÃO",
+      title: "INSTALAR GUTO",
+      steps: [
+        "Extraia o arquivo GUTO.zip → vai aparecer a pasta dist",
+        "Abra o Chrome e digite: chrome://extensions/",
+        "Ative Modo do desenvolvedor (canto superior direito)",
+        "Clique em Carregar sem compactação → selecione a pasta dist",
+        "Clique no 🧩, abra o GUTO, cole sua chave e clique em Validar",
+      ],
+      important: "IMPORTANTE:",
+      importantSteps: [
+        "Sempre use o chat pela extensão GUTO, não pelo chat normal do Lovable",
+        "Se a extensão não funcionar, vá na aba do seu projeto no Lovable e aperte F5",
+        "Depois tente enviar novamente pela extensão",
+        "Sempre deixe a aba do projeto aberta enquanto usa a extensão 🚀",
+      ],
+    },
+    features: {
+      tag: "// POR QUE USAR",
+      title1: "VANTAGENS DO",
+      title2: "GUTO PINGO",
+      items: [
+        { title: "Prompts Ilimitados", desc: "Sem travamentos. Sem limites. Crie o quanto quiser no Lovable." },
+        { title: "Ativação Instantânea", desc: "Copie a key, cole na extensão e pronto. Funciona em segundos." },
+        { title: "100% Seguro", desc: "Extensão auditada, sem acesso a dados pessoais ou código privado." },
+        { title: "Alta Performance", desc: "Nenhum impacto no desempenho do Lovable ou do seu browser." },
+        { title: "Multi-projeto", desc: "Uma key funciona em todos os seus projetos simultaneamente." },
+        { title: "Suporte Técnico", desc: "Time de suporte ativo no Discord e WhatsApp para te ajudar." },
+      ]
+    },
+    pricing: {
+      tag: "// SELECT YOUR PLAN",
+      title1: "ESCOLHA SEU",
+      title2: "PLANO",
+      subtitle: "Todos os planos desbloqueiam prompts ilimitados no Lovable",
+      payPix: "PAGAR COM PIX",
+      payStripe: "CARTÃO / OUTROS",
+      back: "VOLTAR",
+      buyBtn: ">> COMPRAR KEY",
+      testBtn: ">> TESTAR AGORA",
+    },
+    footer: {
+      rights: "© 2025 GUTOPINGO.COM • TODOS OS DIREITOS RESERVADOS",
+      terms: "TERMOS",
+      privacy: "PRIVACIDADE",
+    }
+  },
+  en: {
+    nav: {
+      admin: "ADMIN",
+      logout: "LOGOUT",
+      login: "LOGIN",
+      register: "REGISTER",
+    },
+    hero: {
+      status: "EXTENSION ACTIVE • LOVABLE UNLOCKED",
+      title1: "UNLIMITED",
+      title2: "PROMPTS",
+      title3: "ON LOVABLE",
+      subtitle: "Stop getting stuck on prompt limits. The Guto Pingo extension unlocks infinite creation on Lovable with a simple key.",
+      buyBtn: "BUY KEY",
+      downloadBtn: "DOWNLOAD EXTENSION",
+      discordBtn: "DISCORD",
+    },
+    userSection: {
+      welcome: "WELCOME",
+      activeKeys: "YOUR ACTIVE KEYS",
+      noKeys: "You don't have any active keys yet. Choose a plan below!",
+    },
+    tutorial: {
+      badge: "INSTALLATION GUIDE",
+      title: "INSTALL GUTO",
+      steps: [
+        "Extract the GUTO.zip file → a 'dist' folder will appear",
+        "Open Chrome and type: chrome://extensions/",
+        "Enable Developer Mode (top right corner)",
+        "Click 'Load unpacked' → select the 'dist' folder",
+        "Click the 🧩, open GUTO, paste your key and click Validate",
+      ],
+      important: "IMPORTANT:",
+      importantSteps: [
+        "Always use the chat through the GUTO extension, not the normal Lovable chat",
+        "If the extension doesn't work, go to your project tab in Lovable and press F5",
+        "Then try sending again via the extension",
+        "Always keep the project tab open while using the extension 🚀",
+      ],
+    },
+    features: {
+      tag: "// WHY USE IT",
+      title1: "ADVANTAGES OF",
+      title2: "GUTO PINGO",
+      items: [
+        { title: "Unlimited Prompts", desc: "No crashes. No limits. Create as much as you want on Lovable." },
+        { title: "Instant Activation", desc: "Copy the key, paste it into the extension and you're done. Works in seconds." },
+        { title: "100% Secure", desc: "Audited extension, no access to personal data or private code." },
+        { title: "High Performance", desc: "No impact on Lovable or your browser performance." },
+        { title: "Multi-project", desc: "One key works on all your projects simultaneously." },
+        { title: "Technical Support", desc: "Active support team on Discord and WhatsApp to help you." },
+      ]
+    },
+    pricing: {
+      tag: "// SELECT YOUR PLAN",
+      title1: "CHOOSE YOUR",
+      title2: "PLAN",
+      subtitle: "All plans unlock unlimited prompts on Lovable",
+      payPix: "PAY WITH PIX",
+      payStripe: "CARD / OTHERS",
+      back: "BACK",
+      buyBtn: ">> BUY KEY",
+      testBtn: ">> TEST NOW",
+    },
+    footer: {
+      rights: "© 2025 GUTOPINGO.COM • ALL RIGHTS RESERVED",
+      terms: "TERMS",
+      privacy: "PRIVACY",
+    }
+  }
+};
+
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const PLANS: Plan[] = [
+const getPlans = (lang: Language): Plan[] => [
   {
     id: "test",
     priceId: "price_1TbXLaDgmvJ4Q2O6idYoTXFJ",
-    name: "Guto Pingo - 5 Minutos (Teste)",
+    name: lang === 'pt' ? "Guto Pingo - 5 Minutos (Teste)" : "Guto Pingo - 5 Minutes (Test)",
     price: "R$ 5.00",
-    priceNote: "acesso imediato",
-    duration: "5 Minutos",
+    priceNote: lang === 'pt' ? "acesso imediato" : "immediate access",
+    duration: lang === 'pt' ? "5 Minutos" : "5 Minutes",
     icon: <Timer size={20} />,
     featured: true,
-    badge: "⭐ PRINCIPAL",
+    badge: lang === 'pt' ? "⭐ PRINCIPAL" : "⭐ MAIN",
     color: "#7c3aed",
-    features: ["Acesso de 5 minutos", "Software as a service", "Business use"],
+    features: lang === 'pt' ? ["Acesso de 5 minutos", "Software as a service", "Business use"] : ["5-minute access", "Software as a service", "Business use"],
   },
   {
     id: "1day",
     priceId: "price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v",
-    name: "Guto Pingo - 1 Dia",
+    name: lang === 'pt' ? "Guto Pingo - 1 Dia" : "Guto Pingo - 1 Day",
     price: "R$ 20.00",
-    priceNote: "acesso imediato",
-    duration: "1 Dia",
+    priceNote: lang === 'pt' ? "acesso imediato" : "immediate access",
+    duration: lang === 'pt' ? "1 Dia" : "1 Day",
     icon: <Clock size={20} />,
     color: "#6d28d9",
-    features: ["Acesso de 1 dia", "Software as a service", "Business use"],
+    features: lang === 'pt' ? ["Acesso de 1 dia", "Software as a service", "Business use"] : ["1-day access", "Software as a service", "Business use"],
   },
   {
     id: "1week",
     priceId: "price_1TbXLZDgmvJ4Q2O66me1RzwB",
-    name: "Guto Pingo - 1 Semana",
+    name: lang === 'pt' ? "Guto Pingo - 1 Semana" : "Guto Pingo - 1 Week",
     price: "R$ 45.00",
-    priceNote: "acesso imediato",
-    duration: "1 Semana",
+    priceNote: lang === 'pt' ? "acesso imediato" : "immediate access",
+    duration: lang === 'pt' ? "1 Semana" : "1 Week",
     icon: <Zap size={20} />,
     color: "#5b21b6",
-    features: ["Acesso de 1 semana", "Software as a service", "Business use"],
+    features: lang === 'pt' ? ["Acesso de 1 semana", "Software as a service", "Business use"] : ["1-week access", "Software as a service", "Business use"],
   },
   {
     id: "30days",
     priceId: "price_1TbXLYDgmvJ4Q2O6YrA9zxs3",
-    name: "Guto Pingo - 30 Dias",
+    name: lang === 'pt' ? "Guto Pingo - 30 Dias" : "Guto Pingo - 30 Days",
     price: "R$ 100.00",
-    priceNote: "acesso imediato",
-    duration: "30 Dias",
+    priceNote: lang === 'pt' ? "acesso imediato" : "immediate access",
+    duration: lang === 'pt' ? "30 Dias" : "30 Days",
     icon: <Globe size={20} />,
     color: "#4c1d95",
-    features: ["Acesso de 30 dias", "Software as a service", "Business use"],
+    features: lang === 'pt' ? ["Acesso de 30 dias", "Software as a service", "Business use"] : ["30-day access", "Software as a service", "Business use"],
   },
   {
     id: "lifetime",
     priceId: "price_1TbXLYDgmvJ4Q2O61rlPDyRk",
-    name: "Guto Pingo - Vitalício",
+    name: lang === 'pt' ? "Guto Pingo - Vitalício" : "Guto Pingo - Lifetime",
     price: "R$ 169.99",
-    priceNote: "PROMOÇÃO",
-    duration: "Para sempre",
+    priceNote: lang === 'pt' ? "PROMOÇÃO" : "PROMOTION",
+    duration: lang === 'pt' ? "Para sempre" : "Forever",
     icon: <Infinity size={20} />,
-    badge: "🔥 PROMO LIMITADA",
+    badge: lang === 'pt' ? "🔥 PROMO LIMITADA" : "🔥 LIMITED PROMO",
     color: "#7c3aed",
-    features: [
+    features: lang === 'pt' ? [
       "Acesso vitalício",
       "Software as a service",
       "Business use",
       "Atualizações grátis",
       "Prioridade máxima",
+    ] : [
+      "Lifetime access",
+      "Software as a service",
+      "Business use",
+      "Free updates",
+      "Maximum priority",
     ],
-  },
-];
-
-const FEATURES = [
-  {
-    icon: <Zap size={22} />,
-    title: "Prompts Ilimitados",
-    desc: "Sem travamentos. Sem limites. Crie o quanto quiser no Lovable.",
-  },
-  {
-    icon: <Rocket size={22} />,
-    title: "Ativação Instantânea",
-    desc: "Copie a key, cole na extensão e pronto. Funciona em segundos.",
-  },
-  {
-    icon: <Shield size={22} />,
-    title: "100% Seguro",
-    desc: "Extensão auditada, sem acesso a dados pessoais ou código privado.",
-  },
-  {
-    icon: <Cpu size={22} />,
-    title: "Alta Performance",
-    desc: "Nenhum impacto no desempenho do Lovable ou do seu browser.",
-  },
-  {
-    icon: <Layers size={22} />,
-    title: "Multi-projeto",
-    desc: "Uma key funciona em todos os seus projetos simultaneamente.",
-  },
-  {
-    icon: <Terminal size={22} />,
-    title: "Suporte Técnico",
-    desc: "Time de suporte ativo no Discord e WhatsApp para te ajudar.",
   },
 ];
 
@@ -316,8 +435,8 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
-function KeyCard({ licKey }: { licKey: LicenseKey }) {
-  const isLifetime = licKey.duration.toLowerCase() === "vitalício";
+function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
+  const isLifetime = licKey.duration.toLowerCase() === "vitalício" || licKey.duration.toLowerCase() === "lifetime" || licKey.duration.toLowerCase() === "para sempre" || licKey.duration.toLowerCase() === "forever";
 
   return (
     <div
@@ -359,15 +478,16 @@ function KeyCard({ licKey }: { licKey: LicenseKey }) {
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "#a78bfa", fontFamily: "'Courier New', monospace" }}>
         <Clock size={11} />
-        {isLifetime ? "Nunca expira" : `Expira em: ${new Date(licKey.expires_at || "").toLocaleDateString()}`}
+        {isLifetime ? (lang === 'pt' ? "Nunca expira" : "Never expires") : `${lang === 'pt' ? "Expira em" : "Expires on"}: ${new Date(licKey.expires_at || "").toLocaleDateString()}`}
 
       </div>
     </div>
   );
 }
 
-function PlanCard({ plan, onBuy, loading }: { plan: Plan; onBuy: (priceId: string, method: "stripe" | "pix") => void; loading: boolean }) {
+function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId: string, method: "stripe" | "pix") => void; loading: boolean; lang: Language }) {
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+  const t = translations[lang].pricing;
 
   return (
     <div
@@ -446,7 +566,7 @@ function PlanCard({ plan, onBuy, loading }: { plan: Plan; onBuy: (priceId: strin
               gap: 8,
             }}
           >
-            PAGAR COM PIX
+            {t.payPix}
           </button>
           <button
             onClick={() => onBuy(plan.priceId, "stripe")}
@@ -467,7 +587,7 @@ function PlanCard({ plan, onBuy, loading }: { plan: Plan; onBuy: (priceId: strin
               gap: 8,
             }}
           >
-            CARTÃO / OUTROS
+            {t.payStripe}
           </button>
           <button
             onClick={() => setShowPaymentOptions(false)}
@@ -481,7 +601,7 @@ function PlanCard({ plan, onBuy, loading }: { plan: Plan; onBuy: (priceId: strin
               fontFamily: "'Courier New', monospace",
             }}
           >
-            VOLTAR
+            {t.back}
           </button>
         </div>
       ) : (
@@ -509,7 +629,7 @@ function PlanCard({ plan, onBuy, loading }: { plan: Plan; onBuy: (priceId: strin
             opacity: loading ? 0.7 : 1,
           }}
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : (plan.id === "test" ? ">> TESTAR AGORA" : ">> COMPRAR KEY")}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : (plan.id === "test" ? t.testBtn : t.buyBtn)}
         </button>
       )}
     </div>
@@ -519,6 +639,7 @@ function PlanCard({ plan, onBuy, loading }: { plan: Plan; onBuy: (priceId: strin
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function GutoPingoPage() {
+  const [lang, setLang] = useState<Language>('pt');
   const [user, setUser] = useState<UserType | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [licenseKeys, setLicenseKeys] = useState<LicenseKey[]>([]);
@@ -528,6 +649,14 @@ export default function GutoPingoPage() {
   const searchParams: any = useSearch({ from: "/" });
 
   useEffect(() => {
+    // Language detection
+    const browserLang = navigator.language.toLowerCase();
+    if (browserLang.startsWith('pt')) {
+      setLang('pt');
+    } else {
+      setLang('en');
+    }
+
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
 
@@ -569,6 +698,9 @@ export default function GutoPingoPage() {
     };
   }, [searchParams]);
 
+  const t = translations[lang];
+  const PLANS = getPlans(lang);
+
   const handleSuccessPayment = async (userId: string, priceId: string) => {
     console.log("Processando sucesso de pagamento:", { userId, priceId });
     // Agora o sistema aguarda o webhook para gerar a chave de forma segura.
@@ -607,11 +739,11 @@ export default function GutoPingoPage() {
       if (result && 'checkoutUrl' in result && result.checkoutUrl) {
         window.location.href = result.checkoutUrl;
       } else if (result && 'error' in result) {
-        alert(`Erro no Checkout: ${result.error}`);
+        alert(`${lang === 'pt' ? 'Erro no Checkout' : 'Checkout Error'}: ${result.error}`);
       }
     } catch (err) {
       console.error("Checkout error:", err);
-      alert("Erro ao iniciar o checkout. Tente novamente.");
+      alert(lang === 'pt' ? "Erro ao iniciar o checkout. Tente novamente." : "Error starting checkout. Please try again.");
     } finally {
       setLoadingCheckout(null);
     }
@@ -696,7 +828,7 @@ export default function GutoPingoPage() {
               onClick={() => navigate({ to: "/admin" })}
               style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 14px", background: "rgba(168,85,247,0.1)", color: "#a855f7", border: "2px solid #a855f7", cursor: "pointer", fontSize: 11, fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em" }}
             >
-              ADMIN
+              {t.nav.admin}
             </button>
           )}
           <a 
@@ -719,16 +851,16 @@ export default function GutoPingoPage() {
                 </span>
               </div>
               <button onClick={handleLogout} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 14px", background: "transparent", color: "#a855f7", border: "2px solid #4c1d95", cursor: "pointer", fontSize: 11, fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em" }}>
-                <LogOut size={13} /> SAIR
+                <LogOut size={13} /> {t.nav.logout}
               </button>
             </>
           ) : (
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={handleLogin} style={{ padding: "8px 20px", background: "transparent", color: "#a855f7", border: "2px solid #7c3aed", cursor: "pointer", fontSize: 12, fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em" }}>
-                ENTRAR
+                {t.nav.login}
               </button>
               <button onClick={() => navigate({ to: "/auth", search: { register: true } })} style={{ padding: "8px 20px", background: "#7c3aed", color: "#fff", border: "2px solid #a855f7", cursor: "pointer", fontSize: 12, fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em" }}>
-                CADASTRAR
+                {t.nav.register}
               </button>
             </div>
 
@@ -756,32 +888,32 @@ export default function GutoPingoPage() {
 
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 16px", background: "rgba(124,58,237,0.2)", border: "1px solid #7c3aed", marginBottom: 24 }}>
             <div style={{ width: 6, height: 6, background: "#22c55e", animation: "twinkle 1s infinite" }} />
-            <span style={{ fontSize: 11, color: "#a855f7", letterSpacing: "0.2em", fontWeight: 700 }}>EXTENSÃO ATIVA • LOVABLE DESBLOQUEADO</span>
+            <span style={{ fontSize: 11, color: "#a855f7", letterSpacing: "0.2em", fontWeight: 700 }}>{t.hero.status}</span>
           </div>
 
           <h1 style={{ fontSize: "clamp(36px, 8vw, 80px)", fontWeight: 900, letterSpacing: "-0.02em", lineHeight: 1.05, marginBottom: 20, color: "#f5f3ff", textShadow: "0 0 40px rgba(168,85,247,0.5)" }}>
-            PROMPTS<br /><span style={{ color: "#a855f7", textShadow: "0 0 20px rgba(168,85,247,0.8), 2px 2px 0 #4c1d95" }}>ILIMITADOS</span><br /><span style={{ fontSize: "0.55em", color: "#c4b5fd" }}>NO LOVABLE</span>
+            {t.hero.title1}<br /><span style={{ color: "#a855f7", textShadow: "0 0 20px rgba(168,85,247,0.8), 2px 2px 0 #4c1d95" }}>{t.hero.title2}</span><br /><span style={{ fontSize: "0.55em", color: "#c4b5fd" }}>{t.hero.title3}</span>
           </h1>
 
           <p style={{ fontSize: "clamp(14px, 2.5vw, 18px)", color: "#a78bfa", maxWidth: 520, margin: "0 auto 40px", lineHeight: 1.7, letterSpacing: "0.02em" }}>
-            Pare de travar no limite de prompts. A extensão do Guto Pingo desbloqueia <span style={{ color: "#e9d5ff", fontWeight: 700 }}>criação infinita</span> no Lovable com uma key simples.
+            {t.hero.subtitle}
           </p>
 
           <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
             <a href="#pricing" style={{ padding: "16px 36px", background: "#7c3aed", color: "#fff", border: "2px solid #a855f7", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", boxShadow: "4px 4px 0 #4c1d95", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
-              <Key size={16} /> COMPRAR KEY
+              <Key size={16} /> {t.hero.buyBtn}
             </a>
             <a href="https://zdxxhjjnkyboegerdoxl.supabase.co/storage/v1/object/public/assets/GUTOV5.zip" download style={{ padding: "16px 36px", background: "transparent", color: "#a855f7", border: "2px solid #7c3aed", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
-              <FileDown size={16} /> BAIXAR EXTENSÃO
+              <FileDown size={16} /> {t.hero.downloadBtn}
             </a>
             <a href="https://discord.gg/kfezRBk7" target="_blank" rel="noopener noreferrer" style={{ padding: "16px 36px", background: "rgba(124,58,237,0.1)", color: "#a855f7", border: "2px solid #4c1d95", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
-              <DiscordIcon size={18} color="#a855f7" /> DISCORD
+              <DiscordIcon size={18} color="#a855f7" /> {t.hero.discordBtn}
             </a>
           </div>
 
 
           <div style={{ marginTop: 64, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: "#4c1d95", animation: "twinkle 2s ease-in-out infinite" }}>
-            <span style={{ fontSize: 10, letterSpacing: "0.2em" }}>SCROLL</span>
+            <span style={{ fontSize: 10, letterSpacing: "0.2em" }}>{lang === 'pt' ? 'SCROLL' : 'SCROLL DOWN'}</span>
             <ChevronDown size={16} />
           </div>
         </div>
@@ -793,65 +925,57 @@ export default function GutoPingoPage() {
             <div style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "8px 20px", background: "rgba(124,58,237,0.15)", border: "1px solid #7c3aed", marginBottom: 16 }}>
               <PixelPenguin size={28} />
               <span style={{ fontSize: 12, color: "#a855f7", letterSpacing: "0.15em", fontWeight: 700 }}>
-                BEM-VINDO, {user.email?.split("@")[0].toUpperCase()}
+                {t.userSection.welcome}, {user.email?.split("@")[0].toUpperCase()}
               </span>
             </div>
             <h2 style={{ fontSize: "clamp(22px, 4vw, 36px)", fontWeight: 900, color: "#e9d5ff", letterSpacing: "-0.01em" }}>
-              SUAS <span style={{ color: "#a855f7" }}>KEYS ATIVAS</span>
+              {t.userSection.activeKeys.split(' ')[0]} <span style={{ color: "#a855f7" }}>{t.userSection.activeKeys.split(' ').slice(1).join(' ')}</span>
             </h2>
           </div>
 
           {licenseKeys.length > 0 ? (
             <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", marginBottom: 64 }}>
-              {licenseKeys.map((k) => <KeyCard key={k.id} licKey={k} />)}
+              {licenseKeys.map((k) => <KeyCard key={k.id} licKey={k} lang={lang} />)}
             </div>
           ) : (
             <div style={{ textAlign: "center", padding: "40px", background: "rgba(124,58,237,0.05)", border: "2px dashed #4c1d95", color: "#7c3aed", marginBottom: 64 }}>
-              Você ainda não possui nenhuma key ativa. Escolha um plano abaixo!
+              {t.userSection.noKeys}
             </div>
           )}
 
           {/* Tutorial Section */}
           <div style={{ background: "rgba(30,10,60,0.6)", border: "2px solid #4c1d95", padding: "40px", position: "relative" }}>
             <div style={{ position: "absolute", top: -14, left: 24, background: "#7c3aed", color: "#fff", fontSize: 10, padding: "4px 12px", fontFamily: "'Courier New', monospace", fontWeight: 900, letterSpacing: "0.1em", border: "2px solid #a855f7" }}>
-              GUIA DE INSTALAÇÃO
+              {t.tutorial.badge}
             </div>
             
             <h3 style={{ fontSize: 20, fontWeight: 900, color: "#e9d5ff", marginBottom: 24, display: "flex", alignItems: "center", gap: 12 }}>
-              <Settings className="text-primary" /> INSTALAR GUTO
+              <Settings className="text-primary" /> {t.tutorial.title}
             </h3>
 
             <div style={{ display: "grid", gap: 24 }}>
-              {[
-                { icon: <FileDown size={18} />, text: "Extraia o arquivo GUTO.zip → vai aparecer a pasta dist" },
-                { icon: <Monitor size={18} />, text: "Abra o Chrome e digite: chrome://extensions/" },
-                { icon: <Settings size={18} />, text: "Ative Modo do desenvolvedor (canto superior direito)" },
-                { icon: <Puzzle size={18} />, text: "Clique em Carregar sem compactação → selecione a pasta dist" },
-                { icon: <Check size={18} />, text: "Clique no 🧩, abra o GUTO, cole sua chave e clique em Validar" },
-              ].map((step, i) => (
-                <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-                  <div style={{ width: 28, height: 28, background: "#7c3aed", border: "2px solid #a855f7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 12, fontWeight: 900 }}>
-                    {i + 1}
+              {t.tutorial.steps.map((step, i) => {
+                const icons = [<FileDown size={18} />, <Monitor size={18} />, <Settings size={18} />, <Puzzle size={18} />, <Check size={18} />];
+                return (
+                  <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                    <div style={{ width: 28, height: 28, background: "#7c3aed", border: "2px solid #a855f7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 12, fontWeight: 900 }}>
+                      {i + 1}
+                    </div>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 14, color: "#c4b5fd", lineHeight: 1.5 }}>
+                      <span style={{ color: "#a855f7" }}>{icons[i]}</span>
+                      {step}
+                    </div>
                   </div>
-                  <div style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 14, color: "#c4b5fd", lineHeight: 1.5 }}>
-                    <span style={{ color: "#a855f7" }}>{step.icon}</span>
-                    {step.text}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div style={{ marginTop: 32, paddingTop: 32, borderTop: "1px solid #2e1065" }}>
               <h4 style={{ fontSize: 14, fontWeight: 900, color: "#f59e0b", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
-                <Zap size={16} /> IMPORTANTE:
+                <Zap size={16} /> {t.tutorial.important}
               </h4>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 12 }}>
-                {[
-                  "Sempre use o chat pela extensão GUTO, não pelo chat normal do Lovable",
-                  "Se a extensão não funcionar, vá na aba do seu projeto no Lovable e aperte F5",
-                  "Depois tente enviar novamente pela extensão",
-                  "Sempre deixe a aba do projeto aberta enquanto usa a extensão 🚀",
-                ].map((item, i) => (
+                {t.tutorial.importantSteps.map((item, i) => (
                   <li key={i} style={{ display: "flex", gap: 10, fontSize: 13, color: "#a78bfa" }}>
                     <div style={{ width: 4, height: 4, background: "#f59e0b", marginTop: 8, flexShrink: 0 }} />
                     {item}
@@ -865,20 +989,23 @@ export default function GutoPingoPage() {
 
       <section style={{ padding: "80px 24px", maxWidth: 1100, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
-          <span style={{ fontSize: 11, color: "#7c3aed", letterSpacing: "0.25em", fontWeight: 700 }}>// POR QUE USAR</span>
+          <span style={{ fontSize: 11, color: "#7c3aed", letterSpacing: "0.25em", fontWeight: 700 }}>{t.features.tag}</span>
           <h2 style={{ fontSize: "clamp(24px, 4vw, 40px)", fontWeight: 900, color: "#f5f3ff", marginTop: 8 }}>
-            VANTAGENS DO <span style={{ color: "#a855f7" }}>GUTO PINGO</span>
+            {t.features.title1} <span style={{ color: "#a855f7" }}>{t.features.title2}</span>
           </h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
-          {FEATURES.map((f, i) => (
-            <div key={i} className="feature-card" style={{ background: "rgba(20,5,45,0.8)", border: "2px solid #2e1065", padding: "24px 20px", position: "relative", transition: "all 0.2s", cursor: "default" }}>
-              <div style={{ width: 44, height: 44, background: "rgba(124,58,237,0.2)", border: "2px solid #7c3aed", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16, color: "#a855f7" }}>{f.icon}</div>
-              <h3 style={{ fontSize: 14, fontWeight: 900, color: "#e9d5ff", marginBottom: 8, letterSpacing: "0.05em" }}>{f.title}</h3>
-              <p style={{ fontSize: 12, color: "#7c3aed", lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, #7c3aed, transparent)" }} />
-            </div>
-          ))}
+          {t.features.items.map((f, i) => {
+             const icons = [<Zap size={22} />, <Rocket size={22} />, <Shield size={22} />, <Cpu size={22} />, <Layers size={22} />, <Terminal size={22} />];
+             return (
+              <div key={i} className="feature-card" style={{ background: "rgba(20,5,45,0.8)", border: "2px solid #2e1065", padding: "24px 20px", position: "relative", transition: "all 0.2s", cursor: "default" }}>
+                <div style={{ width: 44, height: 44, background: "rgba(124,58,237,0.2)", border: "2px solid #7c3aed", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16, color: "#a855f7" }}>{icons[i]}</div>
+                <h3 style={{ fontSize: 14, fontWeight: 900, color: "#e9d5ff", marginBottom: 8, letterSpacing: "0.05em" }}>{f.title}</h3>
+                <p style={{ fontSize: 12, color: "#7c3aed", lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, #7c3aed, transparent)" }} />
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -886,11 +1013,11 @@ export default function GutoPingoPage() {
         <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(rgba(124,58,237,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.04) 1px, transparent 1px)`, backgroundSize: "20px 20px", pointerEvents: "none" }} />
         <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <span style={{ fontSize: 11, color: "#7c3aed", letterSpacing: "0.25em", fontWeight: 700 }}>// SELECT YOUR PLAN</span>
+            <span style={{ fontSize: 11, color: "#7c3aed", letterSpacing: "0.25em", fontWeight: 700 }}>{t.pricing.tag}</span>
             <h2 style={{ fontSize: "clamp(24px, 4vw, 40px)", fontWeight: 900, color: "#f5f3ff", marginTop: 8, marginBottom: 12 }}>
-              ESCOLHA SEU <span style={{ color: "#a855f7" }}>PLANO</span>
+              {t.pricing.title1} <span style={{ color: "#a855f7" }}>{t.pricing.title2}</span>
             </h2>
-            <p style={{ color: "#6d28d9", fontSize: 13, letterSpacing: "0.05em" }}>Todos os planos desbloqueiam prompts ilimitados no Lovable</p>
+            <p style={{ color: "#6d28d9", fontSize: 13, letterSpacing: "0.05em" }}>{t.pricing.subtitle}</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20, alignItems: "stretch" }}>
             {PLANS.map((plan) => (
@@ -899,6 +1026,7 @@ export default function GutoPingoPage() {
                 plan={plan} 
                 onBuy={handleBuy} 
                 loading={loadingCheckout === plan.priceId}
+                lang={lang}
               />
             ))}
           </div>
@@ -910,7 +1038,7 @@ export default function GutoPingoPage() {
           <PixelPenguin size={32} />
           <span style={{ fontSize: 16, fontWeight: 900, letterSpacing: "0.1em" }}>GUTO<span style={{ color: "#a855f7" }}>PINGO</span></span>
         </div>
-        <p style={{ fontSize: 11, color: "#4c1d95", letterSpacing: "0.1em" }}>© 2025 GUTOPINGO.COM • TODOS OS DIREITOS RESERVADOS</p>
+        <p style={{ fontSize: 11, color: "#4c1d95", letterSpacing: "0.1em" }}>{t.footer.rights}</p>
         
         {/* Hidden SEO Keywords for Crawler */}
         <div style={{ opacity: 0, height: 0, pointerEvents: "none" }}>
@@ -923,7 +1051,7 @@ export default function GutoPingoPage() {
           <a href="https://discord.gg/kfezRBk7" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 10, color: "#a855f7", textDecoration: "none", letterSpacing: "0.15em", fontWeight: 700 }}>
             <DiscordIcon size={14} color="#a855f7" /> DISCORD
           </a>
-          {["TERMOS", "PRIVACIDADE"].map((link) => (
+          {[t.footer.terms, t.footer.privacy].map((link) => (
             <a key={link} href="#" style={{ fontSize: 10, color: "#6d28d9", textDecoration: "none", letterSpacing: "0.15em" }}>{link}</a>
           ))}
         </div>
