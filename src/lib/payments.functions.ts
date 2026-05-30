@@ -46,7 +46,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
           priceId,
         });
         // LivePix returns a URL to the checkout/payment page
-        return { checkoutUrl: payment.checkoutUrl || payment.url };
+        return { checkoutUrl: payment.checkoutUrl };
       }
 
       const env = 'live';
