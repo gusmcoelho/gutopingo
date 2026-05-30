@@ -639,6 +639,7 @@ function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId:
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function GutoPingoPage() {
+  const [lang, setLang] = useState<Language>('pt');
   const [user, setUser] = useState<UserType | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [licenseKeys, setLicenseKeys] = useState<LicenseKey[]>([]);
@@ -648,6 +649,14 @@ export default function GutoPingoPage() {
   const searchParams: any = useSearch({ from: "/" });
 
   useEffect(() => {
+    // Language detection
+    const browserLang = navigator.language.toLowerCase();
+    if (browserLang.startsWith('pt')) {
+      setLang('pt');
+    } else {
+      setLang('en');
+    }
+
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
 
@@ -689,6 +698,9 @@ export default function GutoPingoPage() {
     };
   }, [searchParams]);
 
+  const t = translations[lang];
+  const PLANS = getPlans(lang);
+
   const handleSuccessPayment = async (userId: string, priceId: string) => {
     console.log("Processando sucesso de pagamento:", { userId, priceId });
     // Agora o sistema aguarda o webhook para gerar a chave de forma segura.
@@ -727,11 +739,11 @@ export default function GutoPingoPage() {
       if (result && 'checkoutUrl' in result && result.checkoutUrl) {
         window.location.href = result.checkoutUrl;
       } else if (result && 'error' in result) {
-        alert(`Erro no Checkout: ${result.error}`);
+        alert(`${lang === 'pt' ? 'Erro no Checkout' : 'Checkout Error'}: ${result.error}`);
       }
     } catch (err) {
       console.error("Checkout error:", err);
-      alert("Erro ao iniciar o checkout. Tente novamente.");
+      alert(lang === 'pt' ? "Erro ao iniciar o checkout. Tente novamente." : "Error starting checkout. Please try again.");
     } finally {
       setLoadingCheckout(null);
     }
