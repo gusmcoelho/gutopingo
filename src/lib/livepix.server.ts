@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+// URLs extraídas da documentação oficial enviada pelo usuário
+const LIVEPIX_AUTH_URL = "https://oauth.livepix.gg/oauth2/token";
 const LIVEPIX_API_BASE = "https://api.livepix.gg";
 
 interface LivePixTokenResponse {
@@ -16,41 +18,25 @@ export async function getLivePixAccessToken() {
     throw new Error("LIVEPIX_CLIENT_ID or LIVEPIX_CLIENT_SECRET not configured");
   }
 
-  // O endpoint de token da LivePix é /v2/auth/token ou /oauth2/token
-  // Vou tentar o que é documentado para a V2 mas com o prefixo /v2
-  const response = await fetch(`${LIVEPIX_API_BASE}/v2/auth/token`, {
+  // Requisição conforme documentação: POST https://oauth.livepix.gg/oauth2/token
+  // Com parâmetros no corpo (x-www-form-urlencoded)
+  const response = await fetch(LIVEPIX_AUTH_URL, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: JSON.stringify({
+    body: new URLSearchParams({
+      grant_type: "client_credentials",
       client_id: clientId,
       client_secret: clientSecret,
-      grant_type: "client_credentials"
+      scope: "account:read wallet:read webhooks payments:write" // Adicionado escopos baseados na doc
     }),
   });
 
   if (!response.ok) {
-    // Tenta formato x-www-form-urlencoded caso JSON falhe
-    const retryResponse = await fetch(`${LIVEPIX_API_BASE}/v2/auth/token`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: new URLSearchParams({
-        client_id: clientId,
-        client_secret: clientSecret,
-        grant_type: "client_credentials"
-      }),
-    });
-
-    if (!retryResponse.ok) {
-      const error = await retryResponse.text();
-      console.error(`LivePix Token Error:`, error);
-      throw new Error(`Failed to get LivePix access token: ${retryResponse.statusText} (${retryResponse.status})`);
-    }
-    const data = (await retryResponse.json()) as LivePixTokenResponse;
-    return data.access_token;
+    const error = await response.text();
+    console.error(`LivePix Auth Error (${response.status}):`, error);
+    throw new Error(`Failed to get LivePix access token: ${response.statusText} (${response.status})`);
   }
 
   const data = (await response.json()) as LivePixTokenResponse;
@@ -59,7 +45,9 @@ export async function getLivePixAccessToken() {
 
 export async function createLivePixPayment(amountInCents: number, metadata: Record<string, any>) {
   const token = await getLivePixAccessToken();
-  const amount = amountInCents / 100;
+  
+  // URL base para recursos é api.livepix.gg, conforme doc (/v2/payments)
+  const baseUrl = process.env.LOVABLE_APP_URL || process.env.APP_URL || 'https://zdxxhjjnkyboegerdoxl.lovable.app';
 
   const response = await fetch(`${LIVEPIX_API_BASE}/v2/payments`, {
     method: "POST",
@@ -68,16 +56,25 @@ export async function createLivePixPayment(amountInCents: number, metadata: Reco
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      amount: amount,
-      metadata: metadata,
+      amount: amountInCents, // Doc diz centavos
+      currency: "BRL",
+      redirectUrl: `${baseUrl}/?success=true`,
+      // Metadados não são explicitamente listados no body da criação, 
+      // mas podem ser passados se a API aceitar ou salvos localmente vinculados à referência.
     }),
   });
 
   if (!response.ok) {
     const error = await response.text();
-    console.error(`LivePix Payment Error:`, error);
+    console.error(`LivePix Payment Error (${response.status}):`, error);
     throw new Error(`Failed to create LivePix payment: ${response.statusText}`);
   }
 
-  return await response.json();
+  const result = await response.json();
+  
+  // A doc diz que retorna { data: { reference: "...", redirectUrl: "..." } }
+  return {
+    checkoutUrl: result.data?.redirectUrl,
+    reference: result.data?.reference
+  };
 }
