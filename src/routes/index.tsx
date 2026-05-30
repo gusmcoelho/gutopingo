@@ -579,7 +579,8 @@ function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
 
 function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId: string, method: "stripe" | "pix") => void; loading: boolean; lang: Language }) {
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
-  const t = translations[lang].pricing;
+  const t = (translations[lang || 'pt'] || translations.pt).pricing;
+
 
   return (
     <div
