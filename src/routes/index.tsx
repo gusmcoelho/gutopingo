@@ -528,7 +528,18 @@ function CopyButton({ text, lang }: { text: string; lang: Language }) {
 }
 
 function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
-  const isLifetime = licKey && licKey.duration && (licKey.duration.toLowerCase() === "vitalício" || licKey.duration.toLowerCase() === "lifetime" || licKey.duration.toLowerCase() === "para sempre" || licKey.duration.toLowerCase() === "forever");
+  const isLifetime = licKey && licKey.key && (licKey.key.includes("-LIFETIME-") || (licKey.duration && (licKey.duration.toLowerCase() === "vitalício" || licKey.duration.toLowerCase() === "lifetime" || licKey.duration.toLowerCase() === "para sempre" || licKey.duration.toLowerCase() === "forever")));
+
+  const getDisplayDuration = (key: string, duration: string) => {
+    if (key.includes("-LIFETIME-")) return lang === 'pt' ? "Vitalícia" : "Lifetime";
+    if (key.includes("-1MONTH-")) return lang === 'pt' ? "Mensal" : "Monthly";
+    if (key.includes("-1WEEK-")) return lang === 'pt' ? "Semanal" : "Weekly";
+    if (key.includes("-1DAY-")) return lang === 'pt' ? "Diária" : "Daily";
+    if (key.includes("-5MIN-")) return lang === 'pt' ? "5 Minutos (Teste)" : "5 Minutes (Trial)";
+    return duration;
+  };
+
+  const displayDuration = getDisplayDuration(licKey.key, licKey.duration);
 
   return (
     <div
@@ -552,14 +563,13 @@ function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
             <Key size={14} color="#a855f7" />
             <span style={{ fontFamily: "'Courier New', monospace", fontSize: 11, color: "#a855f7", letterSpacing: "0.15em", textTransform: "uppercase" }}>
-              {licKey.duration}
+              {displayDuration}
             </span>
             {isLifetime && (
               <span style={{ background: "#7c3aed", color: "#e9d5ff", fontSize: 10, padding: "2px 8px", fontFamily: "'Courier New', monospace", fontWeight: 700, letterSpacing: "0.1em", border: "1px solid #a855f7" }}>
                 ∞ LIFETIME
               </span>
             )}
-
           </div>
           <div style={{ fontFamily: "'Courier New', monospace", fontSize: 13, color: "#e9d5ff", letterSpacing: "0.12em", fontWeight: 700 }}>
             {licKey.key}
@@ -570,8 +580,7 @@ function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "#a78bfa", fontFamily: "'Courier New', monospace" }}>
         <Clock size={11} />
-        {isLifetime ? (lang === 'pt' ? "Nunca expira" : "Never expires") : `${lang === 'pt' ? "Expira em" : "Expires on"}: ${new Date(licKey.expires_at || "").toLocaleDateString()}`}
-
+        {isLifetime ? (lang === 'pt' ? "Nunca expira" : "Never expires") : `${lang === 'pt' ? "Expira em" : "Expires on"}: ${new Date(licKey.expires_at || "").toLocaleString()}`}
       </div>
     </div>
   );
