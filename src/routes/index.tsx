@@ -1185,6 +1185,9 @@ export default function GutoPingoPage() {
           ))}
         </div>
 
+        <p style={{ fontSize: 9, color: "rgba(76, 29, 149, 0.6)", marginTop: 24, maxWidth: 600, margin: "24px auto 0", lineHeight: 1.5 }}>
+          Se trata de um bug da plataforma que pode ser corrigido a qualquer momento, nao nos responsabilizamos por nada
+        </p>
       </footer>
     </div>
   );
