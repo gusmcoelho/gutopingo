@@ -729,6 +729,8 @@ export default function GutoPingoPage() {
     const browserLang = navigator.language.toLowerCase();
     if (browserLang.startsWith('pt')) {
       setLang('pt');
+    } else if (browserLang.startsWith('tr')) {
+      setLang('tr');
     } else {
       setLang('en');
     }
