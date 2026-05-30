@@ -47,7 +47,6 @@ interface LicenseKey {
   created_at: string;
 }
 
-
 interface UserType {
   id: string;
   email?: string;
@@ -67,105 +66,225 @@ interface Plan {
   priceId: string;
 }
 
+type Language = 'pt' | 'en';
+
+// ─── Translations ─────────────────────────────────────────────────────────────
+
+const translations = {
+  pt: {
+    nav: {
+      admin: "ADMIN",
+      logout: "SAIR",
+      login: "ENTRAR",
+      register: "CADASTRAR",
+    },
+    hero: {
+      status: "EXTENSÃO ATIVA • LOVABLE DESBLOQUEADO",
+      title1: "PROMPTS",
+      title2: "ILIMITADOS",
+      title3: "NO LOVABLE",
+      subtitle: "Pare de travar no limite de prompts. A extensão do Guto Pingo desbloqueia criação infinita no Lovable com uma key simples.",
+      buyBtn: "COMPRAR KEY",
+      downloadBtn: "BAIXAR EXTENSÃO",
+      discordBtn: "DISCORD",
+    },
+    userSection: {
+      welcome: "BEM-VINDO",
+      activeKeys: "SUAS KEYS ATIVAS",
+      noKeys: "Você ainda não possui nenhuma key ativa. Escolha um plano abaixo!",
+    },
+    tutorial: {
+      badge: "GUIA DE INSTALAÇÃO",
+      title: "INSTALAR GUTO",
+      steps: [
+        "Extraia o arquivo GUTO.zip → vai aparecer a pasta dist",
+        "Abra o Chrome e digite: chrome://extensions/",
+        "Ative Modo do desenvolvedor (canto superior direito)",
+        "Clique em Carregar sem compactação → selecione a pasta dist",
+        "Clique no 🧩, abra o GUTO, cole sua chave e clique em Validar",
+      ],
+      important: "IMPORTANTE:",
+      importantSteps: [
+        "Sempre use o chat pela extensão GUTO, não pelo chat normal do Lovable",
+        "Se a extensão não funcionar, vá na aba do seu projeto no Lovable e aperte F5",
+        "Depois tente enviar novamente pela extensão",
+        "Sempre deixe a aba do projeto aberta enquanto usa a extensão 🚀",
+      ],
+    },
+    features: {
+      tag: "// POR QUE USAR",
+      title1: "VANTAGENS DO",
+      title2: "GUTO PINGO",
+      items: [
+        { title: "Prompts Ilimitados", desc: "Sem travamentos. Sem limites. Crie o quanto quiser no Lovable." },
+        { title: "Ativação Instantânea", desc: "Copie a key, cole na extensão e pronto. Funciona em segundos." },
+        { title: "100% Seguro", desc: "Extensão auditada, sem acesso a dados pessoais ou código privado." },
+        { title: "Alta Performance", desc: "Nenhum impacto no desempenho do Lovable ou do seu browser." },
+        { title: "Multi-projeto", desc: "Uma key funciona em todos os seus projetos simultaneamente." },
+        { title: "Suporte Técnico", desc: "Time de suporte ativo no Discord e WhatsApp para te ajudar." },
+      ]
+    },
+    pricing: {
+      tag: "// SELECT YOUR PLAN",
+      title1: "ESCOLHA SEU",
+      title2: "PLANO",
+      subtitle: "Todos os planos desbloqueiam prompts ilimitados no Lovable",
+      payPix: "PAGAR COM PIX",
+      payStripe: "CARTÃO / OUTROS",
+      back: "VOLTAR",
+      buyBtn: ">> COMPRAR KEY",
+      testBtn: ">> TESTAR AGORA",
+    },
+    footer: {
+      rights: "© 2025 GUTOPINGO.COM • TODOS OS DIREITOS RESERVADOS",
+      terms: "TERMOS",
+      privacy: "PRIVACIDADE",
+    }
+  },
+  en: {
+    nav: {
+      admin: "ADMIN",
+      logout: "LOGOUT",
+      login: "LOGIN",
+      register: "REGISTER",
+    },
+    hero: {
+      status: "EXTENSION ACTIVE • LOVABLE UNLOCKED",
+      title1: "UNLIMITED",
+      title2: "PROMPTS",
+      title3: "ON LOVABLE",
+      subtitle: "Stop getting stuck on prompt limits. The Guto Pingo extension unlocks infinite creation on Lovable with a simple key.",
+      buyBtn: "BUY KEY",
+      downloadBtn: "DOWNLOAD EXTENSION",
+      discordBtn: "DISCORD",
+    },
+    userSection: {
+      welcome: "WELCOME",
+      activeKeys: "YOUR ACTIVE KEYS",
+      noKeys: "You don't have any active keys yet. Choose a plan below!",
+    },
+    tutorial: {
+      badge: "INSTALLATION GUIDE",
+      title: "INSTALL GUTO",
+      steps: [
+        "Extract the GUTO.zip file → a 'dist' folder will appear",
+        "Open Chrome and type: chrome://extensions/",
+        "Enable Developer Mode (top right corner)",
+        "Click 'Load unpacked' → select the 'dist' folder",
+        "Click the 🧩, open GUTO, paste your key and click Validate",
+      ],
+      important: "IMPORTANT:",
+      importantSteps: [
+        "Always use the chat through the GUTO extension, not the normal Lovable chat",
+        "If the extension doesn't work, go to your project tab in Lovable and press F5",
+        "Then try sending again via the extension",
+        "Always keep the project tab open while using the extension 🚀",
+      ],
+    },
+    features: {
+      tag: "// WHY USE IT",
+      title1: "ADVANTAGES OF",
+      title2: "GUTO PINGO",
+      items: [
+        { title: "Unlimited Prompts", desc: "No crashes. No limits. Create as much as you want on Lovable." },
+        { title: "Instant Activation", desc: "Copy the key, paste it into the extension and you're done. Works in seconds." },
+        { title: "100% Secure", desc: "Audited extension, no access to personal data or private code." },
+        { title: "High Performance", desc: "No impact on Lovable or your browser performance." },
+        { title: "Multi-project", desc: "One key works on all your projects simultaneously." },
+        { title: "Technical Support", desc: "Active support team on Discord and WhatsApp to help you." },
+      ]
+    },
+    pricing: {
+      tag: "// SELECT YOUR PLAN",
+      title1: "CHOOSE YOUR",
+      title2: "PLAN",
+      subtitle: "All plans unlock unlimited prompts on Lovable",
+      payPix: "PAY WITH PIX",
+      payStripe: "CARD / OTHERS",
+      back: "BACK",
+      buyBtn: ">> BUY KEY",
+      testBtn: ">> TEST NOW",
+    },
+    footer: {
+      rights: "© 2025 GUTOPINGO.COM • ALL RIGHTS RESERVED",
+      terms: "TERMS",
+      privacy: "PRIVACY",
+    }
+  }
+};
+
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const PLANS: Plan[] = [
+const getPlans = (lang: Language): Plan[] => [
   {
     id: "test",
     priceId: "price_1TbXLaDgmvJ4Q2O6idYoTXFJ",
-    name: "Guto Pingo - 5 Minutos (Teste)",
+    name: lang === 'pt' ? "Guto Pingo - 5 Minutos (Teste)" : "Guto Pingo - 5 Minutes (Test)",
     price: "R$ 5.00",
-    priceNote: "acesso imediato",
-    duration: "5 Minutos",
+    priceNote: lang === 'pt' ? "acesso imediato" : "immediate access",
+    duration: lang === 'pt' ? "5 Minutos" : "5 Minutes",
     icon: <Timer size={20} />,
     featured: true,
-    badge: "⭐ PRINCIPAL",
+    badge: lang === 'pt' ? "⭐ PRINCIPAL" : "⭐ MAIN",
     color: "#7c3aed",
-    features: ["Acesso de 5 minutos", "Software as a service", "Business use"],
+    features: lang === 'pt' ? ["Acesso de 5 minutos", "Software as a service", "Business use"] : ["5-minute access", "Software as a service", "Business use"],
   },
   {
     id: "1day",
     priceId: "price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v",
-    name: "Guto Pingo - 1 Dia",
+    name: lang === 'pt' ? "Guto Pingo - 1 Dia" : "Guto Pingo - 1 Day",
     price: "R$ 20.00",
-    priceNote: "acesso imediato",
-    duration: "1 Dia",
+    priceNote: lang === 'pt' ? "acesso imediato" : "immediate access",
+    duration: lang === 'pt' ? "1 Dia" : "1 Day",
     icon: <Clock size={20} />,
     color: "#6d28d9",
-    features: ["Acesso de 1 dia", "Software as a service", "Business use"],
+    features: lang === 'pt' ? ["Acesso de 1 dia", "Software as a service", "Business use"] : ["1-day access", "Software as a service", "Business use"],
   },
   {
     id: "1week",
     priceId: "price_1TbXLZDgmvJ4Q2O66me1RzwB",
-    name: "Guto Pingo - 1 Semana",
+    name: lang === 'pt' ? "Guto Pingo - 1 Semana" : "Guto Pingo - 1 Week",
     price: "R$ 45.00",
-    priceNote: "acesso imediato",
-    duration: "1 Semana",
+    priceNote: lang === 'pt' ? "acesso imediato" : "immediate access",
+    duration: lang === 'pt' ? "1 Semana" : "1 Week",
     icon: <Zap size={20} />,
     color: "#5b21b6",
-    features: ["Acesso de 1 semana", "Software as a service", "Business use"],
+    features: lang === 'pt' ? ["Acesso de 1 semana", "Software as a service", "Business use"] : ["1-week access", "Software as a service", "Business use"],
   },
   {
     id: "30days",
     priceId: "price_1TbXLYDgmvJ4Q2O6YrA9zxs3",
-    name: "Guto Pingo - 30 Dias",
+    name: lang === 'pt' ? "Guto Pingo - 30 Dias" : "Guto Pingo - 30 Days",
     price: "R$ 100.00",
-    priceNote: "acesso imediato",
-    duration: "30 Dias",
+    priceNote: lang === 'pt' ? "acesso imediato" : "immediate access",
+    duration: lang === 'pt' ? "30 Dias" : "30 Days",
     icon: <Globe size={20} />,
     color: "#4c1d95",
-    features: ["Acesso de 30 dias", "Software as a service", "Business use"],
+    features: lang === 'pt' ? ["Acesso de 30 dias", "Software as a service", "Business use"] : ["30-day access", "Software as a service", "Business use"],
   },
   {
     id: "lifetime",
     priceId: "price_1TbXLYDgmvJ4Q2O61rlPDyRk",
-    name: "Guto Pingo - Vitalício",
+    name: lang === 'pt' ? "Guto Pingo - Vitalício" : "Guto Pingo - Lifetime",
     price: "R$ 169.99",
-    priceNote: "PROMOÇÃO",
-    duration: "Para sempre",
+    priceNote: lang === 'pt' ? "PROMOÇÃO" : "PROMOTION",
+    duration: lang === 'pt' ? "Para sempre" : "Forever",
     icon: <Infinity size={20} />,
-    badge: "🔥 PROMO LIMITADA",
+    badge: lang === 'pt' ? "🔥 PROMO LIMITADA" : "🔥 LIMITED PROMO",
     color: "#7c3aed",
-    features: [
+    features: lang === 'pt' ? [
       "Acesso vitalício",
       "Software as a service",
       "Business use",
       "Atualizações grátis",
       "Prioridade máxima",
+    ] : [
+      "Lifetime access",
+      "Software as a service",
+      "Business use",
+      "Free updates",
+      "Maximum priority",
     ],
-  },
-];
-
-const FEATURES = [
-  {
-    icon: <Zap size={22} />,
-    title: "Prompts Ilimitados",
-    desc: "Sem travamentos. Sem limites. Crie o quanto quiser no Lovable.",
-  },
-  {
-    icon: <Rocket size={22} />,
-    title: "Ativação Instantânea",
-    desc: "Copie a key, cole na extensão e pronto. Funciona em segundos.",
-  },
-  {
-    icon: <Shield size={22} />,
-    title: "100% Seguro",
-    desc: "Extensão auditada, sem acesso a dados pessoais ou código privado.",
-  },
-  {
-    icon: <Cpu size={22} />,
-    title: "Alta Performance",
-    desc: "Nenhum impacto no desempenho do Lovable ou do seu browser.",
-  },
-  {
-    icon: <Layers size={22} />,
-    title: "Multi-projeto",
-    desc: "Uma key funciona em todos os seus projetos simultaneamente.",
-  },
-  {
-    icon: <Terminal size={22} />,
-    title: "Suporte Técnico",
-    desc: "Time de suporte ativo no Discord e WhatsApp para te ajudar.",
   },
 ];
 
