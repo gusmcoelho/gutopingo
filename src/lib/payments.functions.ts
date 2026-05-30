@@ -32,11 +32,11 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       console.log(`DEBUG: createCheckoutSession called for priceId: ${priceId}, method: ${method}`);
       
       const priceMap: Record<string, number> = {
-        "price_1TbXLaDgmvJ4Q2O6idYoTXFJ": 14990, // Exemplo
-        "price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v": 4990,
-        "price_1TbXLZDgmvJ4Q2O66me1RzwB": 1990,
-        "price_1TbXLYDgmvJ4Q2O6YrA9zxs3": 990,
-        "price_1TbXLYDgmvJ4Q2O61rlPDyRk": 290,
+        "price_1TbXLaDgmvJ4Q2O6idYoTXFJ": 500,   // R$ 5.00
+        "price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v": 2000,  // R$ 20.00
+        "price_1TbXLZDgmvJ4Q2O66me1RzwB": 4500,  // R$ 45.00
+        "price_1TbXLYDgmvJ4Q2O6YrA9zxs3": 10000, // R$ 100.00
+        "price_1TbXLYDgmvJ4Q2O61rlPDyRk": 16999, // R$ 169.99
       };
 
       if (method === "pix") {
