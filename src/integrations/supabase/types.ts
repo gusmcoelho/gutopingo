@@ -14,6 +14,21 @@ export type Database = {
   }
   public: {
     Tables: {
+      external_config: {
+        Row: {
+          key: string
+          value: string
+        }
+        Insert: {
+          key: string
+          value: string
+        }
+        Update: {
+          key?: string
+          value?: string
+        }
+        Relationships: []
+      }
       license_keys: {
         Row: {
           created_at: string
