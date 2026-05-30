@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet";
 import {
   Zap,
@@ -26,10 +26,14 @@ import {
   Settings,
   Puzzle,
   RefreshCw,
+  CheckCircle2,
+  AlertTriangle,
+  Info
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { createCheckoutSession } from "@/lib/payments.functions";
-import crypto from 'crypto';
+import { toast, Toaster } from "sonner";
+
 
 // Removida função generateEmergencyKey do client-side por segurança e redundância.
 // Chaves agora são ativadas exclusivamente via Webhook no servidor.
@@ -481,14 +485,19 @@ function PixelStars() {
   );
 }
 
-function CopyButton({ text }: { text: string }) {
+function CopyButton({ text, lang }: { text: string; lang: Language }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(text);
     setCopied(true);
+    toast.success(lang === 'pt' ? "Copiado para o clipboard!" : "Copied to clipboard!", {
+      duration: 2000,
+      position: 'bottom-center'
+    });
     setTimeout(() => setCopied(false), 2000);
   };
+
 
   return (
     <button
@@ -555,7 +564,7 @@ function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
             {licKey.key}
           </div>
         </div>
-        <CopyButton text={licKey.key} />
+        <CopyButton text={licKey.key} lang={lang} />
       </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "#a78bfa", fontFamily: "'Courier New', monospace" }}>
@@ -814,14 +823,31 @@ export default function GutoPingoPage() {
 
   const handleSuccessPayment = async (userId: string, priceId: string) => {
     console.log("Processando sucesso de pagamento:", { userId, priceId });
+    
+    toast.info(lang === 'pt' ? "Pagamento recebido! Ativando sua chave..." : "Payment received! Activating your key...", {
+      duration: 4000,
+      icon: <RefreshCw className="animate-spin text-purple-500" />
+    });
+
     // Agora o sistema aguarda o webhook para gerar a chave de forma segura.
     // Atualizamos a lista de keys do usuário após um curto delay para dar tempo ao webhook.
-    setTimeout(() => fetchLicenseKeys(userId), 2000);
-    setTimeout(() => fetchLicenseKeys(userId), 5000);
+    setTimeout(async () => {
+      await fetchLicenseKeys(userId);
+      toast.success(lang === 'pt' ? "Sua chave já está disponível abaixo!" : "Your key is now available below!", {
+        duration: 5000,
+        icon: <CheckCircle2 className="text-green-500" />
+      });
+      
+      const keysSection = document.getElementById('active-keys-section');
+      if (keysSection) {
+        keysSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 3000);
     
     // Limpa a URL para evitar re-processamento visual ao dar F5
     window.history.replaceState({}, '', '/');
   };
+
 
   const fetchLicenseKeys = async (userId: string) => {
     try {
@@ -865,15 +891,30 @@ export default function GutoPingoPage() {
         }
 
         if (trialResult?.error) {
-          alert(trialResult.error === 'Trial already claimed' 
+          toast.error(trialResult.error === 'Trial already claimed' 
             ? (lang === 'pt' ? "Você já resgatou seu teste grátis neste IP ou conta." : "You have already claimed your free trial on this IP or account.")
-            : trialResult.error
+            : trialResult.error,
+            {
+              duration: 5000,
+              position: 'top-center',
+            }
           );
           return;
         }
 
-        alert(lang === 'pt' ? "Teste de 5 minutos ativado! Verifique suas chaves abaixo." : "5-minute trial activated! Check your keys below.");
-        fetchLicenseKeys(user.id);
+        toast.success(lang === 'pt' ? "Teste de 5 minutos ativado! Role para ver suas chaves." : "5-minute trial activated! Scroll to see your keys.", {
+          duration: 5000,
+          position: 'top-center',
+          icon: <Rocket className="w-5 h-5 text-green-500" />
+        });
+        
+        await fetchLicenseKeys(user.id);
+        
+        // Scroll suave para a seção de keys
+        const keysSection = document.getElementById('active-keys-section');
+        if (keysSection) {
+          keysSection.scrollIntoView({ behavior: 'smooth' });
+        }
         return;
       }
 
@@ -881,21 +922,24 @@ export default function GutoPingoPage() {
       if (result && 'checkoutUrl' in result && result.checkoutUrl) {
         window.location.href = result.checkoutUrl;
       } else if (result && 'error' in result) {
-        alert(`${lang === 'pt' ? 'Erro no Checkout' : 'Checkout Error'}: ${result.error}`);
+        toast.error(`${lang === 'pt' ? 'Erro no Checkout' : 'Checkout Error'}: ${result.error}`);
       }
     } catch (err) {
       console.error("Checkout error:", err);
-      alert(lang === 'pt' ? "Erro ao processar. Tente novamente." : "Error processing. Please try again.");
+      toast.error(lang === 'pt' ? "Erro ao processar. Tente novamente." : "Error processing. Please try again.");
     } finally {
       setLoadingCheckout(null);
     }
   };
+
 
   const handleLogin = () => navigate({ to: "/auth" });
   const handleLogout = () => supabase.auth.signOut();
 
   return (
     <div style={{ minHeight: "100vh", background: "#09001a", fontFamily: "'Courier New', monospace", color: "#e9d5ff", overflowX: "hidden" }}>
+      <Toaster richColors closeButton theme="dark" />
+
       <Helmet>
         <title>Guto Pingo | Prompts Ilimitados Lovable Extension</title>
         <meta name="description" content="Desbloqueie prompts ilimitados no Lovable com a extensão Guto Pingo. Economize créditos, acelere seu desenvolvimento e crie sem limites. Ativação instantânea." />
@@ -1104,7 +1148,7 @@ export default function GutoPingoPage() {
 
       <section id="tutorial" style={{ padding: "60px 24px", maxWidth: 900, margin: "0 auto" }}>
         {user && (
-          <>
+          <div id="active-keys-section">
             <div style={{ marginBottom: 32, textAlign: "center" }}>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "8px 20px", background: "rgba(124,58,237,0.15)", border: "1px solid #7c3aed", marginBottom: 16 }}>
                 <PixelPenguin size={28} />
@@ -1126,8 +1170,9 @@ export default function GutoPingoPage() {
                 {t.userSection.noKeys}
               </div>
             )}
-          </>
+          </div>
         )}
+
 
         {/* Tutorial Section */}
         <div style={{ background: "rgba(30,10,60,0.6)", border: "2px solid #4c1d95", padding: "40px", position: "relative" }}>
