@@ -97,6 +97,7 @@ const translations = {
       badge: "GUIA DE INSTALAÇÃO",
       title: "INSTALAR GUTO",
       steps: [
+        "Baixe a extensão clicando aqui (GUTO.zip)",
         "Extraia o arquivo GUTO.zip → vai aparecer a pasta dist",
         "Abra o Chrome e digite: chrome://extensions/",
         "Ative Modo do desenvolvedor (canto superior direito)",
@@ -168,6 +169,7 @@ const translations = {
       badge: "INSTALLATION GUIDE",
       title: "INSTALL GUTO",
       steps: [
+        "Download the extension by clicking here (GUTO.zip)",
         "Extract the GUTO.zip file → a 'dist' folder will appear",
         "Open Chrome and type: chrome://extensions/",
         "Enable Developer Mode (top right corner)",
@@ -239,6 +241,7 @@ const translations = {
       badge: "KURULUM KILAVUZU",
       title: "GUTO'YU KUR",
       steps: [
+        "Buraya tıklayarak uzantıyı indirin (GUTO.zip)",
         "GUTO.zip dosyasını dışa aktarın → 'dist' klasörü görünecektir",
         "Chrome'u açın ve yazın: chrome://extensions/",
         "Geliştirici Modunu etkinleştirin (sağ üst köşe)",
@@ -1087,9 +1090,17 @@ export default function GutoPingoPage() {
                     {i + 1}
                   </div>
                   <div style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 14, color: "#c4b5fd", lineHeight: 1.5 }}>
-                    <span style={{ color: "#a855f7" }}>{icons[i]}</span>
-                    {step}
-                  </div>
+                      <span style={{ color: "#a855f7" }}>{icons[i] || <FileDown size={18} />}</span>
+                      {i === 0 ? (
+                        <a 
+                          href="https://zdxxhjjnkyboegerdoxl.supabase.co/storage/v1/object/public/assets/GUTO.zip" 
+                          download 
+                          style={{ color: "#f59e0b", textDecoration: "underline", fontWeight: "bold" }}
+                        >
+                          {step}
+                        </a>
+                      ) : step}
+                    </div>
                 </div>
               );
             })}
