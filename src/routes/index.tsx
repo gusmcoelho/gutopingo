@@ -660,9 +660,9 @@ function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId:
           style={{
             width: "100%",
             padding: "14px 0",
-            background: "linear-gradient(135deg, #16a34a, #22c55e)",
+            background: "linear-gradient(135deg, #5865F2, #4752C4)", // Discord colors
             color: "#fff",
-            border: "2px solid #bbf7d0",
+            border: "2px solid #7983f5",
             cursor: "pointer",
             fontFamily: "'Courier New', monospace",
             fontSize: 13,
@@ -678,7 +678,12 @@ function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId:
             opacity: loading ? 0.7 : 1,
           }}
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t.testBtn}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
+            <>
+              <DiscordIcon size={18} color="#fff" />
+              {lang === 'pt' ? "PEGAR NO DISCORD" : lang === 'tr' ? "DISCORD'DAN AL" : "GET ON DISCORD"}
+            </>
+          )}
         </button>
       ) : showPaymentOptions ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
