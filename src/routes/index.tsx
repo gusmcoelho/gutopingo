@@ -1225,6 +1225,52 @@ export default function GutoPingoPage() {
       <section id="tutorial" style={{ padding: "60px 24px", maxWidth: 900, margin: "0 auto" }}>
         {user && (
           <div id="active-keys-section">
+            {showSuccessMessage && (
+              <div style={{ 
+                background: "linear-gradient(135deg, #7c3aed, #4c1d95)", 
+                border: "4px solid #a855f7", 
+                padding: "32px", 
+                marginBottom: "40px", 
+                textAlign: "center",
+                boxShadow: "0 0 30px rgba(124, 58, 237, 0.4)",
+                position: "relative",
+                overflow: "hidden"
+              }}>
+                <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "4px", background: "rgba(255,255,255,0.3)" }}></div>
+                <h2 style={{ color: "#fff", fontWeight: 900, fontSize: 24, marginBottom: 16, letterSpacing: "0.05em" }}>
+                  {lang === 'pt' ? "🔥 PAGAMENTO CONFIRMADO!" : lang === 'tr' ? "🔥 ÖDEME ONAYLANDI!" : "🔥 PAYMENT CONFIRMED!"}
+                </h2>
+                <p style={{ color: "#e9d5ff", fontSize: 16, marginBottom: 24, lineHeight: 1.6, fontWeight: 600 }}>
+                  {lang === 'pt' ? 
+                    "Como estamos com alta demanda, sua key pode demorar alguns minutos para aparecer aqui automaticamente. Para recebê-la IMEDIATAMENTE, entre no nosso Discord e abra um ticket!" : 
+                    lang === 'tr' ?
+                    "Yoğun talep nedeniyle anahtarınızın burada otomatik olarak görünmesi birkaç dakika sürebilir. Hemen almak için Discord'umuza katılın ve bir bilet açın!" :
+                    "Due to high demand, your key may take a few minutes to appear here automatically. To receive it IMMEDIATELY, join our Discord and open a ticket!"
+                  }
+                </p>
+                <a 
+                  href={DISCORD_URL} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  style={{ 
+                    display: "inline-flex", 
+                    alignItems: "center", 
+                    gap: 12, 
+                    padding: "16px 32px", 
+                    background: "#fff", 
+                    color: "#7c3aed", 
+                    textDecoration: "none", 
+                    fontWeight: 900, 
+                    fontSize: 16,
+                    border: "none",
+                    boxShadow: "0 4px 0 #c4b5fd"
+                  }}
+                >
+                  <DiscordIcon size={24} color="#7c3aed" /> 
+                  {lang === 'pt' ? "PEGAR MINHA KEY NO DISCORD" : lang === 'tr' ? "ANAHTARIMI DISCORD'DAN AL" : "GET MY KEY ON DISCORD"}
+                </a>
+              </div>
+            )}
             <div style={{ marginBottom: 32, textAlign: "center" }}>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "8px 20px", background: "rgba(124,58,237,0.15)", border: "1px solid #7c3aed", marginBottom: 16 }}>
                 <PixelPenguin size={28} />
