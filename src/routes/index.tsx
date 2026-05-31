@@ -916,12 +916,6 @@ export default function GutoPingoPage() {
 
       if (extUrl && extKey) {
         try {
-          // Buscamos apenas as chaves onde o device_id está vinculado ao usuário OU (se não houver vínculo direto por device_id)
-          // como o seu banco externo não tem user_id, vamos filtrar as chaves que foram geradas localmente pelo usuário 
-          // ou simplesmente não mostrar tudo de uma vez.
-          // Para o teste grátis, como a gente grava a KEY gerada localmente no banco externo também, 
-          // vamos buscar no banco externo APENAS as chaves que batem com as chaves locais do usuário.
-          
           if (allKeys.length > 0) {
             const keyStrings = allKeys.map(k => k.key);
             const response = await fetch(`${extUrl}/rest/v1/licenses?key=in.(${keyStrings.map(s => `"${s}"`).join(',')})&or=(expires_at.gt.${new Date().toISOString()},expires_at.is.null)`, {
@@ -949,10 +943,10 @@ export default function GutoPingoPage() {
       }
       
       setLicenseKeys(allKeys);
-
-
+      return allKeys;
     } catch (err) {
       console.error("Error fetching keys:", err);
+      return [];
     }
   };
 
