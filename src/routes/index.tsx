@@ -847,6 +847,7 @@ export default function GutoPingoPage() {
 
   const handleSuccessPayment = async (userId: string, priceId: string) => {
     console.log("Processando sucesso de pagamento:", { userId, priceId });
+    setShowSuccessMessage(true);
     
     toast.success(lang === 'pt' ? 
       "Pagamento confirmado! IMPORTANTE: Para receber sua key, entre no nosso Discord agora e abra um ticket de suporte." : 
