@@ -96,7 +96,7 @@ const translations = {
     userSection: {
       welcome: "BEM-VINDO",
       activeKeys: "SUAS KEYS ATIVAS",
-      noKeys: "Você ainda não possui nenhuma key ativa. Escolha um plano abaixo!",
+      noKeys: "Você ainda não possui nenhuma key ativa. Se você acabou de comprar, entre no nosso Discord e abra um ticket para resgatar sua key agora!",
     },
     tutorial: {
       badge: "GUIA DE INSTALAÇÃO",
@@ -168,7 +168,7 @@ const translations = {
     userSection: {
       welcome: "WELCOME",
       activeKeys: "YOUR ACTIVE KEYS",
-      noKeys: "You don't have any active keys yet. Choose a plan below!",
+      noKeys: "You don't have any active keys yet. If you just purchased one, join our Discord and open a ticket to redeem it now!",
     },
     tutorial: {
       badge: "INSTALLATION GUIDE",
@@ -240,7 +240,7 @@ const translations = {
     userSection: {
       welcome: "HOŞ GELDİN",
       activeKeys: "AKTİF ANAHTARLARINIZ",
-      noKeys: "Henüz aktif bir anahtarınız yok. Aşağıdan bir plan seçin!",
+      noKeys: "Henüz aktif bir anahtarınız yok. Yeni bir anahtar satın aldıysanız, Discord'umuza katılın ve bilet açarak anahtarınızı hemen alın!",
     },
     tutorial: {
       badge: "KURULUM KILAVUZU",
@@ -785,6 +785,7 @@ export default function GutoPingoPage() {
   const [licenseKeys, setLicenseKeys] = useState<LicenseKey[]>([]);
   const [scrolled, setScrolled] = useState(false);
   const [loadingCheckout, setLoadingCheckout] = useState<string | null>(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const navigate = useNavigate();
   const searchParams: any = useSearch({ from: "/" });
 
@@ -846,20 +847,20 @@ export default function GutoPingoPage() {
 
   const handleSuccessPayment = async (userId: string, priceId: string) => {
     console.log("Processando sucesso de pagamento:", { userId, priceId });
+    setShowSuccessMessage(true);
     
-    toast.info(lang === 'pt' ? "Pagamento recebido! Ativando sua chave..." : "Payment received! Activating your key...", {
-      duration: 4000,
-      icon: <RefreshCw className="animate-spin text-purple-500" />
+    toast.success(lang === 'pt' ? 
+      "Pagamento confirmado! IMPORTANTE: Para receber sua key, entre no nosso Discord agora e abra um ticket de suporte." : 
+      lang === 'tr' ?
+      "Ödeme onaylandı! ÖNEMLİ: Anahtarınızı almak için lütfen şimdi Discord'umuza katılın ve bir destek bileti açın." :
+      "Payment confirmed! IMPORTANT: To receive your key, please join our Discord now and open a support ticket.", {
+      duration: 15000,
+      icon: <DiscordIcon size={24} color="#fff" />
     });
 
-    // Agora o sistema aguarda o webhook para gerar a chave de forma segura.
-    // Atualizamos a lista de keys do usuário após um curto delay para dar tempo ao webhook.
+    // Mantemos a busca automática apenas por conveniência, mas o aviso do Discord é o principal
     setTimeout(async () => {
       await fetchLicenseKeys(userId);
-      toast.success(lang === 'pt' ? "Sua chave já está disponível abaixo!" : "Your key is now available below!", {
-        duration: 5000,
-        icon: <CheckCircle2 className="text-green-500" />
-      });
       
       const keysSection = document.getElementById('active-keys-section');
       if (keysSection) {
@@ -1224,6 +1225,52 @@ export default function GutoPingoPage() {
       <section id="tutorial" style={{ padding: "60px 24px", maxWidth: 900, margin: "0 auto" }}>
         {user && (
           <div id="active-keys-section">
+            {showSuccessMessage && (
+              <div style={{ 
+                background: "linear-gradient(135deg, #7c3aed, #4c1d95)", 
+                border: "4px solid #a855f7", 
+                padding: "32px", 
+                marginBottom: "40px", 
+                textAlign: "center",
+                boxShadow: "0 0 30px rgba(124, 58, 237, 0.4)",
+                position: "relative",
+                overflow: "hidden"
+              }}>
+                <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "4px", background: "rgba(255,255,255,0.3)" }}></div>
+                <h2 style={{ color: "#fff", fontWeight: 900, fontSize: 24, marginBottom: 16, letterSpacing: "0.05em" }}>
+                  {lang === 'pt' ? "🔥 PAGAMENTO CONFIRMADO!" : lang === 'tr' ? "🔥 ÖDEME ONAYLANDI!" : "🔥 PAYMENT CONFIRMED!"}
+                </h2>
+                <p style={{ color: "#e9d5ff", fontSize: 16, marginBottom: 24, lineHeight: 1.6, fontWeight: 600 }}>
+                  {lang === 'pt' ? 
+                    "Como estamos com alta demanda, sua key pode demorar alguns minutos para aparecer aqui automaticamente. Para recebê-la IMEDIATAMENTE, entre no nosso Discord e abra um ticket!" : 
+                    lang === 'tr' ?
+                    "Yoğun talep nedeniyle anahtarınızın burada otomatik olarak görünmesi birkaç dakika sürebilir. Hemen almak için Discord'umuza katılın ve bir bilet açın!" :
+                    "Due to high demand, your key may take a few minutes to appear here automatically. To receive it IMMEDIATELY, join our Discord and open a ticket!"
+                  }
+                </p>
+                <a 
+                  href={DISCORD_URL} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  style={{ 
+                    display: "inline-flex", 
+                    alignItems: "center", 
+                    gap: 12, 
+                    padding: "16px 32px", 
+                    background: "#fff", 
+                    color: "#7c3aed", 
+                    textDecoration: "none", 
+                    fontWeight: 900, 
+                    fontSize: 16,
+                    border: "none",
+                    boxShadow: "0 4px 0 #c4b5fd"
+                  }}
+                >
+                  <DiscordIcon size={24} color="#7c3aed" /> 
+                  {lang === 'pt' ? "PEGAR MINHA KEY NO DISCORD" : lang === 'tr' ? "ANAHTARIMI DISCORD'DAN AL" : "GET MY KEY ON DISCORD"}
+                </a>
+              </div>
+            )}
             <div style={{ marginBottom: 32, textAlign: "center" }}>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "8px 20px", background: "rgba(124,58,237,0.15)", border: "1px solid #7c3aed", marginBottom: 16 }}>
                 <PixelPenguin size={28} />
