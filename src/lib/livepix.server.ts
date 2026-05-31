@@ -76,7 +76,7 @@ export async function createLivePixPayment(amountInCents: number, metadata: { us
     body: JSON.stringify({
       amount: amountInCents,
       currency: "BRL",
-      reference: referenceId, // Documentation says this is the field for correlation
+      externalId: referenceId, // Using externalId as required by LivePix API for custom references
       redirectUrl: `${baseUrl}/?success=true&userId=${metadata.userId}&priceId=${metadata.priceId}`,
     }),
   });

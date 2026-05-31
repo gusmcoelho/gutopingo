@@ -849,22 +849,48 @@ export default function GutoPingoPage() {
     console.log("Processando sucesso de pagamento:", { userId, priceId });
     setShowSuccessMessage(true);
     
-    toast.success(lang === 'pt' ? 
-      "Pagamento confirmado! IMPORTANTE: Para receber sua key, entre no nosso Discord agora e abra um ticket de suporte." : 
+    const processingToastId = toast.loading(lang === 'pt' ? 
+      "Pagamento confirmado! Sua key está sendo gerada, aguarde alguns segundos..." : 
       lang === 'tr' ?
-      "Ödeme onaylandı! ÖNEMLİ: Anahtarınızı almak için lütfen şimdi Discord'umuza katılın ve bir destek bileti açın." :
-      "Payment confirmed! IMPORTANT: To receive your key, please join our Discord now and open a support ticket.", {
-      duration: 15000,
-      icon: <DiscordIcon size={24} color="#fff" />
-    });
+      "Ödeme onaylandı! Anahtarınız oluşturuluyor, lütfen birkaç saniye bekleyin..." :
+      "Payment confirmed! Your key is being generated, please wait a few seconds...");
 
-    // Mantemos a busca automática apenas por conveniência, mas o aviso do Discord é o principal
-    setTimeout(async () => {
-      await fetchLicenseKeys(userId);
+    // Polling logic: 10 attempts, every 3 seconds = 30 seconds total
+    let attempts = 0;
+    const maxAttempts = 10;
+    
+    const pollInterval = setInterval(async () => {
+      attempts++;
+      const keys = await fetchLicenseKeys(userId);
       
-      const keysSection = document.getElementById('active-keys-section');
-      if (keysSection) {
-        keysSection.scrollIntoView({ behavior: 'smooth' });
+      // If we found keys, stop polling and show success
+      if (keys && keys.length > 0) {
+        clearInterval(pollInterval);
+        toast.dismiss(processingToastId);
+        toast.success(lang === 'pt' ? 
+          "Sua key foi gerada! Role para baixo para ver." : 
+          lang === 'tr' ?
+          "Anahtarınız oluşturuldu! Görmek için aşağı kaydırın." :
+          "Your key has been generated! Scroll down to see it.", {
+          duration: 5000,
+        });
+        
+        const keysSection = document.getElementById('active-keys-section');
+        if (keysSection) {
+          keysSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else if (attempts >= maxAttempts) {
+        // If timeout reached, show fallback message
+        clearInterval(pollInterval);
+        toast.dismiss(processingToastId);
+        toast.error(lang === 'pt' ? 
+          "Se sua key não aparecer em instantes, entre em contato pelo Discord." : 
+          lang === 'tr' ?
+          "Anahtarınız kısa süre içinde görünmezse, lütfen Discord üzerinden bizimle iletişime geçin." :
+          "If your key doesn't appear in a few moments, please contact us via Discord.", {
+          duration: 10000,
+          icon: <DiscordIcon size={24} color="#fff" />
+        });
       }
     }, 3000);
     
@@ -890,12 +916,6 @@ export default function GutoPingoPage() {
 
       if (extUrl && extKey) {
         try {
-          // Buscamos apenas as chaves onde o device_id está vinculado ao usuário OU (se não houver vínculo direto por device_id)
-          // como o seu banco externo não tem user_id, vamos filtrar as chaves que foram geradas localmente pelo usuário 
-          // ou simplesmente não mostrar tudo de uma vez.
-          // Para o teste grátis, como a gente grava a KEY gerada localmente no banco externo também, 
-          // vamos buscar no banco externo APENAS as chaves que batem com as chaves locais do usuário.
-          
           if (allKeys.length > 0) {
             const keyStrings = allKeys.map(k => k.key);
             const response = await fetch(`${extUrl}/rest/v1/licenses?key=in.(${keyStrings.map(s => `"${s}"`).join(',')})&or=(expires_at.gt.${new Date().toISOString()},expires_at.is.null)`, {
@@ -923,10 +943,10 @@ export default function GutoPingoPage() {
       }
       
       setLicenseKeys(allKeys);
-
-
+      return allKeys;
     } catch (err) {
       console.error("Error fetching keys:", err);
+      return [];
     }
   };
 
