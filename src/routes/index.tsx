@@ -785,6 +785,7 @@ export default function GutoPingoPage() {
   const [licenseKeys, setLicenseKeys] = useState<LicenseKey[]>([]);
   const [scrolled, setScrolled] = useState(false);
   const [loadingCheckout, setLoadingCheckout] = useState<string | null>(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const navigate = useNavigate();
   const searchParams: any = useSearch({ from: "/" });
 
