@@ -168,7 +168,7 @@ const translations = {
     userSection: {
       welcome: "WELCOME",
       activeKeys: "YOUR ACTIVE KEYS",
-      noKeys: "You don't have any active keys yet. Choose a plan below!",
+      noKeys: "You don't have any active keys yet. If you just purchased one, join our Discord and open a ticket to redeem it now!",
     },
     tutorial: {
       badge: "INSTALLATION GUIDE",
