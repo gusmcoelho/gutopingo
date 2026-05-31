@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { type StripeEnv, verifyWebhook } from '@/lib/stripe.server';
-import crypto from 'crypto';
+import * as crypto from 'crypto';
 import { supabaseAdmin } from '@/integrations/supabase/client.server';
 
 const DURATION_MAP: Record<string, string> = {
