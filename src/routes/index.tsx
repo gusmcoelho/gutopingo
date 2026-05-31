@@ -296,19 +296,25 @@ const translations = {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
+const DISCORD_URL = "https://discord.gg/kfezRBk7";
+
 const getPlans = (lang: Language): Plan[] => [
   {
     id: "test",
     priceId: "free_test_5min",
     name: lang === 'pt' ? "Guto Pingo - 5 Minutos (Grátis)" : lang === 'tr' ? "Guto Pingo - 5 Dakika (Ücretsiz)" : "Guto Pingo - 5 Minutes (Free)",
     price: lang === 'pt' ? "GRÁTIS" : lang === 'tr' ? "ÜCRETSİZ" : "FREE",
-    priceNote: lang === 'pt' ? "teste único por conta/IP" : lang === 'tr' ? "hesap/IP başına tek seferlik" : "one-time per account/IP",
+    priceNote: lang === 'pt' ? "pegue sua key no discord" : lang === 'tr' ? "discord'dan anahtarınızı alın" : "get your key on discord",
     duration: lang === 'pt' ? "5 Minutos" : lang === 'tr' ? "5 Dakika" : "5 Minutes",
     icon: <Timer size={20} />,
     featured: true,
     badge: lang === 'pt' ? "🎁 TESTE GRÁTIS" : lang === 'tr' ? "🎁 ÜCRETSİZ TEST" : "🎁 FREE TRIAL",
     color: "#22c55e",
-    features: lang === 'pt' ? ["Acesso de 5 minutos", "Limitado a 1x por IP/Conta", "Teste imediato"] : lang === 'tr' ? ["5 dakikalık erişim", "IP/Hesap başına 1 kez", "Anında test"] : ["5-minute access", "Limited 1x per IP/Account", "Instant test"],
+    features: lang === 'pt' ? 
+      ["Entrar no Discord", "Abrir um ticket", "Pedir sua key free", "Válido por 5 min"] : 
+      lang === 'tr' ? 
+      ["Discord'a Katıl", "Bilet aç", "Ücretsiz anahtar iste", "5 dk geçerli"] : 
+      ["Join Discord", "Open a ticket", "Ask for your free key", "Valid for 5 min"],
   },
   {
     id: "1day",
@@ -649,7 +655,7 @@ function PlanCard({ plan, onBuy, loading, lang }: { plan: Plan; onBuy: (priceId:
 
       {plan.id === "test" ? (
         <button
-          onClick={() => onBuy(plan.priceId, "stripe")}
+          onClick={() => window.open(DISCORD_URL, "_blank")}
           disabled={loading}
           style={{
             width: "100%",
@@ -1191,7 +1197,7 @@ export default function GutoPingoPage() {
             <a href="https://zdxxhjjnkyboegerdoxl.supabase.co/storage/v1/object/public/assets/GUTO.zip" download style={{ padding: "16px 36px", background: "transparent", color: "#a855f7", border: "2px solid #7c3aed", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
               <FileDown size={16} /> {t.hero.downloadBtn}
             </a>
-            <a href="https://discord.gg/kfezRBk7" target="_blank" rel="noopener noreferrer" style={{ padding: "16px 36px", background: "rgba(124,58,237,0.1)", color: "#a855f7", border: "2px solid #4c1d95", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
+            <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer" style={{ padding: "16px 36px", background: "rgba(124,58,237,0.1)", color: "#a855f7", border: "2px solid #4c1d95", textDecoration: "none", fontSize: 14, fontWeight: 900, letterSpacing: "0.12em", transition: "all 0.15s", display: "flex", alignItems: "center", gap: 8 }}>
               <DiscordIcon size={18} color="#a855f7" /> {t.hero.discordBtn}
             </a>
           </div>
@@ -1360,7 +1366,7 @@ export default function GutoPingoPage() {
         </div>
 
         <div style={{ display: "flex", justifyContent: "center", gap: 24, marginTop: 16 }}>
-          <a href="https://discord.gg/kfezRBk7" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 10, color: "#a855f7", textDecoration: "none", letterSpacing: "0.15em", fontWeight: 700 }}>
+          <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 10, color: "#a855f7", textDecoration: "none", letterSpacing: "0.15em", fontWeight: 700 }}>
             <DiscordIcon size={14} color="#a855f7" /> DISCORD
           </a>
           {[t.footer.terms, t.footer.privacy].map((link) => (
