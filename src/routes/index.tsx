@@ -96,7 +96,7 @@ const translations = {
     userSection: {
       welcome: "BEM-VINDO",
       activeKeys: "SUAS KEYS ATIVAS",
-      noKeys: "Você ainda não possui nenhuma key ativa. Escolha um plano abaixo!",
+      noKeys: "Você ainda não possui nenhuma key ativa. Se você acabou de comprar, entre no nosso Discord e abra um ticket para resgatar sua key agora!",
     },
     tutorial: {
       badge: "GUIA DE INSTALAÇÃO",
