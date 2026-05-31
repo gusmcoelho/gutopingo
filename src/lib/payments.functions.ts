@@ -58,7 +58,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         return { checkoutUrl: payment.checkoutUrl };
       }
 
-      const env = 'live';
+      const env = (process.env.STRIPE_ENV === 'live') ? 'live' : 'sandbox';
       const stripe = createStripeClient(env);
       const baseUrl = process.env.LOVABLE_APP_URL || process.env.APP_URL || 'https://zdxxhjjnkyboegerdoxl.lovable.app';
       const amount = priceMap[priceId]?.[currency] || 1000;
