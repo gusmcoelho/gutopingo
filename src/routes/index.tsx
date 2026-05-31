@@ -240,7 +240,7 @@ const translations = {
     userSection: {
       welcome: "HOŞ GELDİN",
       activeKeys: "AKTİF ANAHTARLARINIZ",
-      noKeys: "Henüz aktif bir anahtarınız yok. Aşağıdan bir plan seçin!",
+      noKeys: "Henüz aktif bir anahtarınız yok. Yeni bir anahtar satın aldıysanız, Discord'umuza katılın ve bilet açarak anahtarınızı hemen alın!",
     },
     tutorial: {
       badge: "KURULUM KILAVUZU",
