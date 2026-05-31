@@ -117,7 +117,7 @@ async function handleLivePixWebhook(req: Request) {
 
   // O evento 'new' no recurso 'payment' indica que um pagamento foi recebido
   if (body.event === 'new' && body.resource?.type === 'payment') {
-    const reference = body.resource?.reference;
+    const reference = body.resource?.externalId || body.resource?.reference;
     
     if (!reference) {
       console.warn('LivePix Webhook: Missing reference in payload');
@@ -178,8 +178,7 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
           }
 
           // Fluxo padrão Stripe
-          const rawEnv = url.searchParams.get('env');
-          const env: StripeEnv = (rawEnv === 'live') ? 'live' : 'sandbox';
+          const env: StripeEnv = (process.env.STRIPE_ENV === 'live') ? 'live' : 'sandbox';
           
           const event = await verifyWebhook(request, env);
           console.log(`DEBUG: Stripe Event Verified: ${event.type}`);
