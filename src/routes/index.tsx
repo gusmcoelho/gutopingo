@@ -847,19 +847,18 @@ export default function GutoPingoPage() {
   const handleSuccessPayment = async (userId: string, priceId: string) => {
     console.log("Processando sucesso de pagamento:", { userId, priceId });
     
-    toast.info(lang === 'pt' ? "Pagamento recebido! Ativando sua chave..." : "Payment received! Activating your key...", {
-      duration: 4000,
-      icon: <RefreshCw className="animate-spin text-purple-500" />
+    toast.success(lang === 'pt' ? 
+      "Pagamento confirmado! IMPORTANTE: Para receber sua key, entre no nosso Discord agora e abra um ticket de suporte." : 
+      lang === 'tr' ?
+      "Ödeme onaylandı! ÖNEMLİ: Anahtarınızı almak için lütfen şimdi Discord'umuza katılın ve bir destek bileti açın." :
+      "Payment confirmed! IMPORTANT: To receive your key, please join our Discord now and open a support ticket.", {
+      duration: 15000,
+      icon: <DiscordIcon size={24} color="#fff" />
     });
 
-    // Agora o sistema aguarda o webhook para gerar a chave de forma segura.
-    // Atualizamos a lista de keys do usuário após um curto delay para dar tempo ao webhook.
+    // Mantemos a busca automática apenas por conveniência, mas o aviso do Discord é o principal
     setTimeout(async () => {
       await fetchLicenseKeys(userId);
-      toast.success(lang === 'pt' ? "Sua chave já está disponível abaixo!" : "Your key is now available below!", {
-        duration: 5000,
-        icon: <CheckCircle2 className="text-green-500" />
-      });
       
       const keysSection = document.getElementById('active-keys-section');
       if (keysSection) {
