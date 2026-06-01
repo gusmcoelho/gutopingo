@@ -320,8 +320,8 @@ const getPlans = (lang: Language): Plan[] => [
     id: "1day",
     priceId: "price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v",
     name: lang === 'pt' ? "Guto Pingo - 1 Dia" : lang === 'tr' ? "Guto Pingo - 1 Gün" : "Guto Pingo - 1 Day",
-    price: lang === 'tr' ? "183.41 TRY" : lang === 'pt' ? "R$ 20.00" : "$ 4.00",
-    priceNote: lang === 'tr' ? "yaklaşık R$ 20,00" : lang === 'pt' ? "acesso imediato" : "approx. R$ 20.00",
+    price: lang === 'tr' ? "$ 4.00" : lang === 'pt' ? "R$ 20.00" : "$ 4.00",
+    priceNote: lang === 'tr' ? "yaklaşık 183.41 TRY" : lang === 'pt' ? "acesso imediato" : "approx. R$ 20.00",
     duration: lang === 'pt' ? "1 Dia" : lang === 'tr' ? "1 Gün" : "1 Day",
     icon: <Clock size={20} />,
     color: "#6d28d9",
@@ -331,8 +331,8 @@ const getPlans = (lang: Language): Plan[] => [
     id: "1week",
     priceId: "price_1TbXLZDgmvJ4Q2O66me1RzwB",
     name: lang === 'pt' ? "Guto Pingo - 1 Semana" : lang === 'tr' ? "Guto Pingo - 1 Hafta" : "Guto Pingo - 1 Week",
-    price: lang === 'tr' ? "412.67 TRY" : lang === 'pt' ? "R$ 45.00" : "$ 9.00",
-    priceNote: lang === 'tr' ? "yaklaşık R$ 45,00" : lang === 'pt' ? "acesso imediato" : "approx. R$ 45.00",
+    price: lang === 'tr' ? "$ 9.00" : lang === 'pt' ? "R$ 45.00" : "$ 9.00",
+    priceNote: lang === 'tr' ? "yaklaşık 412.67 TRY" : lang === 'pt' ? "acesso imediato" : "approx. R$ 45.00",
     duration: lang === 'pt' ? "1 Semana" : lang === 'tr' ? "1 Hafta" : "1 Week",
     icon: <Zap size={20} />,
     color: "#5b21b6",
@@ -342,8 +342,8 @@ const getPlans = (lang: Language): Plan[] => [
     id: "30days",
     priceId: "price_1TbXLYDgmvJ4Q2O6YrA9zxs3",
     name: lang === 'pt' ? "Guto Pingo - 30 Dias" : lang === 'tr' ? "Guto Pingo - 30 Gün" : "Guto Pingo - 30 Days",
-    price: lang === 'tr' ? "917.05 TRY" : lang === 'pt' ? "R$ 100.00" : "$ 20.00",
-    priceNote: lang === 'tr' ? "yaklaşık R$ 100,00" : lang === 'pt' ? "acesso imediato" : "approx. R$ 100.00",
+    price: lang === 'tr' ? "$ 20.00" : lang === 'pt' ? "R$ 100.00" : "$ 20.00",
+    priceNote: lang === 'tr' ? "yaklaşık 917.05 TRY" : lang === 'pt' ? "acesso imediato" : "approx. R$ 100.00",
     duration: lang === 'pt' ? "30 Dias" : lang === 'tr' ? "30 Gün" : "30 Days",
     icon: <Globe size={20} />,
     color: "#4c1d95",
@@ -353,8 +353,8 @@ const getPlans = (lang: Language): Plan[] => [
     id: "lifetime",
     priceId: "price_1TbXLYDgmvJ4Q2O61rlPDyRk",
     name: lang === 'pt' ? "Guto Pingo - Vitalício" : lang === 'tr' ? "Guto Pingo - Ömür Boyu" : "Guto Pingo - Lifetime",
-    price: lang === 'tr' ? "1,558.91 TRY" : lang === 'pt' ? "R$ 169.99" : "$ 34.00",
-    priceNote: lang === 'tr' ? "yaklaşık R$ 169,99" : lang === 'pt' ? "PROMOÇÃO" : "approx. R$ 169.99",
+    price: lang === 'tr' ? "$ 34.00" : lang === 'pt' ? "R$ 169.99" : "$ 34.00",
+    priceNote: lang === 'tr' ? "yaklaşık 1,558.91 TRY" : lang === 'pt' ? "PROMOÇÃO" : "approx. R$ 169.99",
     duration: lang === 'pt' ? "Para sempre" : lang === 'tr' ? "Sonsuza kadar" : "Forever",
     icon: <Infinity size={20} />,
     badge: lang === 'pt' ? "🔥 PROMO LIMITADA" : lang === 'tr' ? "🔥 SINIRLI PROMO" : "🔥 LIMITED PROMO",
@@ -1004,7 +1004,7 @@ export default function GutoPingoPage() {
       }
 
 
-      const checkoutCurrency = lang === 'pt' ? 'brl' : lang === 'tr' ? 'try' : 'usd';
+      const checkoutCurrency = lang === 'pt' ? 'brl' : 'usd';
       const result = await createCheckoutSession({ data: { priceId, method, currency: checkoutCurrency } });
       if (result && 'checkoutUrl' in result && result.checkoutUrl) {
         window.location.href = result.checkoutUrl;
