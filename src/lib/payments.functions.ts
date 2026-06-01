@@ -33,11 +33,11 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       console.log(`DEBUG: createCheckoutSession called for priceId: ${priceId}, method: ${method}, currency: ${currency}`);
       
       const priceMap: Record<string, Record<string, number>> = {
-        "price_1TbXLaDgmvJ4Q2O6idYoTXFJ": { brl: 500, usd: 100, try: 4585 },   // Teste
-        "price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v": { brl: 2000, usd: 400, try: 18341 },  // 1 dia
-        "price_1TbXLZDgmvJ4Q2O66me1RzwB": { brl: 4500, usd: 900, try: 41267 },  // 1 semana
-        "price_1TbXLYDgmvJ4Q2O6YrA9zxs3": { brl: 10000, usd: 2000, try: 91705 }, // 30 dias
-        "price_1TbXLYDgmvJ4Q2O61rlPDyRk": { brl: 16999, usd: 3400, try: 155891 }, // Vitalício
+        "price_1TbXLaDgmvJ4Q2O6idYoTXFJ": { brl: 500, usd: 1000, try: 45850 },     // Teste
+        "price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v": { brl: 2000, usd: 4000, try: 183410 },   // 1 dia
+        "price_1TbXLZDgmvJ4Q2O66me1RzwB": { brl: 4500, usd: 9000, try: 412670 },   // 1 semana
+        "price_1TbXLYDgmvJ4Q2O6YrA9zxs3": { brl: 10000, usd: 20000, try: 917050 }, // 30 dias
+        "price_1TbXLYDgmvJ4Q2O61rlPDyRk": { brl: 16999, usd: 34000, try: 1558910 },// Vitalício
       };
 
       const productNameMap: Record<string, string> = {
