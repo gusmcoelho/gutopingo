@@ -32,12 +32,13 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
     try {
       console.log(`DEBUG: createCheckoutSession called for priceId: ${priceId}, method: ${method}, currency: ${currency}`);
       
+      // Valores em CENTAVOS (multiplicar valor exibido x 100)
       const priceMap: Record<string, Record<string, number>> = {
-        "price_1TbXLaDgmvJ4Q2O6idYoTXFJ": { brl: 50, usd: 100, try: 4585 },     // Teste
-        "price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v": { brl: 200, usd: 400, try: 18341 },   // 1 dia
-        "price_1TbXLZDgmvJ4Q2O66me1RzwB": { brl: 450, usd: 900, try: 41267 },   // 1 semana
-        "price_1TbXLYDgmvJ4Q2O6YrA9zxs3": { brl: 1000, usd: 2000, try: 91705 }, // 30 dias
-        "price_1TbXLYDgmvJ4Q2O61rlPDyRk": { brl: 16999, usd: 3400, try: 155891 },// Vitalício
+        "price_1TbXLaDgmvJ4Q2O6idYoTXFJ": { brl: 500, usd: 100, try: 4585 },      // Teste R$5
+        "price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v": { brl: 2000, usd: 400, try: 18341 },    // 1 dia R$20
+        "price_1TbXLZDgmvJ4Q2O66me1RzwB": { brl: 4500, usd: 900, try: 41267 },    // 1 semana R$45
+        "price_1TbXLYDgmvJ4Q2O6YrA9zxs3": { brl: 10000, usd: 2000, try: 91705 },  // 30 dias R$100
+        "price_1TbXLYDgmvJ4Q2O61rlPDyRk": { brl: 16999, usd: 3400, try: 155891 }, // Vitalício R$169.99
       };
 
       const productNameMap: Record<string, string> = {
@@ -64,20 +65,18 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       const amount = priceMap[priceId]?.[currency] || 1000;
       const productName = productNameMap[priceId] || "Guto Pingo Key";
 
-      // Se for BRL, tentamos usar o priceId original do Stripe para melhor integração (se ele existir no Stripe)
-      // Caso contrário, ou se for outra moeda, usamos price_data para flexibilidade
-      const lineItem = (currency === 'brl') 
-        ? { price: priceId, quantity: 1 }
-        : {
-            price_data: {
-              currency: currency,
-              product_data: {
-                name: productName,
-              },
-              unit_amount: amount,
-            },
-            quantity: 1,
-          };
+      // Sempre usar price_data para garantir valor correto (em centavos),
+      // independente de configurações no dashboard do Stripe.
+      const lineItem = {
+        price_data: {
+          currency: currency,
+          product_data: {
+            name: productName,
+          },
+          unit_amount: amount,
+        },
+        quantity: 1,
+      };
 
       const session = await stripe.checkout.sessions.create({
         line_items: [lineItem],
