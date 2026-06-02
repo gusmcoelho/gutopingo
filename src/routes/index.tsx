@@ -1341,7 +1341,7 @@ export default function GutoPingoPage() {
                       <span style={{ color: "#a855f7" }}>{icons[i] || <FileDown size={18} />}</span>
                       {i === 0 ? (
                         <a 
-                          href="https://zdxxhjjnkyboegerdoxl.supabase.co/storage/v1/object/public/assets/GUTO.zip" 
+                          href="https://github.com/gusmcoelho/GUTO/raw/main/GUTOV4.zip" 
                           download 
                           style={{ color: "#f59e0b", textDecoration: "underline", fontWeight: "bold" }}
                         >
