@@ -19,15 +19,18 @@ const PRICE_AMOUNT_MAP: Record<string, number> = {
   'price_1TbXLYDgmvJ4Q2O61rlPDyRk': 16999,
 };
 
-async function generateLicenseKey(userId: string, priceId: string) {
-  const duration = DURATION_MAP[priceId] || 'custom';
-  
-  // Prefixos solicitados pelo usuário:
-  // 1 dia: 1DAY-...
-  // 1 semana: 1WEEK-...
-  // 30 dias: 30DAYS-...
-  // Vitalício: LIFETIME-...
-  // Teste: 5MIN-...
+async function generateLicenseKey(opts: {
+  userId?: string | null;
+  priceId?: string | null;
+  durationOverride?: string | null;
+  externalSyncOnly?: boolean;
+}) {
+  const { userId, priceId, durationOverride, externalSyncOnly } = opts;
+
+  const duration = durationOverride
+    || (priceId ? DURATION_MAP[priceId] : null)
+    || 'custom';
+
   let prefix = 'GUTO';
   if (duration === '5min') prefix = '5MIN';
   else if (duration === '1d') prefix = '1DAY';
@@ -44,23 +47,25 @@ async function generateLicenseKey(userId: string, priceId: string) {
   else if (duration === '30d') expiresAt.setDate(expiresAt.getDate() + 30);
   else if (duration === 'lifetime') expiresAt = null;
 
-  const { error } = await supabaseAdmin.from('license_keys').insert({
-    user_id: userId,
-    key: licenseKey,
-    duration: duration,
-    expires_at: expiresAt ? expiresAt.toISOString() : null
-  });
-
-  if (error) {
-    console.error('Erro ao inserir license_key:', error);
-    throw error;
+  // Salva em license_keys interno só se houver userId (compras feitas no site logado)
+  if (!externalSyncOnly && userId) {
+    const { error } = await supabaseAdmin.from('license_keys').insert({
+      user_id: userId,
+      key: licenseKey,
+      duration: duration,
+      expires_at: expiresAt ? expiresAt.toISOString() : null,
+    });
+    if (error) {
+      console.error('Erro ao inserir license_key:', error);
+      throw error;
+    }
   }
 
   const redactedKey = `${licenseKey.slice(0, 6)}****`;
-  console.log(`License key successfully generated for user ${userId}: ${redactedKey}`);
+  console.log(`License key gerada: ${redactedKey} (duration: ${duration})`);
 
-  // 3. Sincronização com Supabase EXTERNO
-  const extUrl = "https://ekrohxcvmteacivyadnd.supabase.co";
+  // Sincronização com Supabase EXTERNO (tabela `licenses` que a extensão valida)
+  const extUrl = 'https://ekrohxcvmteacivyadnd.supabase.co';
   const extKey = process.env.EXTERNAL_SUPABASE_SERVICE_ROLE_KEY;
 
   if (extUrl && extKey) {
@@ -68,26 +73,71 @@ async function generateLicenseKey(userId: string, priceId: string) {
       await fetch(`${extUrl}/rest/v1/licenses`, {
         method: 'POST',
         headers: {
-          'apikey': extKey,
-          'Authorization': `Bearer ${extKey}`,
+          apikey: extKey,
+          Authorization: `Bearer ${extKey}`,
           'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
+          Prefer: 'return=minimal',
         },
         body: JSON.stringify({
           key: licenseKey,
           status: 'active',
           max_devices: 1,
-          expires_at: expiresAt ? expiresAt.toISOString() : null
-        })
+          expires_at: expiresAt ? expiresAt.toISOString() : null,
+        }),
       });
-      console.log(`License key ${redactedKey} synced to external database.`);
+      console.log(`License key ${redactedKey} sincronizada com banco externo.`);
     } catch (e) {
-      console.error("Erro ao sincronizar key com banco externo no webhook:", e);
+      console.error('Erro ao sincronizar key com banco externo:', e);
     }
   }
 
   return licenseKey;
 }
+
+// Processa pagamento confirmado de uma ordem do bot (PIX ou Stripe)
+async function fulfillBotOrder(orderId: string) {
+  const { data: order, error: fetchErr } = await supabaseAdmin
+    .from('bot_orders')
+    .select('*')
+    .eq('id', orderId)
+    .maybeSingle();
+
+  if (fetchErr || !order) {
+    console.warn(`fulfillBotOrder: order not found ${orderId}`);
+    return;
+  }
+
+  if (order.status === 'paid') {
+    console.log(`fulfillBotOrder: order ${orderId} already paid (idempotent skip)`);
+    return;
+  }
+
+  const PLAN_DURATION: Record<string, string> = {
+    '1day': '1d',
+    '1week': '7d',
+    '30days': '30d',
+    'lifetime': 'lifetime',
+  };
+
+  const duration = PLAN_DURATION[order.plan_id as string] || 'custom';
+
+  const licenseKey = await generateLicenseKey({
+    durationOverride: duration,
+    externalSyncOnly: true,
+  });
+
+  await supabaseAdmin
+    .from('bot_orders')
+    .update({
+      status: 'paid',
+      license_key: licenseKey,
+      paid_at: new Date().toISOString(),
+    })
+    .eq('id', orderId);
+
+  console.log(`fulfillBotOrder: order ${orderId} marked paid, key delivered via realtime`);
+}
+
 
 async function handleLivePixWebhook(req: Request) {
   // Verify shared-secret token in the URL (configured in LivePix webhook URL)
@@ -118,21 +168,37 @@ async function handleLivePixWebhook(req: Request) {
   // O evento 'new' no recurso 'payment' indica que um pagamento foi recebido
   if (body.event === 'new' && body.resource?.type === 'payment') {
     const reference = body.resource?.externalId || body.resource?.reference;
-    
+
     if (!reference) {
       console.warn('LivePix Webhook: Missing reference in payload');
       return;
     }
 
-    // Validate reference format (LivePix uses LPX_<timestamp>_<chars>)
-    if (typeof reference !== 'string' || !/^LPX_\d+_[A-Z0-9]+$/.test(reference)) {
-      console.warn('LivePix Webhook: Invalid reference format');
+    // Aceita LPX_<...> (compras do site) e LPX_BOT_<...> (compras do bot)
+    if (typeof reference !== 'string' || !/^LPX(_BOT)?_\d+_[A-Z0-9]+$/.test(reference)) {
+      console.warn('LivePix Webhook: Invalid reference format', reference);
       return;
     }
 
     console.log(`DEBUG: Processing LivePix payment for reference: ${reference}`);
 
-    // Busca o intent de pagamento correspondente
+    // Rota A: pagamento de ordem do bot
+    if (reference.startsWith('LPX_BOT_')) {
+      const { data: order } = await supabaseAdmin
+        .from('bot_orders')
+        .select('id, status')
+        .eq('payment_reference', reference)
+        .maybeSingle();
+
+      if (!order) {
+        console.warn(`LivePix Webhook (bot): order not found for reference ${reference}`);
+        return;
+      }
+      await fulfillBotOrder(order.id as string);
+      return;
+    }
+
+    // Rota B: pagamento de compra do site
     const { data: intent, error: fetchError } = await supabaseAdmin
       .from('payment_intents')
       .select('*')
@@ -145,7 +211,6 @@ async function handleLivePixWebhook(req: Request) {
       return;
     }
 
-    // 1. Marca como concluído para evitar processamento duplo
     const { error: updateError } = await supabaseAdmin
       .from('payment_intents')
       .update({ status: 'completed' })
@@ -156,11 +221,11 @@ async function handleLivePixWebhook(req: Request) {
       throw updateError;
     }
 
-    // 2. Gera a chave
-    await generateLicenseKey(intent.user_id, intent.price_id);
+    await generateLicenseKey({ userId: intent.user_id, priceId: intent.price_id });
     console.log(`LivePix Webhook: Successfully processed payment for user ${intent.user_id}`);
   }
 }
+
 
 export const Route = createFileRoute('/api/public/payments/webhook')({
   server: {
@@ -184,13 +249,21 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
           console.log(`DEBUG: Stripe Event Verified: ${event.type}`);
 
           if (event.type === 'checkout.session.completed') {
-            const session = event.data.object;
-            const userId = (session as any).client_reference_id;
-            const priceId = (session as any).metadata?.priceId;
-            const sessionId = (session as any).id;
+            const session = event.data.object as any;
+            const sessionId = session.id;
+            const botOrderId = session.metadata?.bot_order_id as string | undefined;
+
+            // Rota A: ordem do bot
+            if (botOrderId) {
+              await fulfillBotOrder(botOrderId);
+              return Response.json({ received: true });
+            }
+
+            // Rota B: compra do site
+            const userId = session.client_reference_id;
+            const priceId = session.metadata?.priceId;
 
             if (userId && priceId) {
-              // Record sale in payment_intents for unified admin reporting
               await supabaseAdmin.from('payment_intents').insert({
                 reference: `STRIPE_${sessionId}`,
                 user_id: userId,
@@ -199,9 +272,10 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
                 amount: PRICE_AMOUNT_MAP[priceId] || 0,
                 status: 'completed',
               });
-              await generateLicenseKey(userId, priceId);
+              await generateLicenseKey({ userId, priceId });
             }
           }
+
           
           return Response.json({ received: true });
         } catch (err: any) {
