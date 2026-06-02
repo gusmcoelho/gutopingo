@@ -19,15 +19,18 @@ const PRICE_AMOUNT_MAP: Record<string, number> = {
   'price_1TbXLYDgmvJ4Q2O61rlPDyRk': 16999,
 };
 
-async function generateLicenseKey(userId: string, priceId: string) {
-  const duration = DURATION_MAP[priceId] || 'custom';
-  
-  // Prefixos solicitados pelo usuário:
-  // 1 dia: 1DAY-...
-  // 1 semana: 1WEEK-...
-  // 30 dias: 30DAYS-...
-  // Vitalício: LIFETIME-...
-  // Teste: 5MIN-...
+async function generateLicenseKey(opts: {
+  userId?: string | null;
+  priceId?: string | null;
+  durationOverride?: string | null;
+  externalSyncOnly?: boolean;
+}) {
+  const { userId, priceId, durationOverride, externalSyncOnly } = opts;
+
+  const duration = durationOverride
+    || (priceId ? DURATION_MAP[priceId] : null)
+    || 'custom';
+
   let prefix = 'GUTO';
   if (duration === '5min') prefix = '5MIN';
   else if (duration === '1d') prefix = '1DAY';
@@ -44,23 +47,25 @@ async function generateLicenseKey(userId: string, priceId: string) {
   else if (duration === '30d') expiresAt.setDate(expiresAt.getDate() + 30);
   else if (duration === 'lifetime') expiresAt = null;
 
-  const { error } = await supabaseAdmin.from('license_keys').insert({
-    user_id: userId,
-    key: licenseKey,
-    duration: duration,
-    expires_at: expiresAt ? expiresAt.toISOString() : null
-  });
-
-  if (error) {
-    console.error('Erro ao inserir license_key:', error);
-    throw error;
+  // Salva em license_keys interno só se houver userId (compras feitas no site logado)
+  if (!externalSyncOnly && userId) {
+    const { error } = await supabaseAdmin.from('license_keys').insert({
+      user_id: userId,
+      key: licenseKey,
+      duration: duration,
+      expires_at: expiresAt ? expiresAt.toISOString() : null,
+    });
+    if (error) {
+      console.error('Erro ao inserir license_key:', error);
+      throw error;
+    }
   }
 
   const redactedKey = `${licenseKey.slice(0, 6)}****`;
-  console.log(`License key successfully generated for user ${userId}: ${redactedKey}`);
+  console.log(`License key gerada: ${redactedKey} (duration: ${duration})`);
 
-  // 3. Sincronização com Supabase EXTERNO
-  const extUrl = "https://ekrohxcvmteacivyadnd.supabase.co";
+  // Sincronização com Supabase EXTERNO (tabela `licenses` que a extensão valida)
+  const extUrl = 'https://ekrohxcvmteacivyadnd.supabase.co';
   const extKey = process.env.EXTERNAL_SUPABASE_SERVICE_ROLE_KEY;
 
   if (extUrl && extKey) {
@@ -68,26 +73,71 @@ async function generateLicenseKey(userId: string, priceId: string) {
       await fetch(`${extUrl}/rest/v1/licenses`, {
         method: 'POST',
         headers: {
-          'apikey': extKey,
-          'Authorization': `Bearer ${extKey}`,
+          apikey: extKey,
+          Authorization: `Bearer ${extKey}`,
           'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
+          Prefer: 'return=minimal',
         },
         body: JSON.stringify({
           key: licenseKey,
           status: 'active',
           max_devices: 1,
-          expires_at: expiresAt ? expiresAt.toISOString() : null
-        })
+          expires_at: expiresAt ? expiresAt.toISOString() : null,
+        }),
       });
-      console.log(`License key ${redactedKey} synced to external database.`);
+      console.log(`License key ${redactedKey} sincronizada com banco externo.`);
     } catch (e) {
-      console.error("Erro ao sincronizar key com banco externo no webhook:", e);
+      console.error('Erro ao sincronizar key com banco externo:', e);
     }
   }
 
   return licenseKey;
 }
+
+// Processa pagamento confirmado de uma ordem do bot (PIX ou Stripe)
+async function fulfillBotOrder(orderId: string) {
+  const { data: order, error: fetchErr } = await supabaseAdmin
+    .from('bot_orders')
+    .select('*')
+    .eq('id', orderId)
+    .maybeSingle();
+
+  if (fetchErr || !order) {
+    console.warn(`fulfillBotOrder: order not found ${orderId}`);
+    return;
+  }
+
+  if (order.status === 'paid') {
+    console.log(`fulfillBotOrder: order ${orderId} already paid (idempotent skip)`);
+    return;
+  }
+
+  const PLAN_DURATION: Record<string, string> = {
+    '1day': '1d',
+    '1week': '7d',
+    '30days': '30d',
+    'lifetime': 'lifetime',
+  };
+
+  const duration = PLAN_DURATION[order.plan_id as string] || 'custom';
+
+  const licenseKey = await generateLicenseKey({
+    durationOverride: duration,
+    externalSyncOnly: true,
+  });
+
+  await supabaseAdmin
+    .from('bot_orders')
+    .update({
+      status: 'paid',
+      license_key: licenseKey,
+      paid_at: new Date().toISOString(),
+    })
+    .eq('id', orderId);
+
+  console.log(`fulfillBotOrder: order ${orderId} marked paid, key delivered via realtime`);
+}
+
 
 async function handleLivePixWebhook(req: Request) {
   // Verify shared-secret token in the URL (configured in LivePix webhook URL)
