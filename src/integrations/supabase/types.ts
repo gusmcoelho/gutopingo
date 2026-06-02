@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      bot_orders: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          currency: string
+          discord_id: string
+          discord_username: string | null
+          id: string
+          license_key: string | null
+          method: string
+          paid_at: string | null
+          payment_reference: string | null
+          payment_url: string | null
+          plan_id: string
+          status: string
+        }
+        Insert: {
+          amount_cents: number
+          created_at?: string
+          currency?: string
+          discord_id: string
+          discord_username?: string | null
+          id?: string
+          license_key?: string | null
+          method: string
+          paid_at?: string | null
+          payment_reference?: string | null
+          payment_url?: string | null
+          plan_id: string
+          status?: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          currency?: string
+          discord_id?: string
+          discord_username?: string | null
+          id?: string
+          license_key?: string | null
+          method?: string
+          paid_at?: string | null
+          payment_reference?: string | null
+          payment_url?: string | null
+          plan_id?: string
+          status?: string
+        }
+        Relationships: []
+      }
       external_config: {
         Row: {
           key: string
