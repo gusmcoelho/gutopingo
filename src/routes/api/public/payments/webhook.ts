@@ -168,21 +168,37 @@ async function handleLivePixWebhook(req: Request) {
   // O evento 'new' no recurso 'payment' indica que um pagamento foi recebido
   if (body.event === 'new' && body.resource?.type === 'payment') {
     const reference = body.resource?.externalId || body.resource?.reference;
-    
+
     if (!reference) {
       console.warn('LivePix Webhook: Missing reference in payload');
       return;
     }
 
-    // Validate reference format (LivePix uses LPX_<timestamp>_<chars>)
-    if (typeof reference !== 'string' || !/^LPX_\d+_[A-Z0-9]+$/.test(reference)) {
-      console.warn('LivePix Webhook: Invalid reference format');
+    // Aceita LPX_<...> (compras do site) e LPX_BOT_<...> (compras do bot)
+    if (typeof reference !== 'string' || !/^LPX(_BOT)?_\d+_[A-Z0-9]+$/.test(reference)) {
+      console.warn('LivePix Webhook: Invalid reference format', reference);
       return;
     }
 
     console.log(`DEBUG: Processing LivePix payment for reference: ${reference}`);
 
-    // Busca o intent de pagamento correspondente
+    // Rota A: pagamento de ordem do bot
+    if (reference.startsWith('LPX_BOT_')) {
+      const { data: order } = await supabaseAdmin
+        .from('bot_orders')
+        .select('id, status')
+        .eq('payment_reference', reference)
+        .maybeSingle();
+
+      if (!order) {
+        console.warn(`LivePix Webhook (bot): order not found for reference ${reference}`);
+        return;
+      }
+      await fulfillBotOrder(order.id as string);
+      return;
+    }
+
+    // Rota B: pagamento de compra do site
     const { data: intent, error: fetchError } = await supabaseAdmin
       .from('payment_intents')
       .select('*')
@@ -195,7 +211,6 @@ async function handleLivePixWebhook(req: Request) {
       return;
     }
 
-    // 1. Marca como concluído para evitar processamento duplo
     const { error: updateError } = await supabaseAdmin
       .from('payment_intents')
       .update({ status: 'completed' })
@@ -206,11 +221,11 @@ async function handleLivePixWebhook(req: Request) {
       throw updateError;
     }
 
-    // 2. Gera a chave
-    await generateLicenseKey(intent.user_id, intent.price_id);
+    await generateLicenseKey({ userId: intent.user_id, priceId: intent.price_id });
     console.log(`LivePix Webhook: Successfully processed payment for user ${intent.user_id}`);
   }
 }
+
 
 export const Route = createFileRoute('/api/public/payments/webhook')({
   server: {
