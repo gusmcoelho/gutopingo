@@ -65,20 +65,18 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       const amount = priceMap[priceId]?.[currency] || 1000;
       const productName = productNameMap[priceId] || "Guto Pingo Key";
 
-      // Se for BRL, tentamos usar o priceId original do Stripe para melhor integração (se ele existir no Stripe)
-      // Caso contrário, ou se for outra moeda, usamos price_data para flexibilidade
-      const lineItem = (currency === 'brl') 
-        ? { price: priceId, quantity: 1 }
-        : {
-            price_data: {
-              currency: currency,
-              product_data: {
-                name: productName,
-              },
-              unit_amount: amount,
-            },
-            quantity: 1,
-          };
+      // Sempre usar price_data para garantir valor correto (em centavos),
+      // independente de configurações no dashboard do Stripe.
+      const lineItem = {
+        price_data: {
+          currency: currency,
+          product_data: {
+            name: productName,
+          },
+          unit_amount: amount,
+        },
+        quantity: 1,
+      };
 
       const session = await stripe.checkout.sessions.create({
         line_items: [lineItem],
