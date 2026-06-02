@@ -249,13 +249,21 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
           console.log(`DEBUG: Stripe Event Verified: ${event.type}`);
 
           if (event.type === 'checkout.session.completed') {
-            const session = event.data.object;
-            const userId = (session as any).client_reference_id;
-            const priceId = (session as any).metadata?.priceId;
-            const sessionId = (session as any).id;
+            const session = event.data.object as any;
+            const sessionId = session.id;
+            const botOrderId = session.metadata?.bot_order_id as string | undefined;
+
+            // Rota A: ordem do bot
+            if (botOrderId) {
+              await fulfillBotOrder(botOrderId);
+              return Response.json({ received: true });
+            }
+
+            // Rota B: compra do site
+            const userId = session.client_reference_id;
+            const priceId = session.metadata?.priceId;
 
             if (userId && priceId) {
-              // Record sale in payment_intents for unified admin reporting
               await supabaseAdmin.from('payment_intents').insert({
                 reference: `STRIPE_${sessionId}`,
                 user_id: userId,
@@ -264,9 +272,10 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
                 amount: PRICE_AMOUNT_MAP[priceId] || 0,
                 status: 'completed',
               });
-              await generateLicenseKey(userId, priceId);
+              await generateLicenseKey({ userId, priceId });
             }
           }
+
           
           return Response.json({ received: true });
         } catch (err: any) {
