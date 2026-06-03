@@ -959,7 +959,7 @@ export default function GutoPingoPage() {
     try {
       setLoadingCheckout(priceId);
       
-      if (priceId === "free_test_5min") {
+      if (priceId === "free_test_30min") {
         const ipRes = await fetch('https://api.ipify.org?format=json');
         const { ip } = await ipRes.json();
         
