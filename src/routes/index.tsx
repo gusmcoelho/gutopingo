@@ -988,7 +988,7 @@ export default function GutoPingoPage() {
         // A sincronização externa do trial pode ser feita via edge function ou trigger se necessário.
         // Por ora, vamos garantir que o fetchLicenseKeys busque os dados atualizados.
 
-        toast.success(lang === 'pt' ? "Teste de 5 minutos ativado! Role para ver suas chaves." : "5-minute trial activated! Scroll to see your keys.", {
+        toast.success(lang === 'pt' ? "Teste de 30 minutos ativado! Role para ver suas chaves." : "30-minute trial activated! Scroll to see your keys.", {
           duration: 5000,
           position: 'top-center',
           icon: <Rocket className="w-5 h-5 text-green-500" />
