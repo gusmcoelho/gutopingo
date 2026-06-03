@@ -4,7 +4,7 @@ import * as crypto from 'crypto';
 import { supabaseAdmin } from '@/integrations/supabase/client.server';
 
 const DURATION_MAP: Record<string, string> = {
-  'price_1TbXLaDgmvJ4Q2O6idYoTXFJ': '5min',
+  'price_1TbXLaDgmvJ4Q2O6idYoTXFJ': '30min',
   'price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v': '1d',
   'price_1TbXLZDgmvJ4Q2O66me1RzwB': '7d',
   'price_1TbXLYDgmvJ4Q2O6YrA9zxs3': '30d',
