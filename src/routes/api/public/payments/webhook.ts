@@ -41,7 +41,7 @@ async function generateLicenseKey(opts: {
   const licenseKey = `${prefix}-${crypto.randomBytes(4).toString('hex').toUpperCase()}${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
 
   let expiresAt: Date | null = new Date();
-  if (duration === '5min') expiresAt.setMinutes(expiresAt.getMinutes() + 5);
+  if (duration === '30min') expiresAt.setMinutes(expiresAt.getMinutes() + 30);
   else if (duration === '1d') expiresAt.setDate(expiresAt.getDate() + 1);
   else if (duration === '7d') expiresAt.setDate(expiresAt.getDate() + 7);
   else if (duration === '30d') expiresAt.setDate(expiresAt.getDate() + 30);
