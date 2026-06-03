@@ -88,7 +88,7 @@ const translations = {
       title1: "PROMPTS",
       title2: "ILIMITADOS",
       title3: "NO LOVABLE",
-      subtitle: "Pare de travar no limite de prompts. A extensão do Guto Pingo desbloqueia criação infinita no Lovable com uma key simples. TESTE GRÁTIS POR 5 MINUTOS AGORA!",
+      subtitle: "Pare de travar no limite de prompts. A extensão do Guto Pingo desbloqueia criação infinita no Lovable com uma key simples. TESTE GRÁTIS POR 30 MINUTOS AGORA!",
       buyBtn: "COMPRAR KEY",
       downloadBtn: "BAIXAR EXTENSÃO",
       discordBtn: "DISCORD",
