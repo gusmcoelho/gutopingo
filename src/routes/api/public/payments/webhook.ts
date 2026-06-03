@@ -32,7 +32,7 @@ async function generateLicenseKey(opts: {
     || 'custom';
 
   let prefix = 'GUTO';
-  if (duration === '5min') prefix = '5MIN';
+  if (duration === '30min') prefix = '30MIN';
   else if (duration === '1d') prefix = '1DAY';
   else if (duration === '7d') prefix = '1WEEK';
   else if (duration === '30d') prefix = '30DAYS';
