@@ -301,20 +301,20 @@ const DISCORD_URL = "https://discord.gg/kfezRBk7";
 const getPlans = (lang: Language): Plan[] => [
   {
     id: "test",
-    priceId: "free_test_5min",
-    name: lang === 'pt' ? "Guto Pingo - 5 Minutos (Grátis)" : lang === 'tr' ? "Guto Pingo - 5 Dakika (Ücretsiz)" : "Guto Pingo - 5 Minutes (Free)",
+    priceId: "free_test_30min",
+    name: lang === 'pt' ? "Guto Pingo - 30 Minutos (Grátis)" : lang === 'tr' ? "Guto Pingo - 30 Dakika (Ücretsiz)" : "Guto Pingo - 30 Minutes (Free)",
     price: lang === 'pt' ? "GRÁTIS" : lang === 'tr' ? "ÜCRETSİZ" : "FREE",
     priceNote: lang === 'pt' ? "pegue sua key no discord" : lang === 'tr' ? "discord'dan anahtarınızı alın" : "get your key on discord",
-    duration: lang === 'pt' ? "5 Minutos" : lang === 'tr' ? "5 Dakika" : "5 Minutes",
+    duration: lang === 'pt' ? "30 Minutos" : lang === 'tr' ? "30 Dakika" : "30 Minutes",
     icon: <Timer size={20} />,
     featured: true,
     badge: lang === 'pt' ? "🎁 TESTE GRÁTIS" : lang === 'tr' ? "🎁 ÜCRETSİZ TEST" : "🎁 FREE TRIAL",
     color: "#22c55e",
     features: lang === 'pt' ? 
-      ["Entrar no Discord", "Abrir um ticket", "Pedir sua key free", "Válido por 5 min"] : 
+      ["Entrar no Discord", "Abrir um ticket", "Pedir sua key free", "Válido por 30 min"] : 
       lang === 'tr' ? 
-      ["Discord'a Katıl", "Bilet aç", "Ücretsiz anahtar iste", "5 dk geçerli"] : 
-      ["Join Discord", "Open a ticket", "Ask for your free key", "Valid for 5 min"],
+      ["Discord'a Katıl", "Bilet aç", "Ücretsiz anahtar iste", "30 dk geçerli"] : 
+      ["Join Discord", "Open a ticket", "Ask for your free key", "Valid for 30 min"],
   },
   {
     id: "1day",
