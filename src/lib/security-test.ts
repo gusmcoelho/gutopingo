@@ -50,8 +50,8 @@ async function runSecurityTests() {
   const { error: insertError } = await supabaseAdmin.from('license_keys').insert({
     user_id: userId,
     key: licenseKey,
-    duration: '5min',
-    expires_at: new Date(Date.now() + 5 * 60 * 1000).toISOString()
+    duration: '30min',
+    expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString()
   });
 
   if (insertError) {
