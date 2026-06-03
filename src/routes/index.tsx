@@ -232,7 +232,7 @@ const translations = {
       title1: "SINIRSIZ",
       title2: "PROMPT",
       title3: "LOVABLE'DA",
-      subtitle: "Prompt sınırlarına takılmayı bırakın. Guto Pingo uzantısı, basit bir anahtar ile Lovable'da sonsuz üretim sağlar. 5 DAKİKALIK ÜCRETSİZ TEST MEVCUT!",
+      subtitle: "Prompt sınırlarına takılmayı bırakın. Guto Pingo uzantısı, basit bir anahtar ile Lovable'da sonsuz üretim sağlar. 30 DAKİKALIK ÜCRETSİZ TEST MEVCUT!",
       buyBtn: "ANAHTAR SATIN AL",
       downloadBtn: "UZANTIYI İNDİR",
       discordBtn: "DISCORD",
