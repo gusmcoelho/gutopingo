@@ -541,7 +541,7 @@ function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
     if (key.includes("30DAYS-")) return lang === 'pt' ? "Mensal" : "Monthly";
     if (key.includes("1WEEK-")) return lang === 'pt' ? "Semanal" : "Weekly";
     if (key.includes("1DAY-")) return lang === 'pt' ? "Diária" : "Daily";
-    if (key.includes("5MIN-")) return lang === 'pt' ? "5 Minutos (Teste)" : "5 Minutes (Trial)";
+    if (key.includes("30MIN-")) return lang === 'pt' ? "30 Minutos (Teste)" : "30 Minutes (Trial)";
     return duration;
   };
 
