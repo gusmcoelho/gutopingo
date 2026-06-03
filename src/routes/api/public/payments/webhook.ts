@@ -4,7 +4,7 @@ import * as crypto from 'crypto';
 import { supabaseAdmin } from '@/integrations/supabase/client.server';
 
 const DURATION_MAP: Record<string, string> = {
-  'price_1TbXLaDgmvJ4Q2O6idYoTXFJ': '5min',
+  'price_1TbXLaDgmvJ4Q2O6idYoTXFJ': '30min',
   'price_1TbXLZDgmvJ4Q2O6Mxs8Ia3v': '1d',
   'price_1TbXLZDgmvJ4Q2O66me1RzwB': '7d',
   'price_1TbXLYDgmvJ4Q2O6YrA9zxs3': '30d',
@@ -32,7 +32,7 @@ async function generateLicenseKey(opts: {
     || 'custom';
 
   let prefix = 'GUTO';
-  if (duration === '5min') prefix = '5MIN';
+  if (duration === '30min') prefix = '30MIN';
   else if (duration === '1d') prefix = '1DAY';
   else if (duration === '7d') prefix = '1WEEK';
   else if (duration === '30d') prefix = '30DAYS';
@@ -41,7 +41,7 @@ async function generateLicenseKey(opts: {
   const licenseKey = `${prefix}-${crypto.randomBytes(4).toString('hex').toUpperCase()}${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
 
   let expiresAt: Date | null = new Date();
-  if (duration === '5min') expiresAt.setMinutes(expiresAt.getMinutes() + 5);
+  if (duration === '30min') expiresAt.setMinutes(expiresAt.getMinutes() + 30);
   else if (duration === '1d') expiresAt.setDate(expiresAt.getDate() + 1);
   else if (duration === '7d') expiresAt.setDate(expiresAt.getDate() + 7);
   else if (duration === '30d') expiresAt.setDate(expiresAt.getDate() + 30);

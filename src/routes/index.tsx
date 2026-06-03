@@ -88,7 +88,7 @@ const translations = {
       title1: "PROMPTS",
       title2: "ILIMITADOS",
       title3: "NO LOVABLE",
-      subtitle: "Pare de travar no limite de prompts. A extensão do Guto Pingo desbloqueia criação infinita no Lovable com uma key simples. TESTE GRÁTIS POR 5 MINUTOS AGORA!",
+      subtitle: "Pare de travar no limite de prompts. A extensão do Guto Pingo desbloqueia criação infinita no Lovable com uma key simples. TESTE GRÁTIS POR 30 MINUTOS AGORA!",
       buyBtn: "COMPRAR KEY",
       downloadBtn: "BAIXAR EXTENSÃO",
       discordBtn: "DISCORD",
@@ -160,7 +160,7 @@ const translations = {
       title1: "UNLIMITED",
       title2: "PROMPTS",
       title3: "ON LOVABLE",
-      subtitle: "Stop getting stuck on prompt limits. The Guto Pingo extension unlocks infinite creation on Lovable with a simple key. 5-MINUTE FREE TRIAL AVAILABLE!",
+      subtitle: "Stop getting stuck on prompt limits. The Guto Pingo extension unlocks infinite creation on Lovable with a simple key. 30-MINUTE FREE TRIAL AVAILABLE!",
       buyBtn: "BUY KEY",
       downloadBtn: "DOWNLOAD EXTENSION",
       discordBtn: "DISCORD",
@@ -232,7 +232,7 @@ const translations = {
       title1: "SINIRSIZ",
       title2: "PROMPT",
       title3: "LOVABLE'DA",
-      subtitle: "Prompt sınırlarına takılmayı bırakın. Guto Pingo uzantısı, basit bir anahtar ile Lovable'da sonsuz üretim sağlar. 5 DAKİKALIK ÜCRETSİZ TEST MEVCUT!",
+      subtitle: "Prompt sınırlarına takılmayı bırakın. Guto Pingo uzantısı, basit bir anahtar ile Lovable'da sonsuz üretim sağlar. 30 DAKİKALIK ÜCRETSİZ TEST MEVCUT!",
       buyBtn: "ANAHTAR SATIN AL",
       downloadBtn: "UZANTIYI İNDİR",
       discordBtn: "DISCORD",
@@ -301,20 +301,20 @@ const DISCORD_URL = "https://discord.gg/kfezRBk7";
 const getPlans = (lang: Language): Plan[] => [
   {
     id: "test",
-    priceId: "free_test_5min",
-    name: lang === 'pt' ? "Guto Pingo - 5 Minutos (Grátis)" : lang === 'tr' ? "Guto Pingo - 5 Dakika (Ücretsiz)" : "Guto Pingo - 5 Minutes (Free)",
+    priceId: "free_test_30min",
+    name: lang === 'pt' ? "Guto Pingo - 30 Minutos (Grátis)" : lang === 'tr' ? "Guto Pingo - 30 Dakika (Ücretsiz)" : "Guto Pingo - 30 Minutes (Free)",
     price: lang === 'pt' ? "GRÁTIS" : lang === 'tr' ? "ÜCRETSİZ" : "FREE",
     priceNote: lang === 'pt' ? "pegue sua key no discord" : lang === 'tr' ? "discord'dan anahtarınızı alın" : "get your key on discord",
-    duration: lang === 'pt' ? "5 Minutos" : lang === 'tr' ? "5 Dakika" : "5 Minutes",
+    duration: lang === 'pt' ? "30 Minutos" : lang === 'tr' ? "30 Dakika" : "30 Minutes",
     icon: <Timer size={20} />,
     featured: true,
     badge: lang === 'pt' ? "🎁 TESTE GRÁTIS" : lang === 'tr' ? "🎁 ÜCRETSİZ TEST" : "🎁 FREE TRIAL",
     color: "#22c55e",
     features: lang === 'pt' ? 
-      ["Entrar no Discord", "Abrir um ticket", "Pedir sua key free", "Válido por 5 min"] : 
+      ["Entrar no Discord", "Abrir um ticket", "Pedir sua key free", "Válido por 30 min"] : 
       lang === 'tr' ? 
-      ["Discord'a Katıl", "Bilet aç", "Ücretsiz anahtar iste", "5 dk geçerli"] : 
-      ["Join Discord", "Open a ticket", "Ask for your free key", "Valid for 5 min"],
+      ["Discord'a Katıl", "Bilet aç", "Ücretsiz anahtar iste", "30 dk geçerli"] : 
+      ["Join Discord", "Open a ticket", "Ask for your free key", "Valid for 30 min"],
   },
   {
     id: "1day",
@@ -541,7 +541,7 @@ function KeyCard({ licKey, lang }: { licKey: LicenseKey; lang: Language }) {
     if (key.includes("30DAYS-")) return lang === 'pt' ? "Mensal" : "Monthly";
     if (key.includes("1WEEK-")) return lang === 'pt' ? "Semanal" : "Weekly";
     if (key.includes("1DAY-")) return lang === 'pt' ? "Diária" : "Daily";
-    if (key.includes("5MIN-")) return lang === 'pt' ? "5 Minutos (Teste)" : "5 Minutes (Trial)";
+    if (key.includes("30MIN-")) return lang === 'pt' ? "30 Minutos (Teste)" : "30 Minutes (Trial)";
     return duration;
   };
 
@@ -988,7 +988,7 @@ export default function GutoPingoPage() {
         // A sincronização externa do trial pode ser feita via edge function ou trigger se necessário.
         // Por ora, vamos garantir que o fetchLicenseKeys busque os dados atualizados.
 
-        toast.success(lang === 'pt' ? "Teste de 5 minutos ativado! Role para ver suas chaves." : "5-minute trial activated! Scroll to see your keys.", {
+        toast.success(lang === 'pt' ? "Teste de 30 minutos ativado! Role para ver suas chaves." : "30-minute trial activated! Scroll to see your keys.", {
           duration: 5000,
           position: 'top-center',
           icon: <Rocket className="w-5 h-5 text-green-500" />
