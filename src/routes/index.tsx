@@ -160,7 +160,7 @@ const translations = {
       title1: "UNLIMITED",
       title2: "PROMPTS",
       title3: "ON LOVABLE",
-      subtitle: "Stop getting stuck on prompt limits. The Guto Pingo extension unlocks infinite creation on Lovable with a simple key. 5-MINUTE FREE TRIAL AVAILABLE!",
+      subtitle: "Stop getting stuck on prompt limits. The Guto Pingo extension unlocks infinite creation on Lovable with a simple key. 30-MINUTE FREE TRIAL AVAILABLE!",
       buyBtn: "BUY KEY",
       downloadBtn: "DOWNLOAD EXTENSION",
       discordBtn: "DISCORD",
