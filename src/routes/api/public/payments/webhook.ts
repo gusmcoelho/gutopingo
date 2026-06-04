@@ -31,14 +31,16 @@ async function generateLicenseKey(opts: {
     || (priceId ? DURATION_MAP[priceId] : null)
     || 'custom';
 
-  let prefix = 'GUTO';
-  if (duration === '30min') prefix = '30MIN';
+  let prefix = 'KEY';
+  if (duration === '30min') prefix = '5MIN';
   else if (duration === '1d') prefix = '1DAY';
   else if (duration === '7d') prefix = '1WEEK';
-  else if (duration === '30d') prefix = '30DAYS';
+  else if (duration === '30d') prefix = '1MONTH';
   else if (duration === 'lifetime') prefix = 'LIFETIME';
 
-  const licenseKey = `${prefix}-${crypto.randomBytes(4).toString('hex').toUpperCase()}${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
+  // Formato canônico exigido pelo trigger ensure_license_key_format e pela extensão:
+  // GUTO-<PREFIX>-XXXXXX (6 hex uppercase)
+  const licenseKey = `GUTO-${prefix}-${crypto.randomBytes(3).toString('hex').toUpperCase()}`;
 
   let expiresAt: Date | null = new Date();
   if (duration === '30min') expiresAt.setMinutes(expiresAt.getMinutes() + 30);
