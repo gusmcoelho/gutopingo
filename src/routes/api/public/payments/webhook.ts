@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { type StripeEnv, verifyWebhook } from '@/lib/stripe.server';
-import * as crypto from 'crypto';
-import { supabaseAdmin } from '@/integrations/supabase/client.server';
+
+type StripeEnv = 'live' | 'sandbox';
 
 const DURATION_MAP: Record<string, string> = {
   'price_1TbXLaDgmvJ4Q2O6idYoTXFJ': '30min',
@@ -18,6 +17,38 @@ const PRICE_AMOUNT_MAP: Record<string, number> = {
   'price_1TbXLYDgmvJ4Q2O6YrA9zxs3': 10000,
   'price_1TbXLYDgmvJ4Q2O61rlPDyRk': 16999,
 };
+
+async function getSupabaseAdmin() {
+  const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+  return supabaseAdmin;
+}
+
+function randomHex(bytes: number) {
+  const values = new Uint8Array(bytes);
+  globalThis.crypto.getRandomValues(values);
+  return Array.from(values, (value) => value.toString(16).padStart(2, '0')).join('').toUpperCase();
+}
+
+function safeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let mismatch = 0;
+  for (let index = 0; index < a.length; index += 1) {
+    mismatch |= a.charCodeAt(index) ^ b.charCodeAt(index);
+  }
+  return mismatch === 0;
+}
+
+async function readJsonBody(req: Request): Promise<any | null> {
+  const rawBody = await req.text();
+  if (!rawBody.trim()) return null;
+
+  try {
+    return JSON.parse(rawBody);
+  } catch {
+    console.log('LivePix Webhook: non-JSON test payload ignored');
+    return null;
+  }
+}
 
 async function generateLicenseKey(opts: {
   userId?: string | null;
@@ -40,7 +71,7 @@ async function generateLicenseKey(opts: {
 
   // Formato canônico exigido pelo trigger ensure_license_key_format e pela extensão:
   // GUTO-<PREFIX>-XXXXXX (6 hex uppercase)
-  const licenseKey = `GUTO-${prefix}-${crypto.randomBytes(3).toString('hex').toUpperCase()}`;
+  const licenseKey = `GUTO-${prefix}-${randomHex(3)}`;
 
   let expiresAt: Date | null = new Date();
   if (duration === '30min') expiresAt.setMinutes(expiresAt.getMinutes() + 30);
@@ -51,6 +82,7 @@ async function generateLicenseKey(opts: {
 
   // Salva em license_keys interno só se houver userId (compras feitas no site logado)
   if (!externalSyncOnly && userId) {
+    const supabaseAdmin = await getSupabaseAdmin();
     const { error } = await supabaseAdmin.from('license_keys').insert({
       user_id: userId,
       key: licenseKey,
@@ -98,6 +130,7 @@ async function generateLicenseKey(opts: {
 
 // Processa pagamento confirmado de uma ordem do bot (PIX ou Stripe)
 async function fulfillBotOrder(orderId: string) {
+  const supabaseAdmin = await getSupabaseAdmin();
   const { data: order, error: fetchErr } = await supabaseAdmin
     .from('bot_orders')
     .select('*')
@@ -156,15 +189,14 @@ async function handleLivePixWebhook(req: Request) {
     throw new Error('Invalid webhook token');
   }
 
-  // Timing-safe comparison
-  const a = Buffer.from(providedToken);
-  const b = Buffer.from(expectedToken);
-  if (!crypto.timingSafeEqual(a, b)) {
+  if (!safeEqual(providedToken, expectedToken)) {
     throw new Error('Invalid webhook token');
   }
 
-  const body = await req.json();
+  const body = await readJsonBody(req);
   console.log('DEBUG: LivePix Webhook Received (verified)');
+
+  if (!body) return;
 
 
   // O evento 'new' no recurso 'payment' indica que um pagamento foi recebido
@@ -186,6 +218,7 @@ async function handleLivePixWebhook(req: Request) {
 
     // Rota A: pagamento de ordem do bot
     if (reference.startsWith('LPX_BOT_')) {
+      const supabaseAdmin = await getSupabaseAdmin();
       const { data: order } = await supabaseAdmin
         .from('bot_orders')
         .select('id, status')
@@ -201,6 +234,7 @@ async function handleLivePixWebhook(req: Request) {
     }
 
     // Rota B: pagamento de compra do site
+    const supabaseAdmin = await getSupabaseAdmin();
     const { data: intent, error: fetchError } = await supabaseAdmin
       .from('payment_intents')
       .select('*')
@@ -246,6 +280,7 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
 
           // Fluxo padrão Stripe
           const env: StripeEnv = (process.env.STRIPE_ENV === 'live') ? 'live' : 'sandbox';
+          const { verifyWebhook } = await import('@/lib/stripe.server');
           
           const event = await verifyWebhook(request, env);
           console.log(`DEBUG: Stripe Event Verified: ${event.type}`);
@@ -266,6 +301,7 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
             const priceId = session.metadata?.priceId;
 
             if (userId && priceId) {
+              const supabaseAdmin = await getSupabaseAdmin();
               await supabaseAdmin.from('payment_intents').insert({
                 reference: `STRIPE_${sessionId}`,
                 user_id: userId,
